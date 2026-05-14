@@ -16,7 +16,20 @@ public class HavokTypeRegistry
         { 28, 7 }
     };
 
-    public static readonly HavokTypeRegistry Instance = LoadDefault();
+    public static readonly HavokTypeRegistry Instance = CreateDefault();
+
+    private static HavokTypeRegistry CreateDefault()
+    {
+        try
+        {
+            return LoadDefault();
+        }
+        catch (Exception e)
+        {
+            Console.Error.WriteLine($"Warning: failed to load type registry: {e.Message}");
+            return new HavokTypeRegistry(Array.Empty<HavokType>());
+        }
+    }
 
     private readonly Dictionary<string, HavokType> _typesFromIdentity = new();
     private readonly Dictionary<Type, HavokType> _typesFromType = new();
@@ -42,7 +55,7 @@ public class HavokTypeRegistry
     private static HavokTypeRegistry LoadDefault()
     {
         string basePath = AppDomain.CurrentDomain.BaseDirectory;
-        string typeRegPath = Path.Join(basePath, "Res", "HavokTypeRegistry20180100.xml");
+        string typeRegPath = Path.Join(basePath, "Res", "HavokTypeRegistry20190100.xml");
         return Load(typeRegPath);
     }
 
@@ -73,15 +86,24 @@ public class HavokTypeRegistry
     private static HavokType[] Load(XElement typeRegistry)
     {
         List<XElement> types = typeRegistry.Elements().SelectMany(x => x.Elements()).ToList();
-        HavokTypeBuilder[] builders = types.OrderBy(x => int.Parse(x.Attribute("Id")!.Value))
-            .Select(_ => new HavokTypeBuilder()).Prepend(null!).ToArray();
+        int maxId = types.Max(x => int.Parse(x.Attribute("Id")!.Value));
+        HavokTypeBuilder[] builders = new HavokTypeBuilder[maxId + 1];
+        // index 0 is reserved for the null type
+        builders[0] = null!;
+        for (int bi = 1; bi <= maxId; bi++) builders[bi] = new HavokTypeBuilder();
 
 
         for (int i = 0; i < types.Count; i++)
         {
             XElement type = types[i];
             int id = int.Parse(type.Attribute("Id")!.Value);
-            HavokTypeBuilder builder = builders[id];
+            HavokTypeBuilder? builder = builders[id];
+            if (builder is null)
+            {
+                // Defensive: ensure we have a builder for this id even if the registry XML is unexpected
+                builder = new HavokTypeBuilder();
+                builders[id] = builder;
+            }
 
             builder.WithName(type.Attribute("Name")!.Value)
                 .WithFlags((HavokType.TypeFlags)int.Parse(type.Attribute("Flags")!.Value))
@@ -176,10 +198,42 @@ public class HavokTypeRegistry
             {
                 foreach (XElement preset in presets.Elements())
                 {
-                    int value = int.TryParse(preset.Attribute("Value")!.Value, out int val)
-                        ? val
-                        : (int)(uint)preset.Attribute("Value")!;
-                    builder.WithPreset(preset.Attribute("Name")!.Value, value);
+                    try
+                    {
+                        // Preset value may be stored as a "Value" attribute or as element text
+                        string valStr = preset.Attribute("Value")?.Value;
+                        if (string.IsNullOrWhiteSpace(valStr)) valStr = preset.Value?.Trim();
+                        if (string.IsNullOrWhiteSpace(valStr))
+                        {
+                            Console.Error.WriteLine($"Warning: skipping Preset with missing Value in HavokType Id={type.Attribute("Id")?.Value}.");
+                            continue;
+                        }
+
+                        int value;
+                        if (int.TryParse(valStr, out int v))
+                            value = v;
+                        else if (uint.TryParse(valStr, out uint uv))
+                            value = (int)uv;
+                        else
+                        {
+                            Console.Error.WriteLine($"Warning: skipping Preset with invalid Value '{valStr}' in HavokType Id={type.Attribute("Id")?.Value}.");
+                            continue;
+                        }
+
+                        string presetName = preset.Attribute("Name")?.Value;
+                        if (string.IsNullOrWhiteSpace(presetName))
+                        {
+                            Console.Error.WriteLine($"Warning: skipping Preset with missing Name in HavokType Id={type.Attribute("Id")?.Value}.");
+                            continue;
+                        }
+
+                        builder.WithPreset(presetName, value);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.Error.WriteLine($"Warning: error parsing Preset in HavokType Id={type.Attribute("Id")?.Value}: {ex.Message}");
+                        continue;
+                    }
                 }
             }
 

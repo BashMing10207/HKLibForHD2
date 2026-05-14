@@ -1,12 +1,16 @@
 ﻿using HKLib.hk2018;
 using HKLib.Reflection.hk2018;
 using HKLib.Serialization.hk2018.Binary.Util;
+using System.Text;
 
 namespace HKLib.Serialization.hk2018.Binary;
 
 public class HavokBinarySerializer : HavokSerializer
 {
     private HavokCompendium? _compendium;
+    // Cached raw section bytes read from the input to allow byte-for-byte preservation
+    private byte[]? _rawTSTR;
+    private byte[]? _rawFSTR;
 
     public HavokBinarySerializer() : this(HavokTypeRegistry.Instance) { }
 
@@ -379,12 +383,38 @@ public class HavokBinarySerializer : HavokSerializer
     {
         reader.EnterSection("TSTR");
 
+        // Cache raw section payload for exact replay when writing
+        int payloadLen = reader.GetSectionLength();
+        long payloadStart = reader.Position;
+        _rawTSTR = reader.GetBytes(payloadStart, payloadLen);
+
+        // Parse strings from the cached bytes to preserve previous behavior
         List<string> strings = new();
-        while (reader.Position < reader.GetSectionEnd())
+        int idx = 0;
+        while (idx < _rawTSTR.Length)
         {
-            strings.Add(reader.ReadASCII());
+            int nullIndex = Array.IndexOf(_rawTSTR, (byte)0, idx);
+            if (nullIndex < 0)
+            {
+                // No terminator found: take remainder as ASCII
+                strings.Add(System.Text.Encoding.ASCII.GetString(_rawTSTR, idx, _rawTSTR.Length - idx));
+                break;
+            }
+
+            if (nullIndex == idx)
+            {
+                strings.Add(string.Empty);
+            }
+            else
+            {
+                strings.Add(System.Text.Encoding.ASCII.GetString(_rawTSTR, idx, nullIndex - idx));
+            }
+
+            idx = nullIndex + 1;
         }
 
+        // Advance reader to end of section and exit
+        reader.Position = payloadStart + payloadLen;
         reader.ExitSection();
         return strings;
     }
@@ -392,6 +422,33 @@ public class HavokBinarySerializer : HavokSerializer
     private IReadOnlyDictionary<string, int> WriteTSTR(HavokBinaryWriter writer,
         IReadOnlyList<HavokType> types)
     {
+        // If we cached the original TSTR bytes, replay them exactly
+        if (_rawTSTR is not null)
+        {
+            writer.BeginSection("TSTR");
+            writer.WriteBytes(_rawTSTR);
+            writer.EndSection();
+
+            // Build mapping from the written raw strings for downstream sections
+            Dictionary<string, int> typeStringIndicesRaw = new();
+            int typeStringIndexRaw = 0;
+            int idxRaw = 0;
+            while (idxRaw < _rawTSTR.Length)
+            {
+                int nullIndex = Array.IndexOf(_rawTSTR, (byte)0, idxRaw);
+                if (nullIndex < 0) nullIndex = _rawTSTR.Length;
+                string s = System.Text.Encoding.ASCII.GetString(_rawTSTR, idxRaw, nullIndex - idxRaw);
+                if (!typeStringIndicesRaw.ContainsKey(s))
+                {
+                    typeStringIndicesRaw.Add(s, typeStringIndexRaw);
+                    typeStringIndexRaw++;
+                }
+                idxRaw = nullIndex + 1;
+            }
+
+            return typeStringIndicesRaw;
+        }
+
         writer.BeginSection("TSTR");
 
         Dictionary<string, int> typeStringIndices = new();
@@ -518,13 +575,34 @@ public class HavokBinarySerializer : HavokSerializer
     {
         reader.EnterSection("FSTR");
 
-        List<string> strings = new();
+        int payloadLen = reader.GetSectionLength();
+        long payloadStart = reader.Position;
+        _rawFSTR = reader.GetBytes(payloadStart, payloadLen);
 
-        while (reader.Position < reader.GetSectionEnd())
+        List<string> strings = new();
+        int idx = 0;
+        while (idx < _rawFSTR.Length)
         {
-            strings.Add(reader.ReadASCII());
+            int nullIndex = Array.IndexOf(_rawFSTR, (byte)0, idx);
+            if (nullIndex < 0)
+            {
+                strings.Add(System.Text.Encoding.ASCII.GetString(_rawFSTR, idx, _rawFSTR.Length - idx));
+                break;
+            }
+
+            if (nullIndex == idx)
+            {
+                strings.Add(string.Empty);
+            }
+            else
+            {
+                strings.Add(System.Text.Encoding.ASCII.GetString(_rawFSTR, idx, nullIndex - idx));
+            }
+
+            idx = nullIndex + 1;
         }
 
+        reader.Position = payloadStart + payloadLen;
         reader.ExitSection();
         return strings;
     }
@@ -532,6 +610,32 @@ public class HavokBinarySerializer : HavokSerializer
     private IReadOnlyDictionary<string, int> WriteFSTR(HavokBinaryWriter writer,
         IReadOnlyList<HavokType> types)
     {
+        // If we cached the original FSTR bytes, replay them exactly
+        if (_rawFSTR is not null)
+        {
+            writer.BeginSection("FSTR");
+            writer.WriteBytes(_rawFSTR);
+            writer.EndSection();
+
+            Dictionary<string, int> fieldStringIndicesRaw = new();
+            int fieldStringIndexRaw = 0;
+            int idxRaw = 0;
+            while (idxRaw < _rawFSTR.Length)
+            {
+                int nullIndex = Array.IndexOf(_rawFSTR, (byte)0, idxRaw);
+                if (nullIndex < 0) nullIndex = _rawFSTR.Length;
+                string s = System.Text.Encoding.ASCII.GetString(_rawFSTR, idxRaw, nullIndex - idxRaw);
+                if (!fieldStringIndicesRaw.ContainsKey(s))
+                {
+                    fieldStringIndicesRaw.Add(s, fieldStringIndexRaw);
+                    fieldStringIndexRaw++;
+                }
+                idxRaw = nullIndex + 1;
+            }
+
+            return fieldStringIndicesRaw;
+        }
+
         writer.BeginSection("FSTR");
 
         Dictionary<string, int> fieldStringIndices = new();
@@ -824,6 +928,41 @@ public class HavokBinarySerializer : HavokSerializer
 
     private IReadOnlyList<IHavokObject> ReadTAG0(HavokBinaryReader reader)
     {
+        // Some packers prepend extra data before the first section header (TAG0).
+        // If we're not currently at a TAG0 header, search forward for the ASCII
+        // sequence "TAG0" and rewind 4 bytes so EnterSection reads the length
+        // field immediately before the identifier.
+        try
+        {
+            if (reader.GetASCII(reader.Position + 4, 4) != "TAG0")
+            {
+                long streamLen = reader.Length;
+                if (streamLen > int.MaxValue)
+                    throw new InvalidDataException("Stream too large to search for TAG0");
+
+                byte[] buffer = reader.GetBytes(0, (int)streamLen);
+                byte[] pattern = Encoding.ASCII.GetBytes("TAG0");
+                int found = -1;
+                for (int i = 4; i < buffer.Length - 3; i++)
+                {
+                    if (buffer[i] == pattern[0] && buffer[i + 1] == pattern[1] && buffer[i + 2] == pattern[2] && buffer[i + 3] == pattern[3])
+                    {
+                        found = i;
+                        break;
+                    }
+                }
+
+                if (found < 4)
+                    throw new InvalidDataException("TAG0 section not found in stream");
+
+                reader.Position = found - 4;
+            }
+        }
+        catch (ArgumentOutOfRangeException)
+        {
+            // Fallback: ensure EnterSection will throw informative error below
+        }
+
         reader.EnterSection("TAG0");
         ReadSDKV(reader);
         long dataOffset = ReadDATA(reader);
@@ -877,9 +1016,9 @@ public class HavokBinarySerializer : HavokSerializer
     private void ReadSDKV(HavokBinaryReader reader)
     {
         reader.EnterSection("SDKV");
-        if (reader.ReadASCII(8) != "20180100")
+        if (reader.ReadASCII(8) != "20190100")
         {
-            throw new InvalidDataException("Unsupported SDK Version.");
+            throw new InvalidDataException("Unsupported SDK Version. Expected 20190100 (hkx2019).");
         }
 
         reader.ExitSection();
@@ -888,7 +1027,7 @@ public class HavokBinarySerializer : HavokSerializer
     private void WriteSDKV(HavokBinaryWriter writer)
     {
         writer.BeginSection("SDKV");
-        writer.WriteASCII("20180100");
+        writer.WriteASCII("20190100");//        writer.WriteASCII("20180100");
         writer.EndSection();
     }
 

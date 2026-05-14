@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.4.33213.308
+# Visual Studio Version 18
+VisualStudioVersion = 18.5.11723.231 stable
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HKLib", "HKLib\HKLib.csproj", "{B1E5DCAA-349A-4093-9365-D01E1FAFC35C}"
 EndProject
@@ -10,6 +10,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HKLib.Serialization", "HKLib.Serialization\HKLib.Serialization.csproj", "{D48DD0D6-DABC-4BEF-B511-4709C8A80EE9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HKLib.CLI", "HKLib.CLI\HKLib.CLI.csproj", "{1B47BF74-56E2-46DD-86F1-4CBF459F72E3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B1E5DCAA-349A-4093-9365-D01E1FAFC35C} = {B1E5DCAA-349A-4093-9365-D01E1FAFC35C}
+		{B6D687CE-5753-4D8B-AF44-ADBE024A5663} = {B6D687CE-5753-4D8B-AF44-ADBE024A5663}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HKLib.Tests", "HKLib.Tests\HKLib.Tests.csproj", "{A24A4E5C-11AD-4333-906F-687F86CBFA24}"
 EndProject

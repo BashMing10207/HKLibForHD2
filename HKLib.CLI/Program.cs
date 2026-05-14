@@ -25,13 +25,63 @@ public static class Program
             string outputPath = path[..^3] + "hkx";
             Backup(outputPath);
 
+            void PerformPack()
+            {
+                byte[]? prependData = null;
+                string? prefixArg = args.FirstOrDefault(x => x.EndsWith(".prepend", StringComparison.OrdinalIgnoreCase));
+                string defaultSidecar = outputPath + ".prepend";
+                string altSidecar = path + ".prepend";
+
+                if (prefixArg is not null && File.Exists(prefixArg))
+                {
+                    prependData = File.ReadAllBytes(prefixArg);
+                }
+                else if (File.Exists(defaultSidecar))
+                {
+                    prependData = File.ReadAllBytes(defaultSidecar);
+                }
+                else if (File.Exists(altSidecar))
+                {
+                    prependData = File.ReadAllBytes(altSidecar);
+                }
+                else
+                {
+                    try
+                    {
+                        string xmlText = File.ReadAllText(path);
+                        int commentStart = xmlText.LastIndexOf("<!-- PREPEND_DATA:");
+                        if (commentStart != -1)
+                        {
+                            int endComment = xmlText.IndexOf("-->", commentStart);
+                            if (endComment != -1)
+                            {
+                                int dataStart = commentStart + 18;
+                                string base64 = xmlText.Substring(dataStart, endComment - dataStart).Trim();
+                                prependData = Convert.FromBase64String(base64);
+                            }
+                        }
+                    }
+                    catch { }
+                }
+
+                if (prependData != null)
+                {
+                    using FileStream outFs = File.Create(outputPath);
+                    outFs.Write(prependData);
+                    binarySerializer.Write(xmlSerializer.Read(path), outFs);
+                }
+                else
+                {
+                    binarySerializer.Write(xmlSerializer.Read(path), outputPath);
+                }
+            }
 
 #if DEBUG
-            binarySerializer.Write(xmlSerializer.Read(path), outputPath);
+            PerformPack();
 #else
             try
             {
-                binarySerializer.Write(xmlSerializer.Read(path), outputPath);
+                PerformPack();
             }
             catch (Exception e)
             {
@@ -47,17 +97,77 @@ public static class Program
             string outputPath = path[..^3] + "xml";
             Backup(outputPath);
 
+            // If file contains leading non-TAG0 bytes, save them to a sidecar so they can be
+            // restored when re-packing. Non-fatal: if this fails, conversion still proceeds.
+            byte[]? prependData = null;
+            try
+            {
+                byte[] bytes = File.ReadAllBytes(path);
+                byte[] pattern = System.Text.Encoding.ASCII.GetBytes("TAG0");
+                int found = -1;
+                for (int i = 4; i < bytes.Length - 3; i++)
+                {
+                    if (bytes[i] == pattern[0] && bytes[i + 1] == pattern[1] && bytes[i + 2] == pattern[2] && bytes[i + 3] == pattern[3])
+                    {
+                        found = i;
+                        break;
+                    }
+                }
+
+                if (found >= 4)
+                {
+                    int prefixLen = found - 4;
+                    if (prefixLen > 0)
+                    {
+                        prependData = bytes.Take(prefixLen).ToArray();
+                        string sidecar = path + ".prepend";
+                        File.WriteAllBytes(sidecar, prependData);
+                        Console.WriteLine($"Saved leading {prefixLen} bytes to {sidecar} and embedded in xml");
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                // ignore
+            }
+
             if (args.FirstOrDefault(x => x.EndsWith(".compendium")) is { } compendiumPath)
             {
                 binarySerializer.LoadCompendium(compendiumPath);
             }
 
+            void PerformUnpack()
+            {
+                xmlSerializer.Write(binarySerializer.Read(path), outputPath);
+                if (prependData != null)
+                {
+                    File.AppendAllText(outputPath, $"\n<!-- PREPEND_DATA:{Convert.ToBase64String(prependData)} -->\n");
+                }
+            }
+
 #if DEBUG
-            xmlSerializer.Write(binarySerializer.Read(path), outputPath);
+            try
+            {
+                PerformUnpack();
+            }
+            catch (InvalidOperationException)
+            {
+                Console.WriteLine(
+                    $"The file \"{path}\" contains a compendium reference. Drag and drop the associated compendium reference onto the exe along with the file to convert it.");
+                Console.WriteLine("Press any key to exit...");
+                Console.ReadKey();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("File Conversion failed.");
+                Console.WriteLine(e);
+                Console.WriteLine("Press any key to exit...");
+                Console.ReadKey();
+            }
 #else
             try
             {
-                xmlSerializer.Write(binarySerializer.Read(path), outputPath);
+                PerformUnpack();
             }
             catch (InvalidOperationException)
             {

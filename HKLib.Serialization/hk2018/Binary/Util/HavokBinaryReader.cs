@@ -30,9 +30,12 @@ public class HavokBinaryReader : BinaryReaderEx
     {
         long start = Position;
         int length = ReadInt32(true) & 0x0fffffff;
-        AssertASCII(sectionId);
+        // Accept common 4-char variants (e.g. TSTR vs TST1) by allowing an
+        // alternative ASCII id when present.
+        string alt = sectionId.Length == 4 ? sectionId.Substring(0, 3) + '1' : sectionId;
+        string readId = AssertASCII(sectionId, alt);
 
-        SectionInfo sectionInfo = new(sectionId, length, start + length);
+        SectionInfo sectionInfo = new(readId, length, start + length);
         _sectionInfos.Push(sectionInfo);
     }
 
