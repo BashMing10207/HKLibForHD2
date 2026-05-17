@@ -202,4 +202,62 @@ public static class Program
         if (!File.Exists(path)) return;
         File.Move(path, path + ".bak", true);
     }
+
+    private static long FindSignatureOffset(Stream stream, byte[] pattern)
+    {
+        const int bufferSize = 8192;
+        var buffer = new byte[bufferSize];
+
+        long originalPosition = stream.Position;
+        stream.Seek(0, SeekOrigin.Begin);
+
+        long streamPosition = 0;
+        int bytesRead;
+
+        try
+        {
+            while ((bytesRead = stream.Read(buffer, 0, buffer.Length)) > 0)
+            {
+                for (var i = 0; i <= bytesRead - pattern.Length; i++)
+                {
+                    if (buffer[i] != pattern[0]) continue;
+
+                    var found = true;
+                    for (var j = 1; j < pattern.Length; j++)
+                    {
+                        if (buffer[i + j] != pattern[j])
+                        {
+                            found = false;
+                            break;
+                        }
+                    }
+
+                    if (found)
+                    {
+                        long tag0Position = streamPosition + i;
+                        if (tag0Position >= 4)
+                        {
+                            return tag0Position - 4; // Return position of the length field
+                        }
+                    }
+                }
+
+                streamPosition += bytesRead;
+
+                // Seek back to handle patterns spanning buffer boundaries
+                if (stream.Position < stream.Length)
+                {
+                    long seekBack = Math.Min(stream.Position, pattern.Length - 1);
+                    stream.Seek(-seekBack, SeekOrigin.Current);
+                    streamPosition -= seekBack;
+                }
+            }
+        }
+        finally
+        {
+            stream.Seek(originalPosition, SeekOrigin.Begin);
+        }
+
+        return -1;
+    }
 }
