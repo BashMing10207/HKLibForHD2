@@ -12,7 +12,7 @@ public static class Program
             Console.WriteLine(
                 "This application converts between binary hkx tagfiles and xml tagfiles. Drag and drop a file onto the exe to use.");
             Console.WriteLine("Press any key to exit...");
-            Console.ReadKey();
+            if (!Console.IsInputRedirected) Console.ReadKey();
             return;
         }
 
@@ -88,7 +88,7 @@ public static class Program
                 Console.WriteLine("File Conversion failed.");
                 Console.WriteLine(e);
                 Console.WriteLine("Press any key to exit...");
-                Console.ReadKey();
+                if (!Console.IsInputRedirected) Console.ReadKey();
             }
 #endif
         }
@@ -155,14 +155,14 @@ public static class Program
                 Console.WriteLine(
                     $"The file \"{path}\" contains a compendium reference. Drag and drop the associated compendium reference onto the exe along with the file to convert it.");
                 Console.WriteLine("Press any key to exit...");
-                Console.ReadKey();
+                if (!Console.IsInputRedirected) Console.ReadKey();
             }
             catch (Exception e)
             {
                 Console.WriteLine("File Conversion failed.");
                 Console.WriteLine(e);
                 Console.WriteLine("Press any key to exit...");
-                Console.ReadKey();
+                if (!Console.IsInputRedirected) Console.ReadKey();
             }
 #else
             try
@@ -174,14 +174,14 @@ public static class Program
                 Console.WriteLine(
                     $"The file \"{path}\" contains a compendium reference. Drag and drop the associated compendium reference onto the exe along with the file to convert it.");
                 Console.WriteLine("Press any key to exit...");
-                Console.ReadKey();
+                if (!Console.IsInputRedirected) Console.ReadKey();
             }
             catch (Exception e)
             {
                 Console.WriteLine("File Conversion failed.");
                 Console.WriteLine(e);
                 Console.WriteLine("Press any key to exit...");
-                Console.ReadKey();
+                if (!Console.IsInputRedirected) Console.ReadKey();
             }
 #endif
         }
@@ -189,7 +189,7 @@ public static class Program
         {
             Console.WriteLine("Unsupported file format. Please supply an xml or hkx file.");
             Console.WriteLine("Press any key to exit...");
-            Console.ReadKey();
+            if (!Console.IsInputRedirected) Console.ReadKey();
         }
     }
 

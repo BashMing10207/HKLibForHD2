@@ -1,4 +1,4 @@
-﻿using HKLib.hk2018;
+﻿﻿using HKLib.hk2018;
 using HKLib.Reflection.hk2018;
 using HKLib.Serialization.hk2018.Binary.Util;
 using System.Text;
@@ -667,18 +667,25 @@ public class HavokBinarySerializer : HavokSerializer
     {
         reader.EnterSection("TBDY");
 
-        for (int i = 1; i < builders.Count; i++)
+        while (reader.Position < reader.GetSectionEnd())
         {
             int typeIndex = (int)reader.ReadHavokVarUInt();
 
-            // version 2019.1 does not contain entries for all types
             if (typeIndex == 0) break;
+
+            if (typeIndex >= builders.Count) 
+            {
+                // This indicates the section points to a type that wasn't declared.
+                // It can happen if the type count was misread or file is heavily modified.
+                throw new InvalidDataException($"Invalid type index {typeIndex} in TBDY section (Max is {builders.Count - 1}).");
+            }
 
             HavokTypeBuilder builder = builders[typeIndex];
             int parentIndex = (int)reader.ReadHavokVarUInt();
             if (parentIndex > 0)
             {
-                builder.WithParent(builders[parentIndex]);
+                HavokTypeBuilder parentBuilder = parentIndex < builders.Count ? builders[parentIndex] : builders[0];
+                builder.WithParent(parentBuilder);
             }
 
             HavokType.Optional optionals =
@@ -721,12 +728,13 @@ public class HavokBinarySerializer : HavokSerializer
                 for (int j = 0; j < numFields; j++)
                 {
                     int nameIndex = (int)reader.ReadHavokVarUInt();
-                    string name = fieldStrings[nameIndex];
+                    string name = nameIndex < fieldStrings.Count ? fieldStrings[nameIndex] : $"UnknownField_{nameIndex}";
                     Reflection.HavokType.Member.MemberFlags flags =
                         (Reflection.HavokType.Member.MemberFlags)reader.ReadHavokVarUInt();
                     int offset = (int)reader.ReadHavokVarUInt();
                     int memberTypeIndex = (int)reader.ReadHavokVarUInt();
-                    builder.WithField(name, flags, offset, builders[memberTypeIndex]);
+                    HavokTypeBuilder fieldType = memberTypeIndex < builders.Count ? builders[memberTypeIndex] : builders[0]; // fallback to NULL type if index is out of bounds
+                    builder.WithField(name, flags, offset, fieldType);
                 }
             }
 
@@ -926,41 +934,78 @@ public class HavokBinarySerializer : HavokSerializer
 
     #region TAG0
 
-    private IReadOnlyList<IHavokObject> ReadTAG0(HavokBinaryReader reader)
+    private static long FindTag0Offset(Stream stream)
     {
-        // Some packers prepend extra data before the first section header (TAG0).
-        // If we're not currently at a TAG0 header, search forward for the ASCII
-        // sequence "TAG0" and rewind 4 bytes so EnterSection reads the length
-        // field immediately before the identifier.
+        byte[] pattern = { 0x54, 0x41, 0x47, 0x30 }; // "TAG0"
+        const int bufferSize = 8192;
+        var buffer = new byte[bufferSize];
+
+        long originalPosition = stream.Position;
+        stream.Seek(0, SeekOrigin.Begin);
+
+        long streamPosition = 0;
+        int bytesRead;
+
         try
         {
-            if (reader.GetASCII(reader.Position + 4, 4) != "TAG0")
+            while ((bytesRead = stream.Read(buffer, 0, buffer.Length)) > 0)
             {
-                long streamLen = reader.Length;
-                if (streamLen > int.MaxValue)
-                    throw new InvalidDataException("Stream too large to search for TAG0");
-
-                byte[] buffer = reader.GetBytes(0, (int)streamLen);
-                byte[] pattern = Encoding.ASCII.GetBytes("TAG0");
-                int found = -1;
-                for (int i = 4; i < buffer.Length - 3; i++)
+                for (var i = 0; i <= bytesRead - pattern.Length; i++)
                 {
-                    if (buffer[i] == pattern[0] && buffer[i + 1] == pattern[1] && buffer[i + 2] == pattern[2] && buffer[i + 3] == pattern[3])
+                    if (buffer[i] != pattern[0]) continue;
+
+                    var found = true;
+                    for (var j = 1; j < pattern.Length; j++)
                     {
-                        found = i;
-                        break;
+                        if (buffer[i + j] != pattern[j])
+                        {
+                            found = false;
+                            break;
+                        }
+                    }
+
+                    if (found)
+                    {
+                        long tag0Position = streamPosition + i;
+                        if (tag0Position >= 4)
+                        {
+                            return tag0Position - 4; // Return position of the length field
+                        }
                     }
                 }
 
-                if (found < 4)
-                    throw new InvalidDataException("TAG0 section not found in stream");
+                streamPosition += bytesRead;
 
-                reader.Position = found - 4;
+                // Seek back to handle patterns spanning buffer boundaries
+                if (stream.Position < stream.Length)
+                {
+                    long seekBack = Math.Min(stream.Position, pattern.Length - 1);
+                    stream.Seek(-seekBack, SeekOrigin.Current);
+                    streamPosition -= seekBack;
+                }
             }
         }
-        catch (ArgumentOutOfRangeException)
+        finally
         {
-            // Fallback: ensure EnterSection will throw informative error below
+            stream.Seek(originalPosition, SeekOrigin.Begin);
+        }
+
+        return -1;
+    }
+
+    private IReadOnlyList<IHavokObject> ReadTAG0(HavokBinaryReader reader)
+    {
+        // Search for the TAG0 section header to handle prepended metadata from game packers.
+        long tag0HeaderOffset = FindTag0Offset(reader.Stream);
+        if (tag0HeaderOffset != -1)
+        {
+            reader.Position = tag0HeaderOffset;
+        }
+        else
+        {
+            // If search fails, the file is not a supported Havok Tagfile.
+            throw new InvalidDataException(
+                "Valid TAG0 section not found in stream. The file may be corrupt or not a supported Havok Tagfile.");
         }
 
         reader.EnterSection("TAG0");
