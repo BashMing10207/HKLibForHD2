@@ -1,9 +1,9 @@
 ﻿﻿using HKLib.hk2018;
 using HKLib.Reflection.hk2018;
-using HKLib.Serialization.hk2018.Binary.Util;
+using HKLib.Serialization.hk2019.Binary.Util;
 using System.Text;
 
-namespace HKLib.Serialization.hk2018.Binary;
+namespace HKLib.Serialization.hk2019.Binary;
 
 public class HavokBinarySerializer : HavokSerializer
 {
@@ -1061,17 +1061,18 @@ public class HavokBinarySerializer : HavokSerializer
     private void ReadSDKV(HavokBinaryReader reader)
     {
         reader.EnterSection("SDKV");
-        if (reader.ReadASCII(8) != "20180100")
+        if (reader.ReadASCII(8) != "20190100")
         {
-            throw new InvalidDataException("Unsupported SDK Version. Expected 20180100 (hkx2018).");
+            throw new InvalidDataException("Unsupported SDK Version. Expected 20190100 (hkx2019).");
         }
 
         reader.ExitSection();
     }
+
     private void WriteSDKV(HavokBinaryWriter writer)
     {
         writer.BeginSection("SDKV");
-        writer.WriteASCII("20180100");
+        writer.WriteASCII("20190100");//        writer.WriteASCII("20180100");
         writer.EndSection();
     }
 

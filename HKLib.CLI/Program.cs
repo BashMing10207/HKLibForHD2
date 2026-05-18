@@ -1,5 +1,11 @@
-﻿using HKLib.Serialization.hk2018.Binary;
-using HKLib.Serialization.hk2018.Xml;
+using System;
+using System.IO;
+using System.Linq;
+using System.Text;
+using HavokBinarySerializer2018 = HKLib.Serialization.hk2018.Binary.HavokBinarySerializer;
+using HavokXmlSerializer2018 = HKLib.Serialization.hk2018.Xml.HavokXmlSerializer;
+using HavokBinarySerializer2019 = HKLib.Serialization.hk2019.Binary.HavokBinarySerializer;
+using HavokXmlSerializer2019 = HKLib.Serialization.hk2019.Xml.HavokXmlSerializer;
 
 namespace HKLib.CLI;
 
@@ -16,11 +22,27 @@ public static class Program
             return;
         }
 
-        HavokBinarySerializer binarySerializer = new();
-        HavokXmlSerializer xmlSerializer = new();
+        string path = args.First(x => !x.EndsWith(".compendium") && !x.StartsWith("-"));
+        bool is2019 = true; // default to 2019 for HD2
 
-        string path = args.First(x => !x.EndsWith(".compendium"));
-        if (path.EndsWith(".xml"))
+        if (args.Contains("-2018")) is2019 = false;
+        if (args.Contains("-2019")) is2019 = true;
+
+        if (path.EndsWith(".hkx", StringComparison.OrdinalIgnoreCase))
+        {
+            byte[] fileBytes = File.ReadAllBytes(path);
+            string fileString = Encoding.ASCII.GetString(fileBytes);
+            if (fileString.Contains("20180100")) is2019 = false;
+            else if (fileString.Contains("20190100")) is2019 = true;
+        }
+        else if (path.EndsWith(".xml", StringComparison.OrdinalIgnoreCase))
+        {
+            string fileString = File.ReadAllText(path);
+            if (fileString.Contains("20180100") || fileString.Contains("hk2018")) is2019 = false;
+            else if (fileString.Contains("20190100") || fileString.Contains("hk2019")) is2019 = true;
+        }
+
+        if (path.EndsWith(".xml", StringComparison.OrdinalIgnoreCase))
         {
             string outputPath = path[..^3] + "hkx";
             Backup(outputPath);
@@ -68,11 +90,33 @@ public static class Program
                 {
                     using FileStream outFs = File.Create(outputPath);
                     outFs.Write(prependData);
-                    binarySerializer.Write(xmlSerializer.Read(path), outFs);
+                    if (is2019)
+                    {
+                        var xmlSerializer = new HavokXmlSerializer2019();
+                        var binarySerializer = new HavokBinarySerializer2019();
+                        binarySerializer.Write(xmlSerializer.Read(path), outFs);
+                    }
+                    else
+                    {
+                        var xmlSerializer = new HavokXmlSerializer2018();
+                        var binarySerializer = new HavokBinarySerializer2018();
+                        binarySerializer.Write(xmlSerializer.Read(path), outFs);
+                    }
                 }
                 else
                 {
-                    binarySerializer.Write(xmlSerializer.Read(path), outputPath);
+                    if (is2019)
+                    {
+                        var xmlSerializer = new HavokXmlSerializer2019();
+                        var binarySerializer = new HavokBinarySerializer2019();
+                        binarySerializer.Write(xmlSerializer.Read(path), outputPath);
+                    }
+                    else
+                    {
+                        var xmlSerializer = new HavokXmlSerializer2018();
+                        var binarySerializer = new HavokBinarySerializer2018();
+                        binarySerializer.Write(xmlSerializer.Read(path), outputPath);
+                    }
                 }
             }
 
@@ -92,7 +136,7 @@ public static class Program
             }
 #endif
         }
-        else if (path.EndsWith(".hkx"))
+        else if (path.EndsWith(".hkx", StringComparison.OrdinalIgnoreCase))
         {
             string outputPath = path[..^3] + "xml";
             Backup(outputPath);
@@ -131,14 +175,29 @@ public static class Program
                 // ignore
             }
 
-            if (args.FirstOrDefault(x => x.EndsWith(".compendium")) is { } compendiumPath)
-            {
-                binarySerializer.LoadCompendium(compendiumPath);
-            }
-
             void PerformUnpack()
             {
-                xmlSerializer.Write(binarySerializer.Read(path), outputPath);
+                if (is2019)
+                {
+                    var xmlSerializer = new HavokXmlSerializer2019();
+                    var binarySerializer = new HavokBinarySerializer2019();
+                    if (args.FirstOrDefault(x => x.EndsWith(".compendium")) is { } compendiumPath)
+                    {
+                        binarySerializer.LoadCompendium(compendiumPath);
+                    }
+                    xmlSerializer.Write(binarySerializer.Read(path), outputPath);
+                }
+                else
+                {
+                    var xmlSerializer = new HavokXmlSerializer2018();
+                    var binarySerializer = new HavokBinarySerializer2018();
+                    if (args.FirstOrDefault(x => x.EndsWith(".compendium")) is { } compendiumPath)
+                    {
+                        binarySerializer.LoadCompendium(compendiumPath);
+                    }
+                    xmlSerializer.Write(binarySerializer.Read(path), outputPath);
+                }
+
                 if (prependData != null)
                 {
                     File.AppendAllText(outputPath, $"\n<!-- PREPEND_DATA:{Convert.ToBase64String(prependData)} -->\n");
