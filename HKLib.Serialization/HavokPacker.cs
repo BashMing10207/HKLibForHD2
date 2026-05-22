@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 using HKLib.hk2018;
-using HKLib.Reflection;
+using HKLib.Reflection.hk2018;
 
 namespace HKLib.Serialization;
 
@@ -49,7 +49,7 @@ public class HavokPacker
             data.AddressMap[obj] = currentOffset;
 
             // 3. Add the object's own size to the offset
-            HavokType type = HavokTypeRegistry.GetType(obj.GetType())!;
+            HavokType type = HavokTypeRegistry.Instance.GetType(obj.GetType())!;
             currentOffset += type.Size;
         });
     }

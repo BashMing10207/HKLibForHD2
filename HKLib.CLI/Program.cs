@@ -6,6 +6,7 @@ using HavokBinarySerializer2018 = HKLib.Serialization.hk2018.Binary.HavokBinaryS
 using HavokXmlSerializer2018 = HKLib.Serialization.hk2018.Xml.HavokXmlSerializer;
 using HavokBinarySerializer2019 = HKLib.Serialization.hk2019.Binary.HavokBinarySerializer;
 using HavokXmlSerializer2019 = HKLib.Serialization.hk2019.Xml.HavokXmlSerializer;
+using HKLib.Serialization.hk2018;
 
 namespace HKLib.CLI;
 
@@ -94,12 +95,12 @@ public static class Program
                     {
                         var xmlSerializer = new HavokXmlSerializer2019();
                         var binarySerializer = new HavokBinarySerializer2019();
-                        binarySerializer.Write(xmlSerializer.Read(path), outFs);
+                        binarySerializer.Write(outFs, xmlSerializer.Read(path));
                     }
                     else
                     {
-                        var xmlSerializer = new HavokXmlSerializer2018();
-                        var binarySerializer = new HavokBinarySerializer2018();
+                        var xmlSerializer = new HavokXmlSerializer2018(HKLib.Reflection.hk2018.HavokTypeRegistry.Instance);
+                        var binarySerializer = new HavokBinarySerializer2018(HKLib.Reflection.hk2018.HavokTypeRegistry.Instance);
                         binarySerializer.Write(xmlSerializer.Read(path), outFs);
                     }
                 }
@@ -113,8 +114,8 @@ public static class Program
                     }
                     else
                     {
-                        var xmlSerializer = new HavokXmlSerializer2018();
-                        var binarySerializer = new HavokBinarySerializer2018();
+                        var xmlSerializer = new HavokXmlSerializer2018(HKLib.Reflection.hk2018.HavokTypeRegistry.Instance);
+                        var binarySerializer = new HavokBinarySerializer2018(HKLib.Reflection.hk2018.HavokTypeRegistry.Instance);
                         binarySerializer.Write(xmlSerializer.Read(path), outputPath);
                     }
                 }
@@ -181,16 +182,43 @@ public static class Program
                 {
                     var xmlSerializer = new HavokXmlSerializer2019();
                     var binarySerializer = new HavokBinarySerializer2019();
-                    if (args.FirstOrDefault(x => x.EndsWith(".compendium")) is { } compendiumPath)
+
+                    // Try to find compendium argument first
+                    string? compendiumPath = args.FirstOrDefault(x =>
+                        x.EndsWith(".compendium", StringComparison.OrdinalIgnoreCase) ||
+                        x.EndsWith(".main", StringComparison.OrdinalIgnoreCase));
+
+                    // If not provided, try to find it automatically
+                    if (string.IsNullOrEmpty(compendiumPath) || !File.Exists(compendiumPath))
                     {
+                        const string defaultCompendiumName = "global.havok_physics_properties.main";
+                        string? exeDir = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+                        string? fileDir = Path.GetDirectoryName(path);
+
+                        string potentialPath1 = Path.Combine(exeDir ?? "", defaultCompendiumName);
+                        string potentialPath2 = Path.Combine(fileDir ?? "", defaultCompendiumName);
+
+                        if (File.Exists(potentialPath1))
+                        {
+                            compendiumPath = potentialPath1;
+                        }
+                        else if (File.Exists(potentialPath2))
+                        {
+                            compendiumPath = potentialPath2;
+                        }
+                    }
+
+                    if (compendiumPath is not null && File.Exists(compendiumPath))
+                    {
+                        Console.WriteLine($"Using compendium: {compendiumPath}");
                         binarySerializer.LoadCompendium(compendiumPath);
                     }
                     xmlSerializer.Write(binarySerializer.Read(path), outputPath);
                 }
                 else
                 {
-                    var xmlSerializer = new HavokXmlSerializer2018();
-                    var binarySerializer = new HavokBinarySerializer2018();
+                    var xmlSerializer = new HavokXmlSerializer2018(HKLib.Reflection.hk2018.HavokTypeRegistry.Instance);
+                    var binarySerializer = new HavokBinarySerializer2018(HKLib.Reflection.hk2018.HavokTypeRegistry.Instance);
                     if (args.FirstOrDefault(x => x.EndsWith(".compendium")) is { } compendiumPath)
                     {
                         binarySerializer.LoadCompendium(compendiumPath);

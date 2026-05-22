@@ -3,8 +3,16 @@ using HKLib.Reflection.hk2018;
 
 namespace HKLib.Serialization.hk2018;
 
-public abstract class HavokSerializer
+public abstract class HavokSerializer : IHavokSerializer
 {
+    object IHavokSerializer.Read(Stream stream) => Read(stream);
+
+    void IHavokSerializer.Write(Stream stream, object rootObject)
+    {
+        if (rootObject is IHavokObject havokObject) Write(havokObject, stream);
+        else throw new ArgumentException("rootObject must be IHavokObject");
+    }
+
     public HavokSerializer(HavokTypeRegistry typeRegistry)
     {
         TypeRegistry = typeRegistry;
