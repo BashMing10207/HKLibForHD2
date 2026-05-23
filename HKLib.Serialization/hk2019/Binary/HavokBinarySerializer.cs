@@ -1,7 +1,6 @@
-﻿﻿using System.Diagnostics;
+﻿﻿﻿﻿﻿﻿using System.Diagnostics;
 using System;
 using System.Numerics;
-using HKLib.hk2018; // For IHavokObject and hkReferencedObject
 using HKLib.Reflection;
 using HKLib.Reflection.Dynamic; // For DynamicTypeRegistry
 using HKLib.Serialization.Util;
@@ -15,6 +14,7 @@ namespace HKLib.Serialization.hk2019.Binary;
 public class HavokBinarySerializer : IHavokSerializer
 {
     private DynamicTypeRegistry? _typeRegistry;
+    public DynamicTypeRegistry? TypeRegistry => _typeRegistry;
     private readonly Dictionary<long, IHavokObject> _objectsByAddress = new();
 
     object IHavokSerializer.Read(Stream stream) => Read(stream);
@@ -27,7 +27,7 @@ public class HavokBinarySerializer : IHavokSerializer
             throw new ArgumentException("rootObject must be IHavokObject", nameof(rootObject));
     }
 
-    public void LoadCompendium(Stream stream)
+    public void LoadCompendium(Stream stream, string? baseSchemaPath = null)
     {
         long typesOffset = -1;
         try
@@ -57,14 +57,14 @@ public class HavokBinarySerializer : IHavokSerializer
         }
 
         // Assumes the XML is in a known location. This should be made configurable.
-        const string baseSchemaPath = "HavokTypeRegistry20190100.xml";
-        _typeRegistry = new DynamicTypeRegistry(baseSchemaPath, stream, typesOffset);
+        const string defaultSchemaPath = "HavokTypeRegistry20190100.xml";
+        _typeRegistry = new DynamicTypeRegistry(baseSchemaPath ?? defaultSchemaPath, stream, typesOffset);
     }
 
-    public void LoadCompendium(string path)
+    public void LoadCompendium(string path, string? baseSchemaPath = null)
     {
         using FileStream fs = new(path, FileMode.Open, FileAccess.Read, FileShare.Read);
-        LoadCompendium(fs);
+        LoadCompendium(fs, baseSchemaPath);
     }
 
     public IHavokObject Read(string path)
@@ -280,15 +280,7 @@ public class HavokBinarySerializer : IHavokSerializer
         {
             if (obj is not DynamicHavokObject dho) continue;
 
-            var allFields = new List<DynamicHavokField>();
-            var currentType = dho.Type;
-            while (currentType != null)
-            {
-                allFields.AddRange(currentType.Fields);
-                currentType = currentType.Parent;
-            }
-
-            foreach (DynamicHavokField field in allFields)
+            foreach (DynamicHavokField field in dho.Type.GetAllFields())
             {
                 if (!dho.Fields.TryGetValue(field.Name, out object? fieldValue)) continue;
 
@@ -313,6 +305,35 @@ public class HavokBinarySerializer : IHavokSerializer
                     else
                     {
                         dho.Fields[field.Name] = Array.CreateInstance(typeof(object), 0);
+                    }
+                }
+                // Fixup hkVariant
+                else if (fieldValue is HavokPointer variantPtr && field.Type.Name == "hkRefVariant")
+                {
+                    if (variantPtr.Address == 0)
+                    {
+                        dho.Fields[field.Name] = null;
+                        continue;
+                    }
+
+                    reader.StepIn(variantPtr.Address);
+                    long objectPtr = reader.ReadInt64();
+                    long classPtr = reader.ReadInt64(); // In hk2019 this is likely a hash, but let's treat as opaque for now
+                    reader.StepOut();
+
+                    if (objectPtr == 0)
+                    {
+                        dho.Fields[field.Name] = null;
+                    }
+                    else if (_objectsByAddress.TryGetValue(objectPtr, out var targetObject))
+                    {
+                        dho.Fields[field.Name] = targetObject;
+                    }
+                    else
+                    {
+                        // Could be a pointer to a type description, or something else not in the __data__ section.
+                        // Store it as a variant for later inspection.
+                        dho.Fields[field.Name] = new HavokVariant(objectPtr, classPtr);
                     }
                 }
                 // Fixup pointers (including hkStringPtr)
@@ -397,7 +418,45 @@ public class HavokBinarySerializer : IHavokSerializer
     /// </summary>
     private object? ReadFieldValue(BinaryReaderEx reader, DynamicTypeRegistry registry, DynamicHavokField field)
     {
-        return ReadSingleValue(reader, registry, field.Type!);
+        var fieldType = field.Type!;
+
+        // Check for C-style array e.g. float[4]
+        var nParam = fieldType.TemplateParameters.FirstOrDefault(p => p.Name == "N" && p.Kind == "Value");
+        if (nParam != null && int.TryParse(nParam.Value, out int arraySize))
+        {
+            // It's a C-style array.
+            var tParam = fieldType.TemplateParameters.FirstOrDefault(p => p.Name == "T" && p.Kind == "Type");
+            DynamicHavokType? elementType = tParam?.Type;
+            if (elementType == null)
+            {
+                // Infer from name, e.g., "char[N]"
+                string baseName = fieldType.Name.Split(new[] { '[', '<' })[0];
+                elementType = registry.GetType(baseName);
+            }
+
+            if (elementType == null)
+            {
+                throw new InvalidDataException($"Could not determine element type for C-style array '{fieldType.Name}'.");
+            }
+
+            var array = new object?[arraySize];
+            long arrayDataStart = reader.Position;
+
+            int elementSize = registry.GetSizeOf(elementType.Name);
+            if (elementSize == 0 && arraySize > 0)
+            {
+                throw new InvalidDataException($"Size of array element type '{elementType.Name}' is zero or not defined for C-style array.");
+            }
+
+            for (int i = 0; i < arraySize; i++)
+            {
+                reader.Position = arrayDataStart + (i * elementSize);
+                array[i] = ReadSingleValue(reader, registry, elementType);
+            }
+            return array;
+        }
+
+        return ReadSingleValue(reader, registry, fieldType);
     }
 
     /// <summary>
@@ -418,56 +477,61 @@ public class HavokBinarySerializer : IHavokSerializer
             case "hkMatrix4":
             case "hkTransform":
                 return new[] { reader.ReadVector4(), reader.ReadVector4(), reader.ReadVector4(), reader.ReadVector4() };
-            case "hkBool":
-                return reader.ReadByte() != 0;
-            case "hkChar":
-            case "hkInt8":
-                return reader.ReadSByte();
-            case "hkUint8":
-                return reader.ReadByte();
-            case "hkInt16":
-                return reader.ReadInt16();
-            case "hkUint16":
-                return reader.ReadUInt16();
-            case "hkInt32":
-                return reader.ReadInt32();
-            case "hkUint32":
-                return reader.ReadUInt32();
-            case "hkInt64":
-                return reader.ReadInt64();
-            case "hkUint64":
-                return reader.ReadUInt64();
-            case "hkHalf":
-            case "hkHalf16":
-                return (float)BitConverter.Int16BitsToHalf((short)reader.ReadUInt16());
-            case "hkReal":
-            case "hkFloat":
-                return reader.ReadSingle();
-            case "hkDouble64":
-                return reader.ReadDouble();
-            case "hkStringPtr":
-            case "hkRefPtr":
-            case "hkRefVariant":
-                long address = reader.ReadInt64();
-                return address == 0 ? null : new HavokPointer(address);
-        }
+    }
 
-        if (type.Name.StartsWith("hkEnum"))
-        {
+    switch (type.Kind)
+    {
+        case HavokType.TypeKind.Void or HavokType.TypeKind.Opaque:
+            return null;
+        case HavokType.TypeKind.Bool:
+            return reader.ReadByte() != 0;
+        case HavokType.TypeKind.Char or HavokType.TypeKind.Int8:
+            return reader.ReadSByte();
+        case HavokType.TypeKind.UInt8:
+            return reader.ReadByte();
+        case HavokType.TypeKind.Int16:
+            return reader.ReadInt16();
+        case HavokType.TypeKind.UInt16:
+            return reader.ReadUInt16();
+        case HavokType.TypeKind.Int32:
+            return reader.ReadInt32();
+        case HavokType.TypeKind.UInt32:
+            return reader.ReadUInt32();
+        case HavokType.TypeKind.Int64:
+            return reader.ReadInt64();
+        case HavokType.TypeKind.UInt64:
+            return reader.ReadUInt64();
+        case HavokType.TypeKind.Half: return (float)BitConverter.UInt16BitsToHalf(reader.ReadUInt16());
+        case HavokType.TypeKind.Real or HavokType.TypeKind.Float:
+            return reader.ReadSingle();
+        case HavokType.TypeKind.Double:
+            return reader.ReadDouble();
+        case HavokType.TypeKind.CString or HavokType.TypeKind.String or HavokType.TypeKind.Pointer or HavokType.TypeKind.Variant:
+            long address = reader.ReadInt64();
+            return address == 0 ? null : new HavokPointer(address);
+        case HavokType.TypeKind.Record or HavokType.TypeKind.Array: // hkArray is a struct
+            var nestedObject = new DynamicHavokObject(type);
+            ReadObjectFields(reader, registry, nestedObject, reader.Position);
+            return nestedObject;
+        case HavokType.TypeKind.Enum or HavokType.TypeKind.Flags:
             return type.Size switch
             {
                 1 => (object)reader.ReadByte(),
                 2 => reader.ReadUInt16(),
                 4 => reader.ReadUInt32(),
                 8 => reader.ReadUInt64(),
-                _ => throw new InvalidDataException($"Unsupported enum size: {type.Size}")
+                _ => throw new InvalidDataException($"Unsupported enum/flags size: {type.Size}")
             };
-        }
-
-        // For all other types, treat as a record/struct
-        var nestedObject = new DynamicHavokObject(type);
-        ReadObjectFields(reader, registry, nestedObject, reader.Position);
-        return nestedObject;
+        default:
+            if (type.Size > 0)
+            {
+                Debug.WriteLine($"Unhandled TypeKind '{type.Kind}' for type '{type.Name}'. Treating as a Record as a fallback.");
+                var fallbackObject = new DynamicHavokObject(type);
+                ReadObjectFields(reader, registry, fallbackObject, reader.Position);
+                return fallbackObject;
+            }
+            throw new NotImplementedException($"Reading field of type kind {type.Kind} ('{type.Name}') is not implemented.");
+    }
     }
     public void Write(IHavokObject rootObject, string path)
     {
@@ -484,10 +548,6 @@ public class HavokBinarySerializer : IHavokSerializer
             throw new InvalidOperationException("A compendium/master schema should be loaded for writing as well.");
         }
 
-        // Assuming HavokBinaryWriter2019 is the correct class for writing.
-        // This needs to be instantiated correctly based on your project structure.
-        // If HavokBinaryWriter2019 is in the same namespace, it's just 'new HavokBinaryWriter2019(...)'.
-        // If it's in a different project/namespace, ensure it's referenced correctly.
         var writer = new HavokBinaryWriter2019(stream, _typeRegistry);
         writer.Write(rootObject);
     }

@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using HKLib.hk2018;
+using IHavokObject = HKLib.hk2018.IHavokObject;
 
 namespace HKLib.Reflection.hk2018;
 
@@ -30,7 +31,7 @@ public abstract class HavokData
     /// Type of object to get. The object represented by this <see cref="HavokData" /> instance must derive from this type.
     /// </typeparam>
     /// <returns>The object as type <typeparamref name="T" /> or null if it is not of the requested type.</returns>
-    public abstract T? GetObject<T>() where T : class, IHavokObject;
+    public abstract T? GetObject<T>() where T : class, global::HKLib.hk2018.IHavokObject;
 
     /// <summary>
     /// Gets the underlying havok object of the value of the specified field as type <typeparamref name="T" />.
@@ -144,7 +145,7 @@ public abstract class HavokData
     }
 }
 
-internal abstract class HavokData<TData> : HavokData where TData : class, IHavokObject
+internal abstract class HavokData<TData> : HavokData where TData : class, global::HKLib.hk2018.IHavokObject
 {
     protected readonly TData instance;
 

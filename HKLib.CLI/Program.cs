@@ -1,12 +1,11 @@
 using System;
 using System.IO;
 using System.Linq;
-using System.Text;
-using HavokBinarySerializer2018 = HKLib.Serialization.hk2018.Binary.HavokBinarySerializer;
-using HavokXmlSerializer2018 = HKLib.Serialization.hk2018.Xml.HavokXmlSerializer;
-using HavokBinarySerializer2019 = HKLib.Serialization.hk2019.Binary.HavokBinarySerializer;
-using HavokXmlSerializer2019 = HKLib.Serialization.hk2019.Xml.HavokXmlSerializer;
-using HKLib.Serialization.hk2018;
+using HKLib.Reflection;
+using HKLib.Serialization.hk2019.Xml;
+using HavokBinarySerializer = HKLib.Serialization.hk2019.Binary.HavokBinarySerializer;
+using HavokXmlSerializer = HKLib.Serialization.hk2019.Xml.HavokXmlSerializer;
+using HKLib.Reflection.Dynamic;
 
 namespace HKLib.CLI;
 
@@ -23,25 +22,9 @@ public static class Program
             return;
         }
 
-        string path = args.First(x => !x.EndsWith(".compendium") && !x.StartsWith("-"));
-        bool is2019 = true; // default to 2019 for HD2
-
-        if (args.Contains("-2018")) is2019 = false;
-        if (args.Contains("-2019")) is2019 = true;
-
-        if (path.EndsWith(".hkx", StringComparison.OrdinalIgnoreCase))
-        {
-            byte[] fileBytes = File.ReadAllBytes(path);
-            string fileString = Encoding.ASCII.GetString(fileBytes);
-            if (fileString.Contains("20180100")) is2019 = false;
-            else if (fileString.Contains("20190100")) is2019 = true;
-        }
-        else if (path.EndsWith(".xml", StringComparison.OrdinalIgnoreCase))
-        {
-            string fileString = File.ReadAllText(path);
-            if (fileString.Contains("20180100") || fileString.Contains("hk2018")) is2019 = false;
-            else if (fileString.Contains("20190100") || fileString.Contains("hk2019")) is2019 = true;
-        }
+        string path = args.First(x => !x.StartsWith("--"));
+        string? schemaPath = args.FirstOrDefault(x => x.StartsWith("--schema:"))?.Substring(9);
+        string? compendiumPathArg = args.FirstOrDefault(x => x.StartsWith("--compendium:"))?.Substring(13);
 
         if (path.EndsWith(".xml", StringComparison.OrdinalIgnoreCase))
         {
@@ -91,33 +74,52 @@ public static class Program
                 {
                     using FileStream outFs = File.Create(outputPath);
                     outFs.Write(prependData);
-                    if (is2019)
+                    var binarySerializer = new HavokBinarySerializer();
+
+                    string? compendiumPath = compendiumPathArg ?? args.FirstOrDefault(x =>
+                        x.EndsWith(".compendium", StringComparison.OrdinalIgnoreCase) ||
+                        x.EndsWith(".main", StringComparison.OrdinalIgnoreCase));
+
+                    if (compendiumPath is null && !File.Exists(schemaPath ?? "HavokTypeRegistry20190100.xml"))
                     {
-                        var xmlSerializer = new HavokXmlSerializer2019();
-                        var binarySerializer = new HavokBinarySerializer2019();
-                        binarySerializer.Write(outFs, xmlSerializer.Read(path));
+                        throw new FileNotFoundException("A schema or compendium must be provided to pack files.");
+                    }
+
+                    if (compendiumPath is not null && File.Exists(compendiumPath))
+                    {
+                        Console.WriteLine($"Using compendium: {compendiumPath}");
+                        binarySerializer.LoadCompendium(compendiumPath, schemaPath);
                     }
                     else
                     {
-                        var xmlSerializer = new HavokXmlSerializer2018(HKLib.Reflection.hk2018.HavokTypeRegistry.Instance);
-                        var binarySerializer = new HavokBinarySerializer2018(HKLib.Reflection.hk2018.HavokTypeRegistry.Instance);
-                        binarySerializer.Write(xmlSerializer.Read(path), outFs);
+                        // Load the base schema if no compendium is provided
+                        binarySerializer.LoadCompendium(new MemoryStream(), schemaPath);
                     }
+
+                    if (binarySerializer.TypeRegistry is null)
+                    {
+                        throw new InvalidOperationException("Type registry could not be initialized.");
+                    }
+
+                    IXmlSerializer xmlSerializer = new HavokXmlSerializer(binarySerializer.TypeRegistry);
+                    binarySerializer.Write(outFs, (IHavokObject)xmlSerializer.Read(path));
                 }
                 else
                 {
-                    if (is2019)
+                    var binarySerializer = new HavokBinarySerializer();
+                    string? compendiumPath = compendiumPathArg;
+                    if (compendiumPath is not null && File.Exists(compendiumPath))
                     {
-                        var xmlSerializer = new HavokXmlSerializer2019();
-                        var binarySerializer = new HavokBinarySerializer2019();
-                        binarySerializer.Write(xmlSerializer.Read(path), outputPath);
+                        binarySerializer.LoadCompendium(compendiumPath, schemaPath);
                     }
-                    else
+
+                    if (binarySerializer.TypeRegistry is null)
                     {
-                        var xmlSerializer = new HavokXmlSerializer2018(HKLib.Reflection.hk2018.HavokTypeRegistry.Instance);
-                        var binarySerializer = new HavokBinarySerializer2018(HKLib.Reflection.hk2018.HavokTypeRegistry.Instance);
-                        binarySerializer.Write(xmlSerializer.Read(path), outputPath);
+                        throw new InvalidOperationException("Type registry could not be initialized for packing.");
                     }
+
+                    IXmlSerializer xmlSerializer = new HavokXmlSerializer(binarySerializer.TypeRegistry);
+                    binarySerializer.Write((IHavokObject)xmlSerializer.Read(path), outputPath);
                 }
             }
 
@@ -178,58 +180,55 @@ public static class Program
 
             void PerformUnpack()
             {
-                if (is2019)
+                var binarySerializer = new HavokBinarySerializer();
+
+                // Try to find compendium argument first
+                string? compendiumPath = compendiumPathArg ?? args.FirstOrDefault(x =>
+                    x.EndsWith(".compendium", StringComparison.OrdinalIgnoreCase) || // Keep old detection for compatibility
+                    x.EndsWith(".main", StringComparison.OrdinalIgnoreCase));
+
+                // If not provided, try to find it automatically
+                if (string.IsNullOrEmpty(compendiumPath) || !File.Exists(compendiumPath))
                 {
-                    var xmlSerializer = new HavokXmlSerializer2019();
-                    var binarySerializer = new HavokBinarySerializer2019();
-
-                    // Try to find compendium argument first
-                    string? compendiumPath = args.FirstOrDefault(x =>
-                        x.EndsWith(".compendium", StringComparison.OrdinalIgnoreCase) ||
-                        x.EndsWith(".main", StringComparison.OrdinalIgnoreCase));
-
-                    // If not provided, try to find it automatically
-                    if (string.IsNullOrEmpty(compendiumPath) || !File.Exists(compendiumPath))
+                    string[] defaultCompendiumNames =
                     {
-                        const string defaultCompendiumName = "global.havok_physics_properties.main";
-                        string? exeDir = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-                        string? fileDir = Path.GetDirectoryName(path);
+                        "global.havok_physics_properties.main",
+                        "global.havok_animation_data.main"
+                        // Add more known compendiums here in the future
+                    };
+                    string? exeDir = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+                    string? fileDir = Path.GetDirectoryName(path);
 
-                        string potentialPath1 = Path.Combine(exeDir ?? "", defaultCompendiumName);
-                        string potentialPath2 = Path.Combine(fileDir ?? "", defaultCompendiumName);
+                    string[] searchPaths = { fileDir ?? "", exeDir ?? "" };
 
-                        if (File.Exists(potentialPath1))
+                    foreach (string searchPath in searchPaths.Where(s => !string.IsNullOrEmpty(s)))
+                    {
+                        foreach (string compendiumName in defaultCompendiumNames)
                         {
-                            compendiumPath = potentialPath1;
+                            string potentialPath = Path.Combine(searchPath, compendiumName);
+                            if (File.Exists(potentialPath))
+                            {
+                                compendiumPath = potentialPath;
+                                goto compendiumFound;
+                            }
                         }
-                        else if (File.Exists(potentialPath2))
-                        {
-                            compendiumPath = potentialPath2;
-                        }
                     }
-
-                    if (compendiumPath is not null && File.Exists(compendiumPath))
-                    {
-                        Console.WriteLine($"Using compendium: {compendiumPath}");
-                        binarySerializer.LoadCompendium(compendiumPath);
-                    }
-                    xmlSerializer.Write(binarySerializer.Read(path), outputPath);
-                }
-                else
-                {
-                    var xmlSerializer = new HavokXmlSerializer2018(HKLib.Reflection.hk2018.HavokTypeRegistry.Instance);
-                    var binarySerializer = new HavokBinarySerializer2018(HKLib.Reflection.hk2018.HavokTypeRegistry.Instance);
-                    if (args.FirstOrDefault(x => x.EndsWith(".compendium")) is { } compendiumPath)
-                    {
-                        binarySerializer.LoadCompendium(compendiumPath);
-                    }
-                    xmlSerializer.Write(binarySerializer.Read(path), outputPath);
+                    compendiumFound: ;
                 }
 
-                if (prependData != null)
+                if (compendiumPath is not null && File.Exists(compendiumPath))
                 {
-                    File.AppendAllText(outputPath, $"\n<!-- PREPEND_DATA:{Convert.ToBase64String(prependData)} -->\n");
+                    Console.WriteLine($"Using compendium: {compendiumPath}");
+                    binarySerializer.LoadCompendium(compendiumPath, schemaPath);
                 }
+
+                if (binarySerializer.TypeRegistry is null)
+                {
+                    throw new InvalidOperationException("Type registry could not be initialized for unpacking.");
+                }
+
+                IXmlSerializer xmlSerializer = new HavokXmlSerializer(binarySerializer.TypeRegistry);
+                xmlSerializer.Write(binarySerializer.Read(path), outputPath, prependData);
             }
 
 #if DEBUG

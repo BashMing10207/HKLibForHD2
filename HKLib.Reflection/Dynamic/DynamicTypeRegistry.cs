@@ -1,7 +1,6 @@
 using System.Diagnostics;
 using System.Text;
 using System.Xml.Linq;
-using HKLib.hk2018;
 
 namespace HKLib.Reflection.Dynamic;
 
@@ -55,6 +54,63 @@ public class DynamicTypeRegistry
     }
 
     /// <summary>
+    /// Initializes a new instance of the <see cref="DynamicTypeRegistry"/> class from a collection of types.
+    /// Used for creating local registries for serialization.
+    /// </summary>
+    public DynamicTypeRegistry(IEnumerable<DynamicHavokType> types)
+    {
+        foreach (DynamicHavokType type in types)
+        {
+            _types.TryAdd(type.Name, type);
+            ulong hash = GetTypeHash(type); // This assumes parent registry has hash info if needed
+            if (hash != 0) _typesByHash.TryAdd(hash, type);
+        }
+    }
+
+    private static global::HKLib.Reflection.HavokType.TypeKind GetKindFromXmlTag(string? tagName, string typeName)
+    {
+        if (typeName.Contains("Enum")) return global::HKLib.Reflection.HavokType.TypeKind.Enum;
+        if (typeName.Contains("Flags")) return global::HKLib.Reflection.HavokType.TypeKind.Flags;
+
+        return tagName switch
+        {
+            "Void" => global::HKLib.Reflection.HavokType.TypeKind.Void,
+            "Opaque" => global::HKLib.Reflection.HavokType.TypeKind.Opaque,
+            "Bool" => global::HKLib.Reflection.HavokType.TypeKind.Bool,
+            "String" => typeName switch
+            {
+                "char" => global::HKLib.Reflection.HavokType.TypeKind.Char,
+                "const char*" => global::HKLib.Reflection.HavokType.TypeKind.CString,
+                _ => global::HKLib.Reflection.HavokType.TypeKind.String
+            },
+            "Int" => typeName switch
+            {
+                "char" => global::HKLib.Reflection.HavokType.TypeKind.Char,
+                "signed char" or "hkInt8" => global::HKLib.Reflection.HavokType.TypeKind.Int8,
+                "unsigned char" or "hkUint8" => global::HKLib.Reflection.HavokType.TypeKind.UInt8,
+                "short" or "hkInt16" => global::HKLib.Reflection.HavokType.TypeKind.Int16,
+                "unsigned short" or "hkUint16" => global::HKLib.Reflection.HavokType.TypeKind.UInt16,
+                "int" or "hkInt32" => global::HKLib.Reflection.HavokType.TypeKind.Int32,
+                "unsigned int" or "hkUint32" => global::HKLib.Reflection.HavokType.TypeKind.UInt32,
+                "long long" or "hkInt64" => global::HKLib.Reflection.HavokType.TypeKind.Int64,
+                "unsigned long long" or "hkUint64" => global::HKLib.Reflection.HavokType.TypeKind.UInt64,
+                _ => global::HKLib.Reflection.HavokType.TypeKind.Int32
+            },
+            "Float" => typeName switch
+            {
+                "hkHalf" or "hkHalf16" => global::HKLib.Reflection.HavokType.TypeKind.Half,
+                "float" or "hkReal" => global::HKLib.Reflection.HavokType.TypeKind.Float,
+                "double" or "hkDouble64" => global::HKLib.Reflection.HavokType.TypeKind.Double,
+                _ => global::HKLib.Reflection.HavokType.TypeKind.Float
+            },
+            "Pointer" => global::HKLib.Reflection.HavokType.TypeKind.Pointer,
+            "Record" => global::HKLib.Reflection.HavokType.TypeKind.Record,
+            "Array" => global::HKLib.Reflection.HavokType.TypeKind.Array,
+            _ => global::HKLib.Reflection.HavokType.TypeKind.Record
+        };
+    }
+
+    /// <summary>
     /// Parses a Havok Type Registry XML file and populates the internal type dictionary.
     /// </summary>
     private void ParseFromXml(string xmlPath)
@@ -67,6 +123,7 @@ public class DynamicTypeRegistry
         foreach (XElement typeElement in doc.Descendants("HavokType"))
         {
             string? name = typeElement.Attribute("Name")?.Value;
+            string? parentTagName = typeElement.Parent?.Name.LocalName;
             string? hashStr = typeElement.Attribute("Hash")?.Value;
             string? id = typeElement.Attribute("Id")?.Value;
 
@@ -77,6 +134,7 @@ public class DynamicTypeRegistry
             {
                 Name = name,
                 Size = int.TryParse(typeElement.Attribute("Size")?.Value, out int size) ? size : 0,
+                Kind = GetKindFromXmlTag(parentTagName, name)
             };
 
             references.Add(dynamicType, (typeElement.Attribute("Parent")?.Value, typeElement.Attribute("SubType")?.Value));
@@ -103,6 +161,59 @@ public class DynamicTypeRegistry
             if (subTypeId is not null && xmlTypesById.TryGetValue(subTypeId, out DynamicHavokType? subType))
             {
                 dynamicType.SubType = subType;
+            }
+
+            // Parse Members
+            foreach (XElement memberElement in typeElement.Elements("Members").Elements("Member"))
+            {
+                string? memberName = memberElement.Attribute("Name")?.Value;
+                string? memberTypeId = memberElement.Attribute("Type")?.Value;
+                string? memberOffsetStr = memberElement.Attribute("Offset")?.Value;
+                string? memberFlagsStr = memberElement.Attribute("Flags")?.Value;
+
+                if (string.IsNullOrEmpty(memberName) || string.IsNullOrEmpty(memberTypeId) ||
+                    !xmlTypesById.TryGetValue(memberTypeId, out DynamicHavokType? memberType) ||
+                    !int.TryParse(memberOffsetStr, out int memberOffset))
+                {
+                    continue;
+                }
+
+                var field = new DynamicHavokField
+                {
+                    Name = memberName,
+                    Type = memberType,
+                    Offset = memberOffset,
+                    Flags = int.TryParse(memberFlagsStr, out int flags) ? flags : 0
+                };
+                dynamicType.Fields.Add(field);
+            }
+
+            // Parse Template
+            foreach (XElement templateElement in typeElement.Elements("Template").Elements("Parameter"))
+            {
+                string? paramName = templateElement.Attribute("Name")?.Value;
+                string? paramKind = templateElement.Attribute("Kind")?.Value;
+                string? paramValue = templateElement.Attribute("Value")?.Value;
+
+                if (string.IsNullOrEmpty(paramName) || string.IsNullOrEmpty(paramKind) || string.IsNullOrEmpty(paramValue)) continue;
+
+                var templateParam = new DynamicHavokTemplateParameter { Name = paramName, Kind = paramKind };
+
+                if (paramKind == "Type" && xmlTypesById.TryGetValue(paramValue, out DynamicHavokType? paramType))
+                {
+                    templateParam.Type = paramType;
+                }
+                else if (paramKind == "Value")
+                {
+                    templateParam.Value = paramValue;
+                }
+                dynamicType.TemplateParameters.Add(templateParam);
+            }
+
+            // Parse Presets
+            foreach (XElement presetElement in typeElement.Elements("Presets").Elements("Preset"))
+            {
+                dynamicType.Presets.Add(new DynamicHavokPreset { Name = presetElement.Attribute("Name")!.Value, Value = presetElement.Attribute("Value")?.Value ?? "null" });
             }
 
             // Also add SubType as a template parameter for consistency with hkArray<T>
@@ -141,22 +252,20 @@ public class DynamicTypeRegistry
         {
             long subSectionHeaderOffset = reader.BaseStream.Position;
             string subMagic = Encoding.ASCII.GetString(reader.ReadBytes(4));
-
-            if (subMagic is not ("TST1" or "FST1" or "THSH" or "STR1" or "TPTR" or "TBDY" or "TPAD"))
-            {
-                // We've likely reached the end of the TYPE section or encountered unknown data.
-                // Seek back 4 bytes so we don't consume the magic of the next section.
-                reader.BaseStream.Position -= 4;
-                break;
-            }
-
             int subSectionDataSize = reader.ReadInt32();
             reader.BaseStream.Position += 8; // Skip padding/version
 
-            if (!sections.ContainsKey(subMagic))
+            // Make the scanning more robust. If we don't recognize a section,
+            // read its size and skip it instead of stopping the entire parse.
+            if (subMagic is "TST1" or "FST1" or "THSH" or "STR1")
             {
                 // The offset is the start of the sub-section header, not its data.
                 sections.Add(subMagic, (subSectionHeaderOffset, subSectionDataSize));
+            }
+            else
+            {
+                // Skip unknown or irrelevant sections and continue scanning.
+                Debug.WriteLine($"Skipping unknown or irrelevant section '{subMagic}' in TYPE container.");
             }
 
             // Jump to the start of the next section
@@ -202,6 +311,42 @@ public class DynamicTypeRegistry
 
         Debug.WriteLine($"Parsed game-specific schema from binary stream at offset {typesSectionOffset}.");
         Debug.WriteLine($"Found sub-sections: {string.Join(", ", sections.Keys)}");
+    }
+
+    private static global::HKLib.Reflection.HavokType.TypeKind GetKindFromBinaryFlags(int flags)
+    {
+        // This is a guess based on hk2018 format. The lower 5 bits often represent the type kind.
+        int kindValue = flags & 0x1F;
+        return kindValue switch
+        {
+            0 => global::HKLib.Reflection.HavokType.TypeKind.Void,
+            1 => global::HKLib.Reflection.HavokType.TypeKind.Opaque,
+            2 => global::HKLib.Reflection.HavokType.TypeKind.Bool,
+            3 => global::HKLib.Reflection.HavokType.TypeKind.Char,
+            4 => global::HKLib.Reflection.HavokType.TypeKind.Int8,
+            5 => global::HKLib.Reflection.HavokType.TypeKind.UInt8,
+            6 => global::HKLib.Reflection.HavokType.TypeKind.Int16,
+            7 => global::HKLib.Reflection.HavokType.TypeKind.UInt16,
+            8 => global::HKLib.Reflection.HavokType.TypeKind.Int32,
+            9 => global::HKLib.Reflection.HavokType.TypeKind.UInt32,
+            10 => global::HKLib.Reflection.HavokType.TypeKind.Int64,
+            11 => global::HKLib.Reflection.HavokType.TypeKind.UInt64,
+            12 => global::HKLib.Reflection.HavokType.TypeKind.Real,
+            13 => global::HKLib.Reflection.HavokType.TypeKind.Vector4,
+            14 => global::HKLib.Reflection.HavokType.TypeKind.Quaternion,
+            15 => global::HKLib.Reflection.HavokType.TypeKind.Matrix3,
+            16 => global::HKLib.Reflection.HavokType.TypeKind.Rotation,
+            17 => global::HKLib.Reflection.HavokType.TypeKind.QsTransform,
+            18 => global::HKLib.Reflection.HavokType.TypeKind.Matrix4,
+            19 => global::HKLib.Reflection.HavokType.TypeKind.Transform,
+            20 => global::HKLib.Reflection.HavokType.TypeKind.Pointer,
+            21 => global::HKLib.Reflection.HavokType.TypeKind.FunctionPointer,
+            22 => global::HKLib.Reflection.HavokType.TypeKind.Array,
+            23 => global::HKLib.Reflection.HavokType.TypeKind.InplaceArray,
+            24 => global::HKLib.Reflection.HavokType.TypeKind.Enum,
+            25 => global::HKLib.Reflection.HavokType.TypeKind.Record,
+            _ => global::HKLib.Reflection.HavokType.TypeKind.Record,
+        };
     }
 
     /// <summary>
@@ -275,7 +420,12 @@ public class DynamicTypeRegistry
 
             string name = _strings[nameStringIndex];
 
-            var havokType = new DynamicHavokType { Name = name, Size = size };
+            var havokType = new DynamicHavokType
+            {
+                Name = name,
+                Size = size,
+                Kind = GetKindFromBinaryFlags(flags)
+            };
             _tempTypes.Add((havokType, parentTypeIndex, firstFieldIndex, numFields));
 
             // Add to the main dictionary, overwriting XML definitions if necessary,
@@ -369,26 +519,31 @@ public class DynamicTypeRegistry
         for (int i = 0; i < numHashes; i++)
         {
             ulong hash = reader.ReadUInt64();
-            // TODO: This should use an indexer `_typesByHash[hash] = ...` instead of `TryAdd`.
-            // The binary compendium is the source of truth and its types must overwrite any
-            // types from the base XML schema that have the same hash. `TryAdd` silently
-            // fails if the key already exists, which can lead to the wrong type definition
-            // being used and cause "Type with hash not found" or data corruption errors.
-            _typesByHash.TryAdd(hash, _tempTypes[i].Type);
+            // Use an indexer to ensure the binary compendium's types overwrite any from the base XML schema.
+            // The binary compendium is the source of truth.
+            _typesByHash[hash] = _tempTypes[i].Type;
         }
         Debug.WriteLine($"Loaded {numHashes} type hashes from THSH section.");
     }
 
     public DynamicHavokType? GetType(string name)
     {
-        _types.TryGetValue(name, out DynamicHavokType? type);
-        return type;
+        if (_types.TryGetValue(name, out DynamicHavokType? type))
+        {
+            return type;
+        }
+
+        return _parent?.GetType(name);
     }
 
     public DynamicHavokType? GetType(ulong hash)
     {
-        _typesByHash.TryGetValue(hash, out DynamicHavokType? type);
-        return type;
+        if (_typesByHash.TryGetValue(hash, out DynamicHavokType? type))
+        {
+            return type;
+        }
+
+        return _parent?.GetType(hash);
     }
 
     /// <summary>
@@ -416,5 +571,134 @@ public class DynamicTypeRegistry
             "hkRelArray32" => 8, // The struct itself is 8 bytes (offset + size)
             _ => throw new KeyNotFoundException($"Size for type '{typeName}' is not defined.")
         };
+    }
+
+    public ulong GetTypeHash(DynamicHavokType type)
+    {
+        foreach (var (hash, havokType) in _typesByHash)
+        {
+            if (havokType == type) return hash;
+        }
+
+        return _parent?.GetTypeHash(type) ?? 0;
+    }
+
+    public void WriteToBinary(Stream stream)
+    {
+        var writer = new BinaryWriter(stream, Encoding.ASCII, true);
+
+        // Collect all necessary strings, types, and fields
+        var stringMap = new Dictionary<string, int>();
+        var typeList = _types.Values.ToList();
+        var typeToIndex = typeList.Select((t, i) => (t, i)).ToDictionary(pair => pair.t, pair => pair.i);
+        var fieldList = new List<DynamicHavokField>();
+
+        void AddString(string s)
+        {
+            if (!string.IsNullOrEmpty(s) && !stringMap.ContainsKey(s))
+            {
+                stringMap.Add(s, 0);
+            }
+        }
+
+        foreach (var type in typeList)
+        {
+            AddString(type.Name);
+            foreach (var field in type.Fields)
+            {
+                AddString(field.Name);
+                fieldList.Add(field);
+            }
+        }
+
+        var sortedStrings = stringMap.Keys.OrderBy(s => s).ToList();
+        for (int i = 0; i < sortedStrings.Count; i++)
+        {
+            stringMap[sortedStrings[i]] = i;
+        }
+
+        // Write sections
+        writer.Write(Encoding.ASCII.GetBytes("TYPE"));
+        writer.Write(0); // Placeholder for size
+        writer.Write(0L);
+
+        long typeStart = stream.Position;
+
+        // STR1
+        long str1Start = stream.Position;
+        writer.Write(Encoding.ASCII.GetBytes("STR1"));
+        var str1Stream = new MemoryStream();
+        var str1Writer = new BinaryWriter(str1Stream);
+        foreach (string s in sortedStrings)
+        {
+            str1Writer.Write(Encoding.ASCII.GetBytes(s));
+            str1Writer.Write((byte)0);
+        }
+        writer.Write((int)str1Stream.Length);
+        writer.Write(0L);
+        str1Stream.WriteTo(stream);
+        Align(stream, 16);
+
+        // TST1
+        long tst1Start = stream.Position;
+        writer.Write(Encoding.ASCII.GetBytes("TST1"));
+        writer.Write(typeList.Count * 32);
+        writer.Write(typeList.Count);
+        writer.Write(0);
+        int fieldIdxCounter = 0;
+        foreach (var type in typeList)
+        {
+            writer.Write(stringMap[type.Name]);
+            writer.Write(type.Parent is null ? -1 : typeToIndex[type.Parent]);
+            writer.Write(type.Size);
+            writer.Write(16); // Alignment
+            writer.Write(0); // Flags
+            writer.Write(0); // Version
+            writer.Write(fieldIdxCounter);
+            writer.Write(type.Fields.Count);
+            fieldIdxCounter += type.Fields.Count;
+        }
+        Align(stream, 16);
+
+        // FST1
+        long fst1Start = stream.Position;
+        writer.Write(Encoding.ASCII.GetBytes("FST1"));
+        writer.Write(fieldList.Count * 16);
+        writer.Write(fieldList.Count);
+        writer.Write(0);
+        foreach (var field in fieldList)
+        {
+            writer.Write(typeToIndex[field.Type]);
+            writer.Write(stringMap[field.Name]);
+            writer.Write(field.Offset);
+            writer.Write(field.Flags);
+        }
+        Align(stream, 16);
+
+        // THSH
+        writer.Write(Encoding.ASCII.GetBytes("THSH"));
+        writer.Write(typeList.Count * 8);
+        writer.Write(typeList.Count);
+        writer.Write(0);
+        foreach (var type in typeList)
+        {
+            writer.Write(GetTypeHash(type));
+        }
+        Align(stream, 16);
+
+        long typeEnd = stream.Position;
+        stream.Position = typeStart - 12;
+        writer.Write((int)(typeEnd - typeStart));
+        stream.Position = typeEnd;
+    }
+
+    private static void Align(Stream stream, int alignment)
+    {
+        long remainder = stream.Position % alignment;
+        if (remainder == 0) return;
+        for (int i = 0; i < alignment - remainder; i++)
+        {
+            stream.WriteByte(0);
+        }
     }
 }

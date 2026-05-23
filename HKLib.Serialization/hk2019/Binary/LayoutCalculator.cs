@@ -2,6 +2,7 @@ using System.Reflection;
 using HKLib.Reflection.hk2018;
 using HKLib.hk2018;
 using HKLib.Reflection.Dynamic;
+using IHavokObject = HKLib.hk2018.IHavokObject;
 
 namespace HKLib.Serialization.hk2019.Binary;
 

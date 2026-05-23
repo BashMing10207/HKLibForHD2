@@ -5,15 +5,54 @@
 /// </summary>
 public abstract class HavokType : IEquatable<HavokType>
 {
+    public enum TypeKind
+    {
+        Void,
+        Opaque,
+        Bool,
+        Char,
+        Int8,
+        UInt8,
+        Int16,
+        UInt16,
+        Int32,
+        UInt32,
+        Int64,
+        UInt64,
+        Real,
+        Vector4,
+        Quaternion,
+        Matrix3,
+        Rotation,
+        QsTransform,
+        Matrix4,
+        Transform,
+        Pointer,
+        FunctionPointer,
+        Array,
+        InplaceArray,
+        Enum,
+        Record,
+        SimpleArray,
+        HomogeneousArray,
+        Variant,
+        CString,
+        String,
+        Flags,
+        Half,
+        Float,
+        Double
+    }
+
     /// <summary>
     /// Base name of the type, does not include template arguments
     /// </summary>
-    public string Name { get; init; }
+    public required string Name { get; init; }
 
     /// <summary>
     /// Full name of the type, includes template arguments
     /// </summary>
-    public string Identity { get; init; }
+    public required string Identity { get; init; }
 
     /// <summary>
     /// The C# class which represents this type.

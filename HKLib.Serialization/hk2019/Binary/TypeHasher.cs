@@ -32,7 +32,7 @@ internal static class TypeHasher
         foreach (DynamicHavokField field in type.Fields.OrderBy(f => f.Offset))
         {
             writer.Write(Encoding.ASCII.GetBytes(field.Name));
-            writer.Write(Encoding.ASCII.GetBytes(field.Type?.Name ?? field.TypeName ?? ""));
+            writer.Write(Encoding.ASCII.GetBytes(field.Type?.Name ?? ""));
         }
 
         // A real implementation would use the specific Havok CRC64 variant.

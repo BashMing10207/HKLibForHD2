@@ -162,6 +162,20 @@ public class BinaryWriterEx
     /// <summary>
     /// Writes a one-byte boolean value.
     /// </summary>
+    public void Write(byte value) => WriteByte(value);
+    public void Write(sbyte value) => WriteSByte(value);
+    public void Write(short value) => WriteInt16(value);
+    public void Write(ushort value) => WriteUInt16(value);
+    public void Write(int value) => WriteInt32(value);
+    public void Write(uint value) => WriteUInt32(value);
+    public void Write(long value) => WriteInt64(value);
+    public void Write(ulong value) => WriteUInt64(value);
+    public void Write(float value) => WriteSingle(value);
+    public void Write(double value) => WriteDouble(value);
+    public void Write(Half value) => WriteUInt16(BitConverter.HalfToUInt16Bits(value));
+    public void Write(bool value) => WriteBoolean(value);
+    public void Write(byte[] bytes) => WriteBytes(bytes);
+
     public void WriteBoolean(bool value)
     {
         bw.Write(value);
