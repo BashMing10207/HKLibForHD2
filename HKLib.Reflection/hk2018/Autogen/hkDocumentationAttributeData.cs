@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkDocumentationAttributeData : HavokData<hkDocumentationAttribute> 
+internal class hkDocumentationAttributeData : HavokData<hkDocumentationAttribute>
 {
-    public hkDocumentationAttributeData(HavokType type, hkDocumentationAttribute instance) : base(type, instance) {}
+    public hkDocumentationAttributeData(HavokType type, hkDocumentationAttribute instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -15,7 +15,7 @@ internal class hkDocumentationAttributeData : HavokData<hkDocumentationAttribute
         switch (fieldName)
         {
             default:
-            return false;
+                return false;
         }
     }
 
@@ -24,7 +24,7 @@ internal class hkDocumentationAttributeData : HavokData<hkDocumentationAttribute
         switch (fieldName)
         {
             default:
-            return false;
+                return false;
         }
     }
 

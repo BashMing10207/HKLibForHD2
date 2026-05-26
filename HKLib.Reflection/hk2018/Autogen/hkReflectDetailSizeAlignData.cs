@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018.hkReflect.Detail;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkReflectDetailSizeAlignData : HavokData<SizeAlign> 
+internal class hkReflectDetailSizeAlignData : HavokData<SizeAlign>
 {
-    public hkReflectDetailSizeAlignData(HavokType type, SizeAlign instance) : base(type, instance) {}
+    public hkReflectDetailSizeAlignData(HavokType type, SizeAlign instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -15,7 +15,7 @@ internal class hkReflectDetailSizeAlignData : HavokData<SizeAlign>
         switch (fieldName)
         {
             default:
-            return false;
+                return false;
         }
     }
 
@@ -24,7 +24,7 @@ internal class hkReflectDetailSizeAlignData : HavokData<SizeAlign>
         switch (fieldName)
         {
             default:
-            return false;
+                return false;
         }
     }
 

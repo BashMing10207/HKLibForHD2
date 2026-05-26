@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018.hknpConstraintViewer;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hknpConstraintViewerOptionsData : HavokData<Options> 
+internal class hknpConstraintViewerOptionsData : HavokData<Options>
 {
-    public hknpConstraintViewerOptionsData(HavokType type, Options instance) : base(type, instance) {}
+    public hknpConstraintViewerOptionsData(HavokType type, Options instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,13 +16,13 @@ internal class hknpConstraintViewerOptionsData : HavokData<Options>
         {
             case "m_displaySize":
             case "displaySize":
-            {
-                if (instance.m_displaySize is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_displaySize is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -32,13 +32,13 @@ internal class hknpConstraintViewerOptionsData : HavokData<Options>
         {
             case "m_displaySize":
             case "displaySize":
-            {
-                if (value is not float castValue) return false;
-                instance.m_displaySize = castValue;
-                return true;
-            }
+                {
+                    if (value is not float castValue) return false;
+                    instance.m_displaySize = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

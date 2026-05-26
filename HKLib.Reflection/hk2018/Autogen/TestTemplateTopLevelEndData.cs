@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class TestTemplateTopLevelEndData : HavokData<TestTemplateTopLevelEnd> 
+internal class TestTemplateTopLevelEndData : HavokData<TestTemplateTopLevelEnd>
 {
-    public TestTemplateTopLevelEndData(HavokType type, TestTemplateTopLevelEnd instance) : base(type, instance) {}
+    public TestTemplateTopLevelEndData(HavokType type, TestTemplateTopLevelEnd instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,20 +16,20 @@ internal class TestTemplateTopLevelEndData : HavokData<TestTemplateTopLevelEnd>
         {
             case "m_intContainer":
             case "intContainer":
-            {
-                if (instance.m_intContainer is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_intContainer is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_realContainer":
             case "realContainer":
-            {
-                if (instance.m_realContainer is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_realContainer is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -39,20 +39,20 @@ internal class TestTemplateTopLevelEndData : HavokData<TestTemplateTopLevelEnd>
         {
             case "m_intContainer":
             case "intContainer":
-            {
-                if (value is not TestContainerThingEnd<int> castValue) return false;
-                instance.m_intContainer = castValue;
-                return true;
-            }
+                {
+                    if (value is not TestContainerThingEnd<int> castValue) return false;
+                    instance.m_intContainer = castValue;
+                    return true;
+                }
             case "m_realContainer":
             case "realContainer":
-            {
-                if (value is not TestContainerThingEnd<float> castValue) return false;
-                instance.m_realContainer = castValue;
-                return true;
-            }
+                {
+                    if (value is not TestContainerThingEnd<float> castValue) return false;
+                    instance.m_realContainer = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

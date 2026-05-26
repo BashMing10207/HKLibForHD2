@@ -1,5 +1,3 @@
-using System;
-using System.IO;
 using HKLib.hk2018;
 using HKLib.Reflection.hk2018;
 

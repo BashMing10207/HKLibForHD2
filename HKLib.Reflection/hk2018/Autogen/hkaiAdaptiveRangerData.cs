@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkaiAdaptiveRangerData : HavokData<hkaiAdaptiveRanger> 
+internal class hkaiAdaptiveRangerData : HavokData<hkaiAdaptiveRanger>
 {
-    public hkaiAdaptiveRangerData(HavokType type, hkaiAdaptiveRanger instance) : base(type, instance) {}
+    public hkaiAdaptiveRangerData(HavokType type, hkaiAdaptiveRanger instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,13 +16,13 @@ internal class hkaiAdaptiveRangerData : HavokData<hkaiAdaptiveRanger>
         {
             case "m_curRange":
             case "curRange":
-            {
-                if (instance.m_curRange is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_curRange is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -32,13 +32,13 @@ internal class hkaiAdaptiveRangerData : HavokData<hkaiAdaptiveRanger>
         {
             case "m_curRange":
             case "curRange":
-            {
-                if (value is not float castValue) return false;
-                instance.m_curRange = castValue;
-                return true;
-            }
+                {
+                    if (value is not float castValue) return false;
+                    instance.m_curRange = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

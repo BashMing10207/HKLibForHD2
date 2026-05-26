@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018.hkcdDynamicTree;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkcdDynamicTreeDynamicStorageAnisotropicMetricCodecRaw_UintData : HavokData<DynamicStorageAnisotropicMetricCodecRaw_Uint> 
+internal class hkcdDynamicTreeDynamicStorageAnisotropicMetricCodecRaw_UintData : HavokData<DynamicStorageAnisotropicMetricCodecRaw_Uint>
 {
-    public hkcdDynamicTreeDynamicStorageAnisotropicMetricCodecRaw_UintData(HavokType type, DynamicStorageAnisotropicMetricCodecRaw_Uint instance) : base(type, instance) {}
+    public hkcdDynamicTreeDynamicStorageAnisotropicMetricCodecRaw_UintData(HavokType type, DynamicStorageAnisotropicMetricCodecRaw_Uint instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,20 +16,20 @@ internal class hkcdDynamicTreeDynamicStorageAnisotropicMetricCodecRaw_UintData :
         {
             case "m_nodes":
             case "nodes":
-            {
-                if (instance.m_nodes is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_nodes is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_firstFree":
             case "firstFree":
-            {
-                if (instance.m_firstFree is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_firstFree is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -39,20 +39,20 @@ internal class hkcdDynamicTreeDynamicStorageAnisotropicMetricCodecRaw_UintData :
         {
             case "m_nodes":
             case "nodes":
-            {
-                if (value is not List<CodecRaw<uint>> castValue) return false;
-                instance.m_nodes = castValue;
-                return true;
-            }
+                {
+                    if (value is not List<CodecRaw<uint>> castValue) return false;
+                    instance.m_nodes = castValue;
+                    return true;
+                }
             case "m_firstFree":
             case "firstFree":
-            {
-                if (value is not uint castValue) return false;
-                instance.m_firstFree = castValue;
-                return true;
-            }
+                {
+                    if (value is not uint castValue) return false;
+                    instance.m_firstFree = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

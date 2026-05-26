@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkaiNavMeshCutConfigurationDynamicUserEdgeData : HavokData<hkaiNavMeshCutConfiguration.DynamicUserEdge> 
+internal class hkaiNavMeshCutConfigurationDynamicUserEdgeData : HavokData<hkaiNavMeshCutConfiguration.DynamicUserEdge>
 {
-    public hkaiNavMeshCutConfigurationDynamicUserEdgeData(HavokType type, hkaiNavMeshCutConfiguration.DynamicUserEdge instance) : base(type, instance) {}
+    public hkaiNavMeshCutConfigurationDynamicUserEdgeData(HavokType type, hkaiNavMeshCutConfiguration.DynamicUserEdge instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,20 +16,20 @@ internal class hkaiNavMeshCutConfigurationDynamicUserEdgeData : HavokData<hkaiNa
         {
             case "m_oppFace":
             case "oppFace":
-            {
-                if (instance.m_oppFace is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_oppFace is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_oppDynUserEdgeIdx":
             case "oppDynUserEdgeIdx":
-            {
-                if (instance.m_oppDynUserEdgeIdx is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_oppDynUserEdgeIdx is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -39,20 +39,20 @@ internal class hkaiNavMeshCutConfigurationDynamicUserEdgeData : HavokData<hkaiNa
         {
             case "m_oppFace":
             case "oppFace":
-            {
-                if (value is not int castValue) return false;
-                instance.m_oppFace = castValue;
-                return true;
-            }
+                {
+                    if (value is not int castValue) return false;
+                    instance.m_oppFace = castValue;
+                    return true;
+                }
             case "m_oppDynUserEdgeIdx":
             case "oppDynUserEdgeIdx":
-            {
-                if (value is not int castValue) return false;
-                instance.m_oppDynUserEdgeIdx = castValue;
-                return true;
-            }
+                {
+                    if (value is not int castValue) return false;
+                    instance.m_oppDynUserEdgeIdx = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

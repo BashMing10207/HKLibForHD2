@@ -1,7 +1,7 @@
-﻿using System.Globalization;
+using HKLib.Reflection.hk2018;
+using System.Globalization;
 using System.Runtime.Intrinsics;
 using System.Xml.Linq;
-using HKLib.Reflection.hk2018;
 
 namespace HKLib.Serialization.hk2019.Xml.FormatHandlers;
 

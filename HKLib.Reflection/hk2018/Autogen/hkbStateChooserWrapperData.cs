@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkbStateChooserWrapperData : HavokData<hkbStateChooserWrapper> 
+internal class hkbStateChooserWrapperData : HavokData<hkbStateChooserWrapper>
 {
-    public hkbStateChooserWrapperData(HavokType type, hkbStateChooserWrapper instance) : base(type, instance) {}
+    public hkbStateChooserWrapperData(HavokType type, hkbStateChooserWrapper instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,27 +16,27 @@ internal class hkbStateChooserWrapperData : HavokData<hkbStateChooserWrapper>
         {
             case "m_propertyBag":
             case "propertyBag":
-            {
-                if (instance.m_propertyBag is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
-            case "m_wrappedChooser":
-            case "wrappedChooser":
-            {
-                if (instance.m_wrappedChooser is null)
                 {
-                    return true;
-                }
-                if (instance.m_wrappedChooser is TGet castValue)
-                {
+                    if (instance.m_propertyBag is not TGet castValue) return false;
                     value = castValue;
                     return true;
                 }
-                return false;
-            }
+            case "m_wrappedChooser":
+            case "wrappedChooser":
+                {
+                    if (instance.m_wrappedChooser is null)
+                    {
+                        return true;
+                    }
+                    if (instance.m_wrappedChooser is TGet castValue)
+                    {
+                        value = castValue;
+                        return true;
+                    }
+                    return false;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -46,28 +46,28 @@ internal class hkbStateChooserWrapperData : HavokData<hkbStateChooserWrapper>
         {
             case "m_propertyBag":
             case "propertyBag":
-            {
-                if (value is not hkPropertyBag castValue) return false;
-                instance.m_propertyBag = castValue;
-                return true;
-            }
+                {
+                    if (value is not hkPropertyBag castValue) return false;
+                    instance.m_propertyBag = castValue;
+                    return true;
+                }
             case "m_wrappedChooser":
             case "wrappedChooser":
-            {
-                if (value is null)
                 {
-                    instance.m_wrappedChooser = default;
-                    return true;
+                    if (value is null)
+                    {
+                        instance.m_wrappedChooser = default;
+                        return true;
+                    }
+                    if (value is hkbStateChooser castValue)
+                    {
+                        instance.m_wrappedChooser = castValue;
+                        return true;
+                    }
+                    return false;
                 }
-                if (value is hkbStateChooser castValue)
-                {
-                    instance.m_wrappedChooser = castValue;
-                    return true;
-                }
-                return false;
-            }
             default:
-            return false;
+                return false;
         }
     }
 

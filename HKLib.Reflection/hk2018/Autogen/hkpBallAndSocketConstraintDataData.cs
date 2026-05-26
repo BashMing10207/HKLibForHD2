@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkpBallAndSocketConstraintDataData : HavokData<hkpBallAndSocketConstraintData> 
+internal class hkpBallAndSocketConstraintDataData : HavokData<hkpBallAndSocketConstraintData>
 {
-    public hkpBallAndSocketConstraintDataData(HavokType type, hkpBallAndSocketConstraintData instance) : base(type, instance) {}
+    public hkpBallAndSocketConstraintDataData(HavokType type, hkpBallAndSocketConstraintData instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,27 +16,27 @@ internal class hkpBallAndSocketConstraintDataData : HavokData<hkpBallAndSocketCo
         {
             case "m_propertyBag":
             case "propertyBag":
-            {
-                if (instance.m_propertyBag is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_propertyBag is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_userData":
             case "userData":
-            {
-                if (instance.m_userData is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_userData is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_atoms":
             case "atoms":
-            {
-                if (instance.m_atoms is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_atoms is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -46,27 +46,27 @@ internal class hkpBallAndSocketConstraintDataData : HavokData<hkpBallAndSocketCo
         {
             case "m_propertyBag":
             case "propertyBag":
-            {
-                if (value is not hkPropertyBag castValue) return false;
-                instance.m_propertyBag = castValue;
-                return true;
-            }
+                {
+                    if (value is not hkPropertyBag castValue) return false;
+                    instance.m_propertyBag = castValue;
+                    return true;
+                }
             case "m_userData":
             case "userData":
-            {
-                if (value is not ulong castValue) return false;
-                instance.m_userData = castValue;
-                return true;
-            }
+                {
+                    if (value is not ulong castValue) return false;
+                    instance.m_userData = castValue;
+                    return true;
+                }
             case "m_atoms":
             case "atoms":
-            {
-                if (value is not hkpBallAndSocketConstraintData.Atoms castValue) return false;
-                instance.m_atoms = castValue;
-                return true;
-            }
+                {
+                    if (value is not hkpBallAndSocketConstraintData.Atoms castValue) return false;
+                    instance.m_atoms = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

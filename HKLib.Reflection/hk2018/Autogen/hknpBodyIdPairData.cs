@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hknpBodyIdPairData : HavokData<hknpBodyIdPair> 
+internal class hknpBodyIdPairData : HavokData<hknpBodyIdPair>
 {
-    public hknpBodyIdPairData(HavokType type, hknpBodyIdPair instance) : base(type, instance) {}
+    public hknpBodyIdPairData(HavokType type, hknpBodyIdPair instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,20 +16,20 @@ internal class hknpBodyIdPairData : HavokData<hknpBodyIdPair>
         {
             case "m_bodyB":
             case "bodyB":
-            {
-                if (instance.m_bodyB is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_bodyB is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_bodyA":
             case "bodyA":
-            {
-                if (instance.m_bodyA is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_bodyA is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -39,20 +39,20 @@ internal class hknpBodyIdPairData : HavokData<hknpBodyIdPair>
         {
             case "m_bodyB":
             case "bodyB":
-            {
-                if (value is not hknpBodyId castValue) return false;
-                instance.m_bodyB = castValue;
-                return true;
-            }
+                {
+                    if (value is not hknpBodyId castValue) return false;
+                    instance.m_bodyB = castValue;
+                    return true;
+                }
             case "m_bodyA":
             case "bodyA":
-            {
-                if (value is not hknpBodyId castValue) return false;
-                instance.m_bodyA = castValue;
-                return true;
-            }
+                {
+                    if (value is not hknpBodyId castValue) return false;
+                    instance.m_bodyA = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

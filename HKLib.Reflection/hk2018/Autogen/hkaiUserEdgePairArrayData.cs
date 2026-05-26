@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkaiUserEdgePairArrayData : HavokData<hkaiUserEdgePairArray> 
+internal class hkaiUserEdgePairArrayData : HavokData<hkaiUserEdgePairArray>
 {
-    public hkaiUserEdgePairArrayData(HavokType type, hkaiUserEdgePairArray instance) : base(type, instance) {}
+    public hkaiUserEdgePairArrayData(HavokType type, hkaiUserEdgePairArray instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,20 +16,20 @@ internal class hkaiUserEdgePairArrayData : HavokData<hkaiUserEdgePairArray>
         {
             case "m_propertyBag":
             case "propertyBag":
-            {
-                if (instance.m_propertyBag is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_propertyBag is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_edgePairs":
             case "edgePairs":
-            {
-                if (instance.m_edgePairs is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_edgePairs is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -39,20 +39,20 @@ internal class hkaiUserEdgePairArrayData : HavokData<hkaiUserEdgePairArray>
         {
             case "m_propertyBag":
             case "propertyBag":
-            {
-                if (value is not hkPropertyBag castValue) return false;
-                instance.m_propertyBag = castValue;
-                return true;
-            }
+                {
+                    if (value is not hkPropertyBag castValue) return false;
+                    instance.m_propertyBag = castValue;
+                    return true;
+                }
             case "m_edgePairs":
             case "edgePairs":
-            {
-                if (value is not List<hkaiUserEdgeUtils.UserEdgePair> castValue) return false;
-                instance.m_edgePairs = castValue;
-                return true;
-            }
+                {
+                    if (value is not List<hkaiUserEdgeUtils.UserEdgePair> castValue) return false;
+                    instance.m_edgePairs = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

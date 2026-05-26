@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hknpBodyReferenceData : HavokData<hknpBodyReference> 
+internal class hknpBodyReferenceData : HavokData<hknpBodyReference>
 {
-    public hknpBodyReferenceData(HavokType type, hknpBodyReference instance) : base(type, instance) {}
+    public hknpBodyReferenceData(HavokType type, hknpBodyReference instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,20 +16,20 @@ internal class hknpBodyReferenceData : HavokData<hknpBodyReference>
         {
             case "m_propertyBag":
             case "propertyBag":
-            {
-                if (instance.m_propertyBag is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_propertyBag is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_id":
             case "id":
-            {
-                if (instance.m_id is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_id is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -39,20 +39,20 @@ internal class hknpBodyReferenceData : HavokData<hknpBodyReference>
         {
             case "m_propertyBag":
             case "propertyBag":
-            {
-                if (value is not hkPropertyBag castValue) return false;
-                instance.m_propertyBag = castValue;
-                return true;
-            }
+                {
+                    if (value is not hkPropertyBag castValue) return false;
+                    instance.m_propertyBag = castValue;
+                    return true;
+                }
             case "m_id":
             case "id":
-            {
-                if (value is not hknpBodyId castValue) return false;
-                instance.m_id = castValue;
-                return true;
-            }
+                {
+                    if (value is not hknpBodyId castValue) return false;
+                    instance.m_id = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

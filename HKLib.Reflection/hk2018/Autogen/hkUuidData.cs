@@ -1,14 +1,14 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkUuidData : HavokData<hkUuid> 
+internal class hkUuidData : HavokData<hkUuid>
 {
     private static readonly System.Reflection.FieldInfo _dataInfo = typeof(hkUuid).GetField("m_data")!;
-    public hkUuidData(HavokType type, hkUuid instance) : base(type, instance) {}
+    public hkUuidData(HavokType type, hkUuid instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -17,13 +17,13 @@ internal class hkUuidData : HavokData<hkUuid>
         {
             case "m_data":
             case "data":
-            {
-                if (instance.m_data is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_data is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -33,20 +33,20 @@ internal class hkUuidData : HavokData<hkUuid>
         {
             case "m_data":
             case "data":
-            {
-                if (value is not uint[] castValue || castValue.Length != 4) return false;
-                try
                 {
-                    _dataInfo.SetValue(instance, value);
-                    return true;
+                    if (value is not uint[] castValue || castValue.Length != 4) return false;
+                    try
+                    {
+                        _dataInfo.SetValue(instance, value);
+                        return true;
+                    }
+                    catch
+                    {
+                        return false;
+                    }
                 }
-                catch
-                {
-                    return false;
-                }
-            }
             default:
-            return false;
+                return false;
         }
     }
 

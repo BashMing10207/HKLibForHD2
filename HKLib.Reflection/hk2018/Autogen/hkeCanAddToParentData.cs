@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018.hke;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkeCanAddToParentData : HavokData<CanAddToParent> 
+internal class hkeCanAddToParentData : HavokData<CanAddToParent>
 {
-    public hkeCanAddToParentData(HavokType type, CanAddToParent instance) : base(type, instance) {}
+    public hkeCanAddToParentData(HavokType type, CanAddToParent instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,20 +16,20 @@ internal class hkeCanAddToParentData : HavokData<CanAddToParent>
         {
             case "m_canAddToParentFunc":
             case "canAddToParentFunc":
-            {
-                if (instance.m_canAddToParentFunc is null)
                 {
-                    return true;
+                    if (instance.m_canAddToParentFunc is null)
+                    {
+                        return true;
+                    }
+                    if (instance.m_canAddToParentFunc is TGet castValue)
+                    {
+                        value = castValue;
+                        return true;
+                    }
+                    return false;
                 }
-                if (instance.m_canAddToParentFunc is TGet castValue)
-                {
-                    value = castValue;
-                    return true;
-                }
-                return false;
-            }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -39,21 +39,21 @@ internal class hkeCanAddToParentData : HavokData<CanAddToParent>
         {
             case "m_canAddToParentFunc":
             case "canAddToParentFunc":
-            {
-                if (value is null)
                 {
-                    instance.m_canAddToParentFunc = default;
-                    return true;
+                    if (value is null)
+                    {
+                        instance.m_canAddToParentFunc = default;
+                        return true;
+                    }
+                    if (value is object castValue)
+                    {
+                        instance.m_canAddToParentFunc = castValue;
+                        return true;
+                    }
+                    return false;
                 }
-                if (value is object castValue)
-                {
-                    instance.m_canAddToParentFunc = castValue;
-                    return true;
-                }
-                return false;
-            }
             default:
-            return false;
+                return false;
         }
     }
 

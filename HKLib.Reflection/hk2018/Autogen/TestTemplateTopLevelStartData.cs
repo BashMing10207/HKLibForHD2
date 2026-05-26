@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class TestTemplateTopLevelStartData : HavokData<TestTemplateTopLevelStart> 
+internal class TestTemplateTopLevelStartData : HavokData<TestTemplateTopLevelStart>
 {
-    public TestTemplateTopLevelStartData(HavokType type, TestTemplateTopLevelStart instance) : base(type, instance) {}
+    public TestTemplateTopLevelStartData(HavokType type, TestTemplateTopLevelStart instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,13 +16,13 @@ internal class TestTemplateTopLevelStartData : HavokData<TestTemplateTopLevelSta
         {
             case "m_removedIntContainer":
             case "removedIntContainer":
-            {
-                if (instance.m_removedIntContainer is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_removedIntContainer is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -32,13 +32,13 @@ internal class TestTemplateTopLevelStartData : HavokData<TestTemplateTopLevelSta
         {
             case "m_removedIntContainer":
             case "removedIntContainer":
-            {
-                if (value is not TestContainerThingStart<int> castValue) return false;
-                instance.m_removedIntContainer = castValue;
-                return true;
-            }
+                {
+                    if (value is not TestContainerThingStart<int> castValue) return false;
+                    instance.m_removedIntContainer = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

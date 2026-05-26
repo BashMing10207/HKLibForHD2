@@ -1,5 +1,3 @@
-using HKLib.Serialization;
-
 namespace HKLib.Serialization.hk2019;
 
 /// <summary>

@@ -1,14 +1,14 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hclBoneSpaceDeformerLocalBlockPData : HavokData<hclBoneSpaceDeformer.LocalBlockP> 
+internal class hclBoneSpaceDeformerLocalBlockPData : HavokData<hclBoneSpaceDeformer.LocalBlockP>
 {
     private static readonly System.Reflection.FieldInfo _localPositionInfo = typeof(hclBoneSpaceDeformer.LocalBlockP).GetField("m_localPosition")!;
-    public hclBoneSpaceDeformerLocalBlockPData(HavokType type, hclBoneSpaceDeformer.LocalBlockP instance) : base(type, instance) {}
+    public hclBoneSpaceDeformerLocalBlockPData(HavokType type, hclBoneSpaceDeformer.LocalBlockP instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -17,13 +17,13 @@ internal class hclBoneSpaceDeformerLocalBlockPData : HavokData<hclBoneSpaceDefor
         {
             case "m_localPosition":
             case "localPosition":
-            {
-                if (instance.m_localPosition is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_localPosition is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -33,20 +33,20 @@ internal class hclBoneSpaceDeformerLocalBlockPData : HavokData<hclBoneSpaceDefor
         {
             case "m_localPosition":
             case "localPosition":
-            {
-                if (value is not Vector4[] castValue || castValue.Length != 16) return false;
-                try
                 {
-                    _localPositionInfo.SetValue(instance, value);
-                    return true;
+                    if (value is not Vector4[] castValue || castValue.Length != 16) return false;
+                    try
+                    {
+                        _localPositionInfo.SetValue(instance, value);
+                        return true;
+                    }
+                    catch
+                    {
+                        return false;
+                    }
                 }
-                catch
-                {
-                    return false;
-                }
-            }
             default:
-            return false;
+                return false;
         }
     }
 

@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkpWheelConstraintDataData : HavokData<hkpWheelConstraintData> 
+internal class hkpWheelConstraintDataData : HavokData<hkpWheelConstraintData>
 {
-    public hkpWheelConstraintDataData(HavokType type, hkpWheelConstraintData instance) : base(type, instance) {}
+    public hkpWheelConstraintDataData(HavokType type, hkpWheelConstraintData instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,41 +16,41 @@ internal class hkpWheelConstraintDataData : HavokData<hkpWheelConstraintData>
         {
             case "m_propertyBag":
             case "propertyBag":
-            {
-                if (instance.m_propertyBag is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_propertyBag is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_userData":
             case "userData":
-            {
-                if (instance.m_userData is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_userData is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_atoms":
             case "atoms":
-            {
-                if (instance.m_atoms is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_atoms is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_initialAxleInB":
             case "initialAxleInB":
-            {
-                if (instance.m_initialAxleInB is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_initialAxleInB is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_initialSteeringAxisInB":
             case "initialSteeringAxisInB":
-            {
-                if (instance.m_initialSteeringAxisInB is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_initialSteeringAxisInB is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -60,41 +60,41 @@ internal class hkpWheelConstraintDataData : HavokData<hkpWheelConstraintData>
         {
             case "m_propertyBag":
             case "propertyBag":
-            {
-                if (value is not hkPropertyBag castValue) return false;
-                instance.m_propertyBag = castValue;
-                return true;
-            }
+                {
+                    if (value is not hkPropertyBag castValue) return false;
+                    instance.m_propertyBag = castValue;
+                    return true;
+                }
             case "m_userData":
             case "userData":
-            {
-                if (value is not ulong castValue) return false;
-                instance.m_userData = castValue;
-                return true;
-            }
+                {
+                    if (value is not ulong castValue) return false;
+                    instance.m_userData = castValue;
+                    return true;
+                }
             case "m_atoms":
             case "atoms":
-            {
-                if (value is not hkpWheelConstraintData.Atoms castValue) return false;
-                instance.m_atoms = castValue;
-                return true;
-            }
+                {
+                    if (value is not hkpWheelConstraintData.Atoms castValue) return false;
+                    instance.m_atoms = castValue;
+                    return true;
+                }
             case "m_initialAxleInB":
             case "initialAxleInB":
-            {
-                if (value is not Vector4 castValue) return false;
-                instance.m_initialAxleInB = castValue;
-                return true;
-            }
+                {
+                    if (value is not Vector4 castValue) return false;
+                    instance.m_initialAxleInB = castValue;
+                    return true;
+                }
             case "m_initialSteeringAxisInB":
             case "initialSteeringAxisInB":
-            {
-                if (value is not Vector4 castValue) return false;
-                instance.m_initialSteeringAxisInB = castValue;
-                return true;
-            }
+                {
+                    if (value is not Vector4 castValue) return false;
+                    instance.m_initialSteeringAxisInB = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

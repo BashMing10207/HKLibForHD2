@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hknpPairCollisionFilterMapPairFilterKeyOverrideTypeData : HavokData<hknpPairCollisionFilter.MapPairFilterKeyOverrideType> 
+internal class hknpPairCollisionFilterMapPairFilterKeyOverrideTypeData : HavokData<hknpPairCollisionFilter.MapPairFilterKeyOverrideType>
 {
-    public hknpPairCollisionFilterMapPairFilterKeyOverrideTypeData(HavokType type, hknpPairCollisionFilter.MapPairFilterKeyOverrideType instance) : base(type, instance) {}
+    public hknpPairCollisionFilterMapPairFilterKeyOverrideTypeData(HavokType type, hknpPairCollisionFilter.MapPairFilterKeyOverrideType instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,20 +16,20 @@ internal class hknpPairCollisionFilterMapPairFilterKeyOverrideTypeData : HavokDa
         {
             case "m_numElems":
             case "numElems":
-            {
-                if (instance.m_numElems is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_numElems is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_hashMod":
             case "hashMod":
-            {
-                if (instance.m_hashMod is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_hashMod is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -39,20 +39,20 @@ internal class hknpPairCollisionFilterMapPairFilterKeyOverrideTypeData : HavokDa
         {
             case "m_numElems":
             case "numElems":
-            {
-                if (value is not int castValue) return false;
-                instance.m_numElems = castValue;
-                return true;
-            }
+                {
+                    if (value is not int castValue) return false;
+                    instance.m_numElems = castValue;
+                    return true;
+                }
             case "m_hashMod":
             case "hashMod":
-            {
-                if (value is not int castValue) return false;
-                instance.m_hashMod = castValue;
-                return true;
-            }
+                {
+                    if (value is not int castValue) return false;
+                    instance.m_hashMod = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkcdSimdTreeData : HavokData<hkcdSimdTree> 
+internal class hkcdSimdTreeData : HavokData<hkcdSimdTree>
 {
-    public hkcdSimdTreeData(HavokType type, hkcdSimdTree instance) : base(type, instance) {}
+    public hkcdSimdTreeData(HavokType type, hkcdSimdTree instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,20 +16,20 @@ internal class hkcdSimdTreeData : HavokData<hkcdSimdTree>
         {
             case "m_nodes":
             case "nodes":
-            {
-                if (instance.m_nodes is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_nodes is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_isCompact":
             case "isCompact":
-            {
-                if (instance.m_isCompact is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_isCompact is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -39,20 +39,20 @@ internal class hkcdSimdTreeData : HavokData<hkcdSimdTree>
         {
             case "m_nodes":
             case "nodes":
-            {
-                if (value is not List<hkcdSimdTree.Node> castValue) return false;
-                instance.m_nodes = castValue;
-                return true;
-            }
+                {
+                    if (value is not List<hkcdSimdTree.Node> castValue) return false;
+                    instance.m_nodes = castValue;
+                    return true;
+                }
             case "m_isCompact":
             case "isCompact":
-            {
-                if (value is not bool castValue) return false;
-                instance.m_isCompact = castValue;
-                return true;
-            }
+                {
+                    if (value is not bool castValue) return false;
+                    instance.m_isCompact = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

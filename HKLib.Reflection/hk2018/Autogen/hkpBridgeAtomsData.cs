@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkpBridgeAtomsData : HavokData<hkpBridgeAtoms> 
+internal class hkpBridgeAtomsData : HavokData<hkpBridgeAtoms>
 {
-    public hkpBridgeAtomsData(HavokType type, hkpBridgeAtoms instance) : base(type, instance) {}
+    public hkpBridgeAtomsData(HavokType type, hkpBridgeAtoms instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,13 +16,13 @@ internal class hkpBridgeAtomsData : HavokData<hkpBridgeAtoms>
         {
             case "m_bridgeAtom":
             case "bridgeAtom":
-            {
-                if (instance.m_bridgeAtom is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_bridgeAtom is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -32,13 +32,13 @@ internal class hkpBridgeAtomsData : HavokData<hkpBridgeAtoms>
         {
             case "m_bridgeAtom":
             case "bridgeAtom":
-            {
-                if (value is not hkpBridgeConstraintAtom castValue) return false;
-                instance.m_bridgeAtom = castValue;
-                return true;
-            }
+                {
+                    if (value is not hkpBridgeConstraintAtom castValue) return false;
+                    instance.m_bridgeAtom = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

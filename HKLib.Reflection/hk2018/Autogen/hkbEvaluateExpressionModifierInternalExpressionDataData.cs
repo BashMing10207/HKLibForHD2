@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkbEvaluateExpressionModifierInternalExpressionDataData : HavokData<hkbEvaluateExpressionModifier.InternalExpressionData> 
+internal class hkbEvaluateExpressionModifierInternalExpressionDataData : HavokData<hkbEvaluateExpressionModifier.InternalExpressionData>
 {
-    public hkbEvaluateExpressionModifierInternalExpressionDataData(HavokType type, hkbEvaluateExpressionModifier.InternalExpressionData instance) : base(type, instance) {}
+    public hkbEvaluateExpressionModifierInternalExpressionDataData(HavokType type, hkbEvaluateExpressionModifier.InternalExpressionData instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,20 +16,20 @@ internal class hkbEvaluateExpressionModifierInternalExpressionDataData : HavokDa
         {
             case "m_raisedEvent":
             case "raisedEvent":
-            {
-                if (instance.m_raisedEvent is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_raisedEvent is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_wasTrueInPreviousFrame":
             case "wasTrueInPreviousFrame":
-            {
-                if (instance.m_wasTrueInPreviousFrame is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_wasTrueInPreviousFrame is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -39,20 +39,20 @@ internal class hkbEvaluateExpressionModifierInternalExpressionDataData : HavokDa
         {
             case "m_raisedEvent":
             case "raisedEvent":
-            {
-                if (value is not bool castValue) return false;
-                instance.m_raisedEvent = castValue;
-                return true;
-            }
+                {
+                    if (value is not bool castValue) return false;
+                    instance.m_raisedEvent = castValue;
+                    return true;
+                }
             case "m_wasTrueInPreviousFrame":
             case "wasTrueInPreviousFrame":
-            {
-                if (value is not bool castValue) return false;
-                instance.m_wasTrueInPreviousFrame = castValue;
-                return true;
-            }
+                {
+                    if (value is not bool castValue) return false;
+                    instance.m_wasTrueInPreviousFrame = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

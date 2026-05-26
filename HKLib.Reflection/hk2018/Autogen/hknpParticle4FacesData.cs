@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hknpParticle4FacesData : HavokData<hknpParticle4Faces> 
+internal class hknpParticle4FacesData : HavokData<hknpParticle4Faces>
 {
-    public hknpParticle4FacesData(HavokType type, hknpParticle4Faces instance) : base(type, instance) {}
+    public hknpParticle4FacesData(HavokType type, hknpParticle4Faces instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,13 +16,13 @@ internal class hknpParticle4FacesData : HavokData<hknpParticle4Faces>
         {
             case "m_directions":
             case "directions":
-            {
-                if (instance.m_directions is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_directions is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -32,13 +32,13 @@ internal class hknpParticle4FacesData : HavokData<hknpParticle4Faces>
         {
             case "m_directions":
             case "directions":
-            {
-                if (value is not hkFourTransposedPointsf castValue) return false;
-                instance.m_directions = castValue;
-                return true;
-            }
+                {
+                    if (value is not hkFourTransposedPointsf castValue) return false;
+                    instance.m_directions = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

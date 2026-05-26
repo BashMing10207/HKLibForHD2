@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkRangeInt32AttributeData : HavokData<hkRangeInt32Attribute> 
+internal class hkRangeInt32AttributeData : HavokData<hkRangeInt32Attribute>
 {
-    public hkRangeInt32AttributeData(HavokType type, hkRangeInt32Attribute instance) : base(type, instance) {}
+    public hkRangeInt32AttributeData(HavokType type, hkRangeInt32Attribute instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,34 +16,34 @@ internal class hkRangeInt32AttributeData : HavokData<hkRangeInt32Attribute>
         {
             case "m_absmin":
             case "absmin":
-            {
-                if (instance.m_absmin is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_absmin is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_absmax":
             case "absmax":
-            {
-                if (instance.m_absmax is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_absmax is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_softmin":
             case "softmin":
-            {
-                if (instance.m_softmin is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_softmin is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_softmax":
             case "softmax":
-            {
-                if (instance.m_softmax is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_softmax is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -53,34 +53,34 @@ internal class hkRangeInt32AttributeData : HavokData<hkRangeInt32Attribute>
         {
             case "m_absmin":
             case "absmin":
-            {
-                if (value is not int castValue) return false;
-                instance.m_absmin = castValue;
-                return true;
-            }
+                {
+                    if (value is not int castValue) return false;
+                    instance.m_absmin = castValue;
+                    return true;
+                }
             case "m_absmax":
             case "absmax":
-            {
-                if (value is not int castValue) return false;
-                instance.m_absmax = castValue;
-                return true;
-            }
+                {
+                    if (value is not int castValue) return false;
+                    instance.m_absmax = castValue;
+                    return true;
+                }
             case "m_softmin":
             case "softmin":
-            {
-                if (value is not int castValue) return false;
-                instance.m_softmin = castValue;
-                return true;
-            }
+                {
+                    if (value is not int castValue) return false;
+                    instance.m_softmin = castValue;
+                    return true;
+                }
             case "m_softmax":
             case "softmax":
-            {
-                if (value is not int castValue) return false;
-                instance.m_softmax = castValue;
-                return true;
-            }
+                {
+                    if (value is not int castValue) return false;
+                    instance.m_softmax = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

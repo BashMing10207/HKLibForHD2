@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkaiDirectedGraphInstanceData : HavokData<hkaiDirectedGraphInstance> 
+internal class hkaiDirectedGraphInstanceData : HavokData<hkaiDirectedGraphInstance>
 {
-    public hkaiDirectedGraphInstanceData(HavokType type, hkaiDirectedGraphInstance instance) : base(type, instance) {}
+    public hkaiDirectedGraphInstanceData(HavokType type, hkaiDirectedGraphInstance instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,27 +16,27 @@ internal class hkaiDirectedGraphInstanceData : HavokData<hkaiDirectedGraphInstan
         {
             case "m_propertyBag":
             case "propertyBag":
-            {
-                if (instance.m_propertyBag is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_propertyBag is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_instanceData":
             case "instanceData":
-            {
-                if (instance.m_instanceData is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_instanceData is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_transform":
             case "transform":
-            {
-                if (instance.m_transform is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_transform is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -46,27 +46,27 @@ internal class hkaiDirectedGraphInstanceData : HavokData<hkaiDirectedGraphInstan
         {
             case "m_propertyBag":
             case "propertyBag":
-            {
-                if (value is not hkPropertyBag castValue) return false;
-                instance.m_propertyBag = castValue;
-                return true;
-            }
+                {
+                    if (value is not hkPropertyBag castValue) return false;
+                    instance.m_propertyBag = castValue;
+                    return true;
+                }
             case "m_instanceData":
             case "instanceData":
-            {
-                if (value is not hkaiCopyOnWritePtr<HKLib.hk2018.hkaiDirectedGraphInstanceData> castValue) return false;
-                instance.m_instanceData = castValue;
-                return true;
-            }
+                {
+                    if (value is not hkaiCopyOnWritePtr<HKLib.hk2018.hkaiDirectedGraphInstanceData> castValue) return false;
+                    instance.m_instanceData = castValue;
+                    return true;
+                }
             case "m_transform":
             case "transform":
-            {
-                if (value is not Matrix4x4 castValue) return false;
-                instance.m_transform = castValue;
-                return true;
-            }
+                {
+                    if (value is not Matrix4x4 castValue) return false;
+                    instance.m_transform = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

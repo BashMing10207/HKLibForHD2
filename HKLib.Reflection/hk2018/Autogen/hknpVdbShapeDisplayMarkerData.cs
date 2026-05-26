@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hknpVdbShapeDisplayMarkerData : HavokData<hknpVdbShapeDisplayMarker> 
+internal class hknpVdbShapeDisplayMarkerData : HavokData<hknpVdbShapeDisplayMarker>
 {
-    public hknpVdbShapeDisplayMarkerData(HavokType type, hknpVdbShapeDisplayMarker instance) : base(type, instance) {}
+    public hknpVdbShapeDisplayMarkerData(HavokType type, hknpVdbShapeDisplayMarker instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,21 +16,21 @@ internal class hknpVdbShapeDisplayMarkerData : HavokData<hknpVdbShapeDisplayMark
         {
             case "m_type":
             case "type":
-            {
-                if (instance.m_type is TGet castValue)
                 {
-                    value = castValue;
-                    return true;
+                    if (instance.m_type is TGet castValue)
+                    {
+                        value = castValue;
+                        return true;
+                    }
+                    if ((int)instance.m_type is TGet intValue)
+                    {
+                        value = intValue;
+                        return true;
+                    }
+                    return false;
                 }
-                if ((int)instance.m_type is TGet intValue)
-                {
-                    value = intValue;
-                    return true;
-                }
-                return false;
-            }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -40,21 +40,21 @@ internal class hknpVdbShapeDisplayMarkerData : HavokData<hknpVdbShapeDisplayMark
         {
             case "m_type":
             case "type":
-            {
-                if (value is hkDebugDisplayMarker.Type castValue)
                 {
-                    instance.m_type = castValue;
-                    return true;
+                    if (value is hkDebugDisplayMarker.Type castValue)
+                    {
+                        instance.m_type = castValue;
+                        return true;
+                    }
+                    if (value is int intValue)
+                    {
+                        instance.m_type = (hkDebugDisplayMarker.Type)intValue;
+                        return true;
+                    }
+                    return false;
                 }
-                if (value is int intValue)
-                {
-                    instance.m_type = (hkDebugDisplayMarker.Type)intValue;
-                    return true;
-                }
-                return false;
-            }
             default:
-            return false;
+                return false;
         }
     }
 

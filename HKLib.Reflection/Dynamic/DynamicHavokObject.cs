@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace HKLib.Reflection.Dynamic;
@@ -16,7 +15,7 @@ public class DynamicHavokObject : IHavokObject
         Type = type;
     }
 
-    public IHavokType GetType() => Type;
+    public new IHavokType GetType() => Type;
 }
 
 /// <summary>

@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkTimerVolumeTagData : HavokData<hkTimerVolumeTag> 
+internal class hkTimerVolumeTagData : HavokData<hkTimerVolumeTag>
 {
-    public hkTimerVolumeTagData(HavokType type, hkTimerVolumeTag instance) : base(type, instance) {}
+    public hkTimerVolumeTagData(HavokType type, hkTimerVolumeTag instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,13 +16,13 @@ internal class hkTimerVolumeTagData : HavokData<hkTimerVolumeTag>
         {
             case "m_tag":
             case "tag":
-            {
-                if (instance.m_tag is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_tag is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -32,13 +32,13 @@ internal class hkTimerVolumeTagData : HavokData<hkTimerVolumeTag>
         {
             case "m_tag":
             case "tag":
-            {
-                if (value is not int castValue) return false;
-                instance.m_tag = castValue;
-                return true;
-            }
+                {
+                    if (value is not int castValue) return false;
+                    instance.m_tag = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

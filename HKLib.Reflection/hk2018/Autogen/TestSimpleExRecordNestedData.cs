@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class TestSimpleExRecordNestedData : HavokData<TestSimpleExRecord.Nested> 
+internal class TestSimpleExRecordNestedData : HavokData<TestSimpleExRecord.Nested>
 {
-    public TestSimpleExRecordNestedData(HavokType type, TestSimpleExRecord.Nested instance) : base(type, instance) {}
+    public TestSimpleExRecordNestedData(HavokType type, TestSimpleExRecord.Nested instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,13 +16,13 @@ internal class TestSimpleExRecordNestedData : HavokData<TestSimpleExRecord.Neste
         {
             case "m_record":
             case "record":
-            {
-                if (instance.m_record is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_record is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -32,13 +32,13 @@ internal class TestSimpleExRecordNestedData : HavokData<TestSimpleExRecord.Neste
         {
             case "m_record":
             case "record":
-            {
-                if (value is not TestSimpleRecord castValue) return false;
-                instance.m_record = castValue;
-                return true;
-            }
+                {
+                    if (value is not TestSimpleRecord castValue) return false;
+                    instance.m_record = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkpConstraintMotorData : HavokData<hkpConstraintMotor> 
+internal class hkpConstraintMotorData : HavokData<hkpConstraintMotor>
 {
-    public hkpConstraintMotorData(HavokType type, hkpConstraintMotor instance) : base(type, instance) {}
+    public hkpConstraintMotorData(HavokType type, hkpConstraintMotor instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,28 +16,28 @@ internal class hkpConstraintMotorData : HavokData<hkpConstraintMotor>
         {
             case "m_propertyBag":
             case "propertyBag":
-            {
-                if (instance.m_propertyBag is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
-            case "m_type":
-            case "type":
-            {
-                if (instance.m_type is TGet castValue)
                 {
+                    if (instance.m_propertyBag is not TGet castValue) return false;
                     value = castValue;
                     return true;
                 }
-                if ((sbyte)instance.m_type is TGet sbyteValue)
+            case "m_type":
+            case "type":
                 {
-                    value = sbyteValue;
-                    return true;
+                    if (instance.m_type is TGet castValue)
+                    {
+                        value = castValue;
+                        return true;
+                    }
+                    if ((sbyte)instance.m_type is TGet sbyteValue)
+                    {
+                        value = sbyteValue;
+                        return true;
+                    }
+                    return false;
                 }
-                return false;
-            }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -47,28 +47,28 @@ internal class hkpConstraintMotorData : HavokData<hkpConstraintMotor>
         {
             case "m_propertyBag":
             case "propertyBag":
-            {
-                if (value is not hkPropertyBag castValue) return false;
-                instance.m_propertyBag = castValue;
-                return true;
-            }
+                {
+                    if (value is not hkPropertyBag castValue) return false;
+                    instance.m_propertyBag = castValue;
+                    return true;
+                }
             case "m_type":
             case "type":
-            {
-                if (value is hkpConstraintMotor.MotorType castValue)
                 {
-                    instance.m_type = castValue;
-                    return true;
+                    if (value is hkpConstraintMotor.MotorType castValue)
+                    {
+                        instance.m_type = castValue;
+                        return true;
+                    }
+                    if (value is sbyte sbyteValue)
+                    {
+                        instance.m_type = (hkpConstraintMotor.MotorType)sbyteValue;
+                        return true;
+                    }
+                    return false;
                 }
-                if (value is sbyte sbyteValue)
-                {
-                    instance.m_type = (hkpConstraintMotor.MotorType)sbyteValue;
-                    return true;
-                }
-                return false;
-            }
             default:
-            return false;
+                return false;
         }
     }
 

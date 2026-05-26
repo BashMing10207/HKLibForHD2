@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hclCompressibleLinkConstraintSetMxData : HavokData<hclCompressibleLinkConstraintSetMx> 
+internal class hclCompressibleLinkConstraintSetMxData : HavokData<hclCompressibleLinkConstraintSetMx>
 {
-    public hclCompressibleLinkConstraintSetMxData(HavokType type, hclCompressibleLinkConstraintSetMx instance) : base(type, instance) {}
+    public hclCompressibleLinkConstraintSetMxData(HavokType type, hclCompressibleLinkConstraintSetMx instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,48 +16,48 @@ internal class hclCompressibleLinkConstraintSetMxData : HavokData<hclCompressibl
         {
             case "m_propertyBag":
             case "propertyBag":
-            {
-                if (instance.m_propertyBag is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
-            case "m_name":
-            case "name":
-            {
-                if (instance.m_name is null)
                 {
-                    return true;
-                }
-                if (instance.m_name is TGet castValue)
-                {
+                    if (instance.m_propertyBag is not TGet castValue) return false;
                     value = castValue;
                     return true;
                 }
-                return false;
-            }
+            case "m_name":
+            case "name":
+                {
+                    if (instance.m_name is null)
+                    {
+                        return true;
+                    }
+                    if (instance.m_name is TGet castValue)
+                    {
+                        value = castValue;
+                        return true;
+                    }
+                    return false;
+                }
             case "m_constraintId":
             case "constraintId":
-            {
-                if (instance.m_constraintId is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_constraintId is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_batches":
             case "batches":
-            {
-                if (instance.m_batches is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_batches is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_singles":
             case "singles":
-            {
-                if (instance.m_singles is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_singles is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -67,49 +67,49 @@ internal class hclCompressibleLinkConstraintSetMxData : HavokData<hclCompressibl
         {
             case "m_propertyBag":
             case "propertyBag":
-            {
-                if (value is not hkPropertyBag castValue) return false;
-                instance.m_propertyBag = castValue;
-                return true;
-            }
+                {
+                    if (value is not hkPropertyBag castValue) return false;
+                    instance.m_propertyBag = castValue;
+                    return true;
+                }
             case "m_name":
             case "name":
-            {
-                if (value is null)
                 {
-                    instance.m_name = default;
-                    return true;
+                    if (value is null)
+                    {
+                        instance.m_name = default;
+                        return true;
+                    }
+                    if (value is string castValue)
+                    {
+                        instance.m_name = castValue;
+                        return true;
+                    }
+                    return false;
                 }
-                if (value is string castValue)
-                {
-                    instance.m_name = castValue;
-                    return true;
-                }
-                return false;
-            }
             case "m_constraintId":
             case "constraintId":
-            {
-                if (value is not hkHandle<uint> castValue) return false;
-                instance.m_constraintId = castValue;
-                return true;
-            }
+                {
+                    if (value is not hkHandle<uint> castValue) return false;
+                    instance.m_constraintId = castValue;
+                    return true;
+                }
             case "m_batches":
             case "batches":
-            {
-                if (value is not List<hclCompressibleLinkConstraintSetMx.Batch> castValue) return false;
-                instance.m_batches = castValue;
-                return true;
-            }
+                {
+                    if (value is not List<hclCompressibleLinkConstraintSetMx.Batch> castValue) return false;
+                    instance.m_batches = castValue;
+                    return true;
+                }
             case "m_singles":
             case "singles":
-            {
-                if (value is not List<hclCompressibleLinkConstraintSetMx.Single> castValue) return false;
-                instance.m_singles = castValue;
-                return true;
-            }
+                {
+                    if (value is not List<hclCompressibleLinkConstraintSetMx.Single> castValue) return false;
+                    instance.m_singles = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

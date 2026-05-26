@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
-
 namespace HKLib.Reflection.Dynamic;
 
 public class DynamicHavokType : IHavokType
@@ -8,11 +5,14 @@ public class DynamicHavokType : IHavokType
     public string Name { get; set; } = null!;
     public global::HKLib.Reflection.HavokType.TypeKind Kind { get; set; }
     public int Size { get; set; }
+    public int Alignment { get; set; }
     public DynamicHavokType? Parent { get; set; }
     public DynamicHavokType? SubType { get; set; }
     public List<DynamicHavokField> Fields { get; } = new();
     public List<DynamicHavokTemplateParameter> TemplateParameters { get; } = new();
     public List<DynamicHavokPreset> Presets { get; } = new();
+
+    public List<DynamicHavokField> OptionalFields => GetAllFields().Where(f => f.IsOptional).ToList();
 
     public List<DynamicHavokField> GetAllFields()
     {
@@ -32,6 +32,7 @@ public class DynamicHavokField
     public DynamicHavokType Type { get; set; } = null!;
     public int Offset { get; set; }
     public int Flags { get; set; }
+    public bool IsOptional { get; set; }
 }
 
 public class DynamicHavokTemplateParameter

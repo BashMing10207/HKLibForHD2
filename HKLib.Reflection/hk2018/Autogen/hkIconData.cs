@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018.hk;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkIconData : HavokData<Icon> 
+internal class hkIconData : HavokData<Icon>
 {
-    public hkIconData(HavokType type, Icon instance) : base(type, instance) {}
+    public hkIconData(HavokType type, Icon instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,20 +16,20 @@ internal class hkIconData : HavokData<Icon>
         {
             case "m_value":
             case "value":
-            {
-                if (instance.m_value is null)
                 {
-                    return true;
+                    if (instance.m_value is null)
+                    {
+                        return true;
+                    }
+                    if (instance.m_value is TGet castValue)
+                    {
+                        value = castValue;
+                        return true;
+                    }
+                    return false;
                 }
-                if (instance.m_value is TGet castValue)
-                {
-                    value = castValue;
-                    return true;
-                }
-                return false;
-            }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -39,21 +39,21 @@ internal class hkIconData : HavokData<Icon>
         {
             case "m_value":
             case "value":
-            {
-                if (value is null)
                 {
-                    instance.m_value = default;
-                    return true;
+                    if (value is null)
+                    {
+                        instance.m_value = default;
+                        return true;
+                    }
+                    if (value is string castValue)
+                    {
+                        instance.m_value = castValue;
+                        return true;
+                    }
+                    return false;
                 }
-                if (value is string castValue)
-                {
-                    instance.m_value = castValue;
-                    return true;
-                }
-                return false;
-            }
             default:
-            return false;
+                return false;
         }
     }
 

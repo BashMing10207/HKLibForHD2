@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkcdSimdTreeDynamicData : HavokData<hkcdSimdTree.Dynamic> 
+internal class hkcdSimdTreeDynamicData : HavokData<hkcdSimdTree.Dynamic>
 {
-    public hkcdSimdTreeDynamicData(HavokType type, hkcdSimdTree.Dynamic instance) : base(type, instance) {}
+    public hkcdSimdTreeDynamicData(HavokType type, hkcdSimdTree.Dynamic instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,27 +16,27 @@ internal class hkcdSimdTreeDynamicData : HavokData<hkcdSimdTree.Dynamic>
         {
             case "m_nodeData":
             case "nodeData":
-            {
-                if (instance.m_nodeData is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_nodeData is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_leaves":
             case "leaves":
-            {
-                if (instance.m_leaves is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_leaves is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_firstFreeNode":
             case "firstFreeNode":
-            {
-                if (instance.m_firstFreeNode is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_firstFreeNode is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -46,27 +46,27 @@ internal class hkcdSimdTreeDynamicData : HavokData<hkcdSimdTree.Dynamic>
         {
             case "m_nodeData":
             case "nodeData":
-            {
-                if (value is not List<hkcdSimdTree.Dynamic.NodeData> castValue) return false;
-                instance.m_nodeData = castValue;
-                return true;
-            }
+                {
+                    if (value is not List<hkcdSimdTree.Dynamic.NodeData> castValue) return false;
+                    instance.m_nodeData = castValue;
+                    return true;
+                }
             case "m_leaves":
             case "leaves":
-            {
-                if (value is not List<hkTuple2<uint, uint>> castValue) return false;
-                instance.m_leaves = castValue;
-                return true;
-            }
+                {
+                    if (value is not List<hkTuple2<uint, uint>> castValue) return false;
+                    instance.m_leaves = castValue;
+                    return true;
+                }
             case "m_firstFreeNode":
             case "firstFreeNode":
-            {
-                if (value is not int castValue) return false;
-                instance.m_firstFreeNode = castValue;
-                return true;
-            }
+                {
+                    if (value is not int castValue) return false;
+                    instance.m_firstFreeNode = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

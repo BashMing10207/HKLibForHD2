@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hknpParticleCollisionPairData : HavokData<hknpParticleCollisionPair> 
+internal class hknpParticleCollisionPairData : HavokData<hknpParticleCollisionPair>
 {
-    public hknpParticleCollisionPairData(HavokType type, hknpParticleCollisionPair instance) : base(type, instance) {}
+    public hknpParticleCollisionPairData(HavokType type, hknpParticleCollisionPair instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,20 +16,20 @@ internal class hknpParticleCollisionPairData : HavokData<hknpParticleCollisionPa
         {
             case "m_particleIndexA":
             case "particleIndexA":
-            {
-                if (instance.m_particleIndexA is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_particleIndexA is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_particleIndexB":
             case "particleIndexB":
-            {
-                if (instance.m_particleIndexB is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_particleIndexB is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -39,20 +39,20 @@ internal class hknpParticleCollisionPairData : HavokData<hknpParticleCollisionPa
         {
             case "m_particleIndexA":
             case "particleIndexA":
-            {
-                if (value is not int castValue) return false;
-                instance.m_particleIndexA = castValue;
-                return true;
-            }
+                {
+                    if (value is not int castValue) return false;
+                    instance.m_particleIndexA = castValue;
+                    return true;
+                }
             case "m_particleIndexB":
             case "particleIndexB":
-            {
-                if (value is not int castValue) return false;
-                instance.m_particleIndexB = castValue;
-                return true;
-            }
+                {
+                    if (value is not int castValue) return false;
+                    instance.m_particleIndexB = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

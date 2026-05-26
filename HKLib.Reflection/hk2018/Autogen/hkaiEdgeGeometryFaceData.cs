@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkaiEdgeGeometryFaceData : HavokData<hkaiEdgeGeometry.Face> 
+internal class hkaiEdgeGeometryFaceData : HavokData<hkaiEdgeGeometry.Face>
 {
-    public hkaiEdgeGeometryFaceData(HavokType type, hkaiEdgeGeometry.Face instance) : base(type, instance) {}
+    public hkaiEdgeGeometryFaceData(HavokType type, hkaiEdgeGeometry.Face instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,35 +16,35 @@ internal class hkaiEdgeGeometryFaceData : HavokData<hkaiEdgeGeometry.Face>
         {
             case "m_data":
             case "data":
-            {
-                if (instance.m_data is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
-            case "m_faceIndex":
-            case "faceIndex":
-            {
-                if (instance.m_faceIndex is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
-            case "m_flags":
-            case "flags":
-            {
-                if (instance.m_flags is TGet castValue)
                 {
+                    if (instance.m_data is not TGet castValue) return false;
                     value = castValue;
                     return true;
                 }
-                if ((byte)instance.m_flags is TGet byteValue)
+            case "m_faceIndex":
+            case "faceIndex":
                 {
-                    value = byteValue;
+                    if (instance.m_faceIndex is not TGet castValue) return false;
+                    value = castValue;
                     return true;
                 }
-                return false;
-            }
+            case "m_flags":
+            case "flags":
+                {
+                    if (instance.m_flags is TGet castValue)
+                    {
+                        value = castValue;
+                        return true;
+                    }
+                    if ((byte)instance.m_flags is TGet byteValue)
+                    {
+                        value = byteValue;
+                        return true;
+                    }
+                    return false;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -54,35 +54,35 @@ internal class hkaiEdgeGeometryFaceData : HavokData<hkaiEdgeGeometry.Face>
         {
             case "m_data":
             case "data":
-            {
-                if (value is not uint castValue) return false;
-                instance.m_data = castValue;
-                return true;
-            }
+                {
+                    if (value is not uint castValue) return false;
+                    instance.m_data = castValue;
+                    return true;
+                }
             case "m_faceIndex":
             case "faceIndex":
-            {
-                if (value is not uint castValue) return false;
-                instance.m_faceIndex = castValue;
-                return true;
-            }
+                {
+                    if (value is not uint castValue) return false;
+                    instance.m_faceIndex = castValue;
+                    return true;
+                }
             case "m_flags":
             case "flags":
-            {
-                if (value is hkaiEdgeGeometry.FaceFlagBits castValue)
                 {
-                    instance.m_flags = castValue;
-                    return true;
+                    if (value is hkaiEdgeGeometry.FaceFlagBits castValue)
+                    {
+                        instance.m_flags = castValue;
+                        return true;
+                    }
+                    if (value is byte byteValue)
+                    {
+                        instance.m_flags = (hkaiEdgeGeometry.FaceFlagBits)byteValue;
+                        return true;
+                    }
+                    return false;
                 }
-                if (value is byte byteValue)
-                {
-                    instance.m_flags = (hkaiEdgeGeometry.FaceFlagBits)byteValue;
-                    return true;
-                }
-                return false;
-            }
             default:
-            return false;
+                return false;
         }
     }
 

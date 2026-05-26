@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkaMeshBindingMappingData : HavokData<hkaMeshBinding.Mapping> 
+internal class hkaMeshBindingMappingData : HavokData<hkaMeshBinding.Mapping>
 {
-    public hkaMeshBindingMappingData(HavokType type, hkaMeshBinding.Mapping instance) : base(type, instance) {}
+    public hkaMeshBindingMappingData(HavokType type, hkaMeshBinding.Mapping instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,13 +16,13 @@ internal class hkaMeshBindingMappingData : HavokData<hkaMeshBinding.Mapping>
         {
             case "m_mapping":
             case "mapping":
-            {
-                if (instance.m_mapping is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_mapping is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -32,13 +32,13 @@ internal class hkaMeshBindingMappingData : HavokData<hkaMeshBinding.Mapping>
         {
             case "m_mapping":
             case "mapping":
-            {
-                if (value is not List<short> castValue) return false;
-                instance.m_mapping = castValue;
-                return true;
-            }
+                {
+                    if (value is not List<short> castValue) return false;
+                    instance.m_mapping = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

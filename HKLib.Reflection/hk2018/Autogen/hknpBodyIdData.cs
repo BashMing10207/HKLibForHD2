@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hknpBodyIdData : HavokData<hknpBodyId> 
+internal class hknpBodyIdData : HavokData<hknpBodyId>
 {
-    public hknpBodyIdData(HavokType type, hknpBodyId instance) : base(type, instance) {}
+    public hknpBodyIdData(HavokType type, hknpBodyId instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,13 +16,13 @@ internal class hknpBodyIdData : HavokData<hknpBodyId>
         {
             case "m_serialAndIndex":
             case "serialAndIndex":
-            {
-                if (instance.m_serialAndIndex is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_serialAndIndex is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -32,13 +32,13 @@ internal class hknpBodyIdData : HavokData<hknpBodyId>
         {
             case "m_serialAndIndex":
             case "serialAndIndex":
-            {
-                if (value is not uint castValue) return false;
-                instance.m_serialAndIndex = castValue;
-                return true;
-            }
+                {
+                    if (value is not uint castValue) return false;
+                    instance.m_serialAndIndex = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

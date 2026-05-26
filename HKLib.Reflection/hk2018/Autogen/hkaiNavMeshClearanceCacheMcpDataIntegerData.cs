@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkaiNavMeshClearanceCacheMcpDataIntegerData : HavokData<hkaiNavMeshClearanceCache.McpDataInteger> 
+internal class hkaiNavMeshClearanceCacheMcpDataIntegerData : HavokData<hkaiNavMeshClearanceCache.McpDataInteger>
 {
-    public hkaiNavMeshClearanceCacheMcpDataIntegerData(HavokType type, hkaiNavMeshClearanceCache.McpDataInteger instance) : base(type, instance) {}
+    public hkaiNavMeshClearanceCacheMcpDataIntegerData(HavokType type, hkaiNavMeshClearanceCache.McpDataInteger instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,20 +16,20 @@ internal class hkaiNavMeshClearanceCacheMcpDataIntegerData : HavokData<hkaiNavMe
         {
             case "m_interpolant":
             case "interpolant":
-            {
-                if (instance.m_interpolant is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_interpolant is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_clearance":
             case "clearance":
-            {
-                if (instance.m_clearance is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_clearance is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -39,20 +39,20 @@ internal class hkaiNavMeshClearanceCacheMcpDataIntegerData : HavokData<hkaiNavMe
         {
             case "m_interpolant":
             case "interpolant":
-            {
-                if (value is not byte castValue) return false;
-                instance.m_interpolant = castValue;
-                return true;
-            }
+                {
+                    if (value is not byte castValue) return false;
+                    instance.m_interpolant = castValue;
+                    return true;
+                }
             case "m_clearance":
             case "clearance":
-            {
-                if (value is not byte castValue) return false;
-                instance.m_clearance = castValue;
-                return true;
-            }
+                {
+                    if (value is not byte castValue) return false;
+                    instance.m_clearance = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

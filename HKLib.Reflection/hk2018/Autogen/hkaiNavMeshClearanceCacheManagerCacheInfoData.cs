@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkaiNavMeshClearanceCacheManagerCacheInfoData : HavokData<hkaiNavMeshClearanceCacheManager.CacheInfo> 
+internal class hkaiNavMeshClearanceCacheManagerCacheInfoData : HavokData<hkaiNavMeshClearanceCacheManager.CacheInfo>
 {
-    public hkaiNavMeshClearanceCacheManagerCacheInfoData(HavokType type, hkaiNavMeshClearanceCacheManager.CacheInfo instance) : base(type, instance) {}
+    public hkaiNavMeshClearanceCacheManagerCacheInfoData(HavokType type, hkaiNavMeshClearanceCacheManager.CacheInfo instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,13 +16,13 @@ internal class hkaiNavMeshClearanceCacheManagerCacheInfoData : HavokData<hkaiNav
         {
             case "m_clearanceCeiling":
             case "clearanceCeiling":
-            {
-                if (instance.m_clearanceCeiling is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_clearanceCeiling is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -32,13 +32,13 @@ internal class hkaiNavMeshClearanceCacheManagerCacheInfoData : HavokData<hkaiNav
         {
             case "m_clearanceCeiling":
             case "clearanceCeiling":
-            {
-                if (value is not float castValue) return false;
-                instance.m_clearanceCeiling = castValue;
-                return true;
-            }
+                {
+                    if (value is not float castValue) return false;
+                    instance.m_clearanceCeiling = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

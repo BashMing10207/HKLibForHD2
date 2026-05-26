@@ -1,14 +1,14 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkpVehicleFrictionStatusData : HavokData<hkpVehicleFrictionStatus> 
+internal class hkpVehicleFrictionStatusData : HavokData<hkpVehicleFrictionStatus>
 {
     private static readonly System.Reflection.FieldInfo _axisInfo = typeof(hkpVehicleFrictionStatus).GetField("m_axis")!;
-    public hkpVehicleFrictionStatusData(HavokType type, hkpVehicleFrictionStatus instance) : base(type, instance) {}
+    public hkpVehicleFrictionStatusData(HavokType type, hkpVehicleFrictionStatus instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -17,13 +17,13 @@ internal class hkpVehicleFrictionStatusData : HavokData<hkpVehicleFrictionStatus
         {
             case "m_axis":
             case "axis":
-            {
-                if (instance.m_axis is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_axis is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -33,20 +33,20 @@ internal class hkpVehicleFrictionStatusData : HavokData<hkpVehicleFrictionStatus
         {
             case "m_axis":
             case "axis":
-            {
-                if (value is not hkpVehicleFrictionStatus.AxisStatus[] castValue || castValue.Length != 2) return false;
-                try
                 {
-                    _axisInfo.SetValue(instance, value);
-                    return true;
+                    if (value is not hkpVehicleFrictionStatus.AxisStatus[] castValue || castValue.Length != 2) return false;
+                    try
+                    {
+                        _axisInfo.SetValue(instance, value);
+                        return true;
+                    }
+                    catch
+                    {
+                        return false;
+                    }
                 }
-                catch
-                {
-                    return false;
-                }
-            }
             default:
-            return false;
+                return false;
         }
     }
 

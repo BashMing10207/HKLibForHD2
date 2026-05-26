@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkbTimerModifierInternalStateData : HavokData<hkbTimerModifierInternalState> 
+internal class hkbTimerModifierInternalStateData : HavokData<hkbTimerModifierInternalState>
 {
-    public hkbTimerModifierInternalStateData(HavokType type, hkbTimerModifierInternalState instance) : base(type, instance) {}
+    public hkbTimerModifierInternalStateData(HavokType type, hkbTimerModifierInternalState instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,20 +16,20 @@ internal class hkbTimerModifierInternalStateData : HavokData<hkbTimerModifierInt
         {
             case "m_propertyBag":
             case "propertyBag":
-            {
-                if (instance.m_propertyBag is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_propertyBag is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_secondsElapsed":
             case "secondsElapsed":
-            {
-                if (instance.m_secondsElapsed is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_secondsElapsed is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -39,20 +39,20 @@ internal class hkbTimerModifierInternalStateData : HavokData<hkbTimerModifierInt
         {
             case "m_propertyBag":
             case "propertyBag":
-            {
-                if (value is not hkPropertyBag castValue) return false;
-                instance.m_propertyBag = castValue;
-                return true;
-            }
+                {
+                    if (value is not hkPropertyBag castValue) return false;
+                    instance.m_propertyBag = castValue;
+                    return true;
+                }
             case "m_secondsElapsed":
             case "secondsElapsed":
-            {
-                if (value is not float castValue) return false;
-                instance.m_secondsElapsed = castValue;
-                return true;
-            }
+                {
+                    if (value is not float castValue) return false;
+                    instance.m_secondsElapsed = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

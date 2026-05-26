@@ -1,14 +1,14 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
 using HKLib.hk2018.hkcdDynamicTree;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hknpCompoundShapeCdDynamicTreeData : HavokData<hknpCompoundShapeCdDynamicTree> 
+internal class hknpCompoundShapeCdDynamicTreeData : HavokData<hknpCompoundShapeCdDynamicTree>
 {
-    public hknpCompoundShapeCdDynamicTreeData(HavokType type, hknpCompoundShapeCdDynamicTree instance) : base(type, instance) {}
+    public hknpCompoundShapeCdDynamicTreeData(HavokType type, hknpCompoundShapeCdDynamicTree instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -17,41 +17,41 @@ internal class hknpCompoundShapeCdDynamicTreeData : HavokData<hknpCompoundShapeC
         {
             case "m_nodes":
             case "nodes":
-            {
-                if (instance.m_nodes is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_nodes is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_firstFree":
             case "firstFree":
-            {
-                if (instance.m_firstFree is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_firstFree is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_numLeaves":
             case "numLeaves":
-            {
-                if (instance.m_numLeaves is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_numLeaves is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_path":
             case "path":
-            {
-                if (instance.m_path is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_path is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_root":
             case "root":
-            {
-                if (instance.m_root is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_root is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -61,41 +61,41 @@ internal class hknpCompoundShapeCdDynamicTreeData : HavokData<hknpCompoundShapeC
         {
             case "m_nodes":
             case "nodes":
-            {
-                if (value is not List<Codec32> castValue) return false;
-                instance.m_nodes = castValue;
-                return true;
-            }
+                {
+                    if (value is not List<Codec32> castValue) return false;
+                    instance.m_nodes = castValue;
+                    return true;
+                }
             case "m_firstFree":
             case "firstFree":
-            {
-                if (value is not ushort castValue) return false;
-                instance.m_firstFree = castValue;
-                return true;
-            }
+                {
+                    if (value is not ushort castValue) return false;
+                    instance.m_firstFree = castValue;
+                    return true;
+                }
             case "m_numLeaves":
             case "numLeaves":
-            {
-                if (value is not uint castValue) return false;
-                instance.m_numLeaves = castValue;
-                return true;
-            }
+                {
+                    if (value is not uint castValue) return false;
+                    instance.m_numLeaves = castValue;
+                    return true;
+                }
             case "m_path":
             case "path":
-            {
-                if (value is not uint castValue) return false;
-                instance.m_path = castValue;
-                return true;
-            }
+                {
+                    if (value is not uint castValue) return false;
+                    instance.m_path = castValue;
+                    return true;
+                }
             case "m_root":
             case "root":
-            {
-                if (value is not ushort castValue) return false;
-                instance.m_root = castValue;
-                return true;
-            }
+                {
+                    if (value is not ushort castValue) return false;
+                    instance.m_root = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

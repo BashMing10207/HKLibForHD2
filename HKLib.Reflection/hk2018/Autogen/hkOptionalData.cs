@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018.hk;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkOptionalData : HavokData<Optional> 
+internal class hkOptionalData : HavokData<Optional>
 {
-    public hkOptionalData(HavokType type, Optional instance) : base(type, instance) {}
+    public hkOptionalData(HavokType type, Optional instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,20 +16,20 @@ internal class hkOptionalData : HavokData<Optional>
         {
             case "m_optional":
             case "optional":
-            {
-                if (instance.m_optional is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_optional is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_implicit":
             case "implicit":
-            {
-                if (instance.m_implicit is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_implicit is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -39,20 +39,20 @@ internal class hkOptionalData : HavokData<Optional>
         {
             case "m_optional":
             case "optional":
-            {
-                if (value is not bool castValue) return false;
-                instance.m_optional = castValue;
-                return true;
-            }
+                {
+                    if (value is not bool castValue) return false;
+                    instance.m_optional = castValue;
+                    return true;
+                }
             case "m_implicit":
             case "implicit":
-            {
-                if (value is not bool castValue) return false;
-                instance.m_implicit = castValue;
-                return true;
-            }
+                {
+                    if (value is not bool castValue) return false;
+                    instance.m_implicit = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

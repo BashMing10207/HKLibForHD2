@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkaiDefaultDynamicUserEdgeSetInfoSectionData : HavokData<hkaiDefaultDynamicUserEdgeSetInfo.Section> 
+internal class hkaiDefaultDynamicUserEdgeSetInfoSectionData : HavokData<hkaiDefaultDynamicUserEdgeSetInfo.Section>
 {
-    public hkaiDefaultDynamicUserEdgeSetInfoSectionData(HavokType type, hkaiDefaultDynamicUserEdgeSetInfo.Section instance) : base(type, instance) {}
+    public hkaiDefaultDynamicUserEdgeSetInfoSectionData(HavokType type, hkaiDefaultDynamicUserEdgeSetInfo.Section instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,13 +16,13 @@ internal class hkaiDefaultDynamicUserEdgeSetInfoSectionData : HavokData<hkaiDefa
         {
             case "m_externalEdges":
             case "externalEdges":
-            {
-                if (instance.m_externalEdges is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_externalEdges is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -32,13 +32,13 @@ internal class hkaiDefaultDynamicUserEdgeSetInfoSectionData : HavokData<hkaiDefa
         {
             case "m_externalEdges":
             case "externalEdges":
-            {
-                if (value is not hkHashMap<int, hkaiDynamicUserEdgeSetInfo.ExternalEdges?> castValue) return false;
-                instance.m_externalEdges = castValue;
-                return true;
-            }
+                {
+                    if (value is not hkHashMap<int, hkaiDynamicUserEdgeSetInfo.ExternalEdges?> castValue) return false;
+                    instance.m_externalEdges = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

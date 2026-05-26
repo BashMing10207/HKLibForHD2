@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hknpConvexPolytopeShapeConnectivityEdgeData : HavokData<hknpConvexPolytopeShape.Connectivity.Edge> 
+internal class hknpConvexPolytopeShapeConnectivityEdgeData : HavokData<hknpConvexPolytopeShape.Connectivity.Edge>
 {
-    public hknpConvexPolytopeShapeConnectivityEdgeData(HavokType type, hknpConvexPolytopeShape.Connectivity.Edge instance) : base(type, instance) {}
+    public hknpConvexPolytopeShapeConnectivityEdgeData(HavokType type, hknpConvexPolytopeShape.Connectivity.Edge instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,20 +16,20 @@ internal class hknpConvexPolytopeShapeConnectivityEdgeData : HavokData<hknpConve
         {
             case "m_faceIndex":
             case "faceIndex":
-            {
-                if (instance.m_faceIndex is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_faceIndex is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_edgeIndex":
             case "edgeIndex":
-            {
-                if (instance.m_edgeIndex is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_edgeIndex is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -39,20 +39,20 @@ internal class hknpConvexPolytopeShapeConnectivityEdgeData : HavokData<hknpConve
         {
             case "m_faceIndex":
             case "faceIndex":
-            {
-                if (value is not ushort castValue) return false;
-                instance.m_faceIndex = castValue;
-                return true;
-            }
+                {
+                    if (value is not ushort castValue) return false;
+                    instance.m_faceIndex = castValue;
+                    return true;
+                }
             case "m_edgeIndex":
             case "edgeIndex":
-            {
-                if (value is not byte castValue) return false;
-                instance.m_edgeIndex = castValue;
-                return true;
-            }
+                {
+                    if (value is not byte castValue) return false;
+                    instance.m_edgeIndex = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

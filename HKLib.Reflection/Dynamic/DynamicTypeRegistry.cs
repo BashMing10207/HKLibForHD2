@@ -15,6 +15,18 @@ public class DynamicTypeRegistry
     private readonly List<string> _strings = new();
     private List<(DynamicHavokType Type, int ParentIndex, int FirstFieldIndex, int NumFields)>? _tempTypes;
 
+    public DynamicTypeRegistry(string baseSchemaPath)
+    {
+        _parent = null;
+        if (!File.Exists(baseSchemaPath))
+        {
+            throw new FileNotFoundException(
+                $"Base schema file not found. Ensure '{baseSchemaPath}' is in the application directory.",
+                baseSchemaPath);
+        }
+        ParseFromXml(baseSchemaPath);
+    }
+
     /// <summary>
     /// Initializes a new instance of the <see cref="DynamicTypeRegistry"/> class by loading a base XML schema
     /// and supplementing it with a binary schema from a Havok file.

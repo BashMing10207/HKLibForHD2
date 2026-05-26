@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hclRuntimeConversionInfoElementConversionData : HavokData<hclRuntimeConversionInfo.ElementConversion> 
+internal class hclRuntimeConversionInfoElementConversionData : HavokData<hclRuntimeConversionInfo.ElementConversion>
 {
-    public hclRuntimeConversionInfoElementConversionData(HavokType type, hclRuntimeConversionInfo.ElementConversion instance) : base(type, instance) {}
+    public hclRuntimeConversionInfoElementConversionData(HavokType type, hclRuntimeConversionInfo.ElementConversion instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,35 +16,35 @@ internal class hclRuntimeConversionInfoElementConversionData : HavokData<hclRunt
         {
             case "m_index":
             case "index":
-            {
-                if (instance.m_index is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
-            case "m_offset":
-            case "offset":
-            {
-                if (instance.m_offset is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
-            case "m_conversion":
-            case "conversion":
-            {
-                if (instance.m_conversion is TGet castValue)
                 {
+                    if (instance.m_index is not TGet castValue) return false;
                     value = castValue;
                     return true;
                 }
-                if ((byte)instance.m_conversion is TGet byteValue)
+            case "m_offset":
+            case "offset":
                 {
-                    value = byteValue;
+                    if (instance.m_offset is not TGet castValue) return false;
+                    value = castValue;
                     return true;
                 }
-                return false;
-            }
+            case "m_conversion":
+            case "conversion":
+                {
+                    if (instance.m_conversion is TGet castValue)
+                    {
+                        value = castValue;
+                        return true;
+                    }
+                    if ((byte)instance.m_conversion is TGet byteValue)
+                    {
+                        value = byteValue;
+                        return true;
+                    }
+                    return false;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -54,35 +54,35 @@ internal class hclRuntimeConversionInfoElementConversionData : HavokData<hclRunt
         {
             case "m_index":
             case "index":
-            {
-                if (value is not byte castValue) return false;
-                instance.m_index = castValue;
-                return true;
-            }
+                {
+                    if (value is not byte castValue) return false;
+                    instance.m_index = castValue;
+                    return true;
+                }
             case "m_offset":
             case "offset":
-            {
-                if (value is not byte castValue) return false;
-                instance.m_offset = castValue;
-                return true;
-            }
+                {
+                    if (value is not byte castValue) return false;
+                    instance.m_offset = castValue;
+                    return true;
+                }
             case "m_conversion":
             case "conversion":
-            {
-                if (value is hclRuntimeConversionInfo.VectorConversion castValue)
                 {
-                    instance.m_conversion = castValue;
-                    return true;
+                    if (value is hclRuntimeConversionInfo.VectorConversion castValue)
+                    {
+                        instance.m_conversion = castValue;
+                        return true;
+                    }
+                    if (value is byte byteValue)
+                    {
+                        instance.m_conversion = (hclRuntimeConversionInfo.VectorConversion)byteValue;
+                        return true;
+                    }
+                    return false;
                 }
-                if (value is byte byteValue)
-                {
-                    instance.m_conversion = (hclRuntimeConversionInfo.VectorConversion)byteValue;
-                    return true;
-                }
-                return false;
-            }
             default:
-            return false;
+                return false;
         }
     }
 

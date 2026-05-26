@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkbCharacterControllerModifierControlDataData : HavokData<hkbCharacterControllerModifierControlData> 
+internal class hkbCharacterControllerModifierControlDataData : HavokData<hkbCharacterControllerModifierControlData>
 {
-    public hkbCharacterControllerModifierControlDataData(HavokType type, hkbCharacterControllerModifierControlData instance) : base(type, instance) {}
+    public hkbCharacterControllerModifierControlDataData(HavokType type, hkbCharacterControllerModifierControlData instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,34 +16,34 @@ internal class hkbCharacterControllerModifierControlDataData : HavokData<hkbChar
         {
             case "m_verticalGain":
             case "verticalGain":
-            {
-                if (instance.m_verticalGain is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_verticalGain is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_horizontalCatchUpGain":
             case "horizontalCatchUpGain":
-            {
-                if (instance.m_horizontalCatchUpGain is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_horizontalCatchUpGain is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_maxVerticalSeparation":
             case "maxVerticalSeparation":
-            {
-                if (instance.m_maxVerticalSeparation is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_maxVerticalSeparation is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_maxHorizontalSeparation":
             case "maxHorizontalSeparation":
-            {
-                if (instance.m_maxHorizontalSeparation is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_maxHorizontalSeparation is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -53,34 +53,34 @@ internal class hkbCharacterControllerModifierControlDataData : HavokData<hkbChar
         {
             case "m_verticalGain":
             case "verticalGain":
-            {
-                if (value is not float castValue) return false;
-                instance.m_verticalGain = castValue;
-                return true;
-            }
+                {
+                    if (value is not float castValue) return false;
+                    instance.m_verticalGain = castValue;
+                    return true;
+                }
             case "m_horizontalCatchUpGain":
             case "horizontalCatchUpGain":
-            {
-                if (value is not float castValue) return false;
-                instance.m_horizontalCatchUpGain = castValue;
-                return true;
-            }
+                {
+                    if (value is not float castValue) return false;
+                    instance.m_horizontalCatchUpGain = castValue;
+                    return true;
+                }
             case "m_maxVerticalSeparation":
             case "maxVerticalSeparation":
-            {
-                if (value is not float castValue) return false;
-                instance.m_maxVerticalSeparation = castValue;
-                return true;
-            }
+                {
+                    if (value is not float castValue) return false;
+                    instance.m_maxVerticalSeparation = castValue;
+                    return true;
+                }
             case "m_maxHorizontalSeparation":
             case "maxHorizontalSeparation":
-            {
-                if (value is not float castValue) return false;
-                instance.m_maxHorizontalSeparation = castValue;
-                return true;
-            }
+                {
+                    if (value is not float castValue) return false;
+                    instance.m_maxHorizontalSeparation = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

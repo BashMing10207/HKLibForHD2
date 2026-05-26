@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018.hk;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkGenerateBypassCtorData : HavokData<GenerateBypassCtor> 
+internal class hkGenerateBypassCtorData : HavokData<GenerateBypassCtor>
 {
-    public hkGenerateBypassCtorData(HavokType type, GenerateBypassCtor instance) : base(type, instance) {}
+    public hkGenerateBypassCtorData(HavokType type, GenerateBypassCtor instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,13 +16,13 @@ internal class hkGenerateBypassCtorData : HavokData<GenerateBypassCtor>
         {
             case "m_value":
             case "value":
-            {
-                if (instance.m_value is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_value is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -32,13 +32,13 @@ internal class hkGenerateBypassCtorData : HavokData<GenerateBypassCtor>
         {
             case "m_value":
             case "value":
-            {
-                if (value is not bool castValue) return false;
-                instance.m_value = castValue;
-                return true;
-            }
+                {
+                    if (value is not bool castValue) return false;
+                    instance.m_value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

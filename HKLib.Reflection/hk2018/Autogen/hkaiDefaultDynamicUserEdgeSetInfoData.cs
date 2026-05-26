@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkaiDefaultDynamicUserEdgeSetInfoData : HavokData<hkaiDefaultDynamicUserEdgeSetInfo> 
+internal class hkaiDefaultDynamicUserEdgeSetInfoData : HavokData<hkaiDefaultDynamicUserEdgeSetInfo>
 {
-    public hkaiDefaultDynamicUserEdgeSetInfoData(HavokType type, hkaiDefaultDynamicUserEdgeSetInfo instance) : base(type, instance) {}
+    public hkaiDefaultDynamicUserEdgeSetInfoData(HavokType type, hkaiDefaultDynamicUserEdgeSetInfo instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,13 +16,13 @@ internal class hkaiDefaultDynamicUserEdgeSetInfoData : HavokData<hkaiDefaultDyna
         {
             case "m_sections":
             case "sections":
-            {
-                if (instance.m_sections is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_sections is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -32,13 +32,13 @@ internal class hkaiDefaultDynamicUserEdgeSetInfoData : HavokData<hkaiDefaultDyna
         {
             case "m_sections":
             case "sections":
-            {
-                if (value is not hkHashMap<int, hkaiDefaultDynamicUserEdgeSetInfo.Section> castValue) return false;
-                instance.m_sections = castValue;
-                return true;
-            }
+                {
+                    if (value is not hkHashMap<int, hkaiDefaultDynamicUserEdgeSetInfo.Section> castValue) return false;
+                    instance.m_sections = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

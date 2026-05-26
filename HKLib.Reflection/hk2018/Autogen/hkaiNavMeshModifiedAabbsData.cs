@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkaiNavMeshModifiedAabbsData : HavokData<hkaiNavMeshModifiedAabbs> 
+internal class hkaiNavMeshModifiedAabbsData : HavokData<hkaiNavMeshModifiedAabbs>
 {
-    public hkaiNavMeshModifiedAabbsData(HavokType type, hkaiNavMeshModifiedAabbs instance) : base(type, instance) {}
+    public hkaiNavMeshModifiedAabbsData(HavokType type, hkaiNavMeshModifiedAabbs instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,20 +16,20 @@ internal class hkaiNavMeshModifiedAabbsData : HavokData<hkaiNavMeshModifiedAabbs
         {
             case "m_propertyBag":
             case "propertyBag":
-            {
-                if (instance.m_propertyBag is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_propertyBag is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_modifiedAabbs":
             case "modifiedAabbs":
-            {
-                if (instance.m_modifiedAabbs is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_modifiedAabbs is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -39,20 +39,20 @@ internal class hkaiNavMeshModifiedAabbsData : HavokData<hkaiNavMeshModifiedAabbs
         {
             case "m_propertyBag":
             case "propertyBag":
-            {
-                if (value is not hkPropertyBag castValue) return false;
-                instance.m_propertyBag = castValue;
-                return true;
-            }
+                {
+                    if (value is not hkPropertyBag castValue) return false;
+                    instance.m_propertyBag = castValue;
+                    return true;
+                }
             case "m_modifiedAabbs":
             case "modifiedAabbs":
-            {
-                if (value is not List<List<hkAabb>> castValue) return false;
-                instance.m_modifiedAabbs = castValue;
-                return true;
-            }
+                {
+                    if (value is not List<List<hkAabb>> castValue) return false;
+                    instance.m_modifiedAabbs = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

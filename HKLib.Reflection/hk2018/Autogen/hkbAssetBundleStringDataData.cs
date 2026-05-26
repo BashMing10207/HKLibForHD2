@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkbAssetBundleStringDataData : HavokData<hkbAssetBundleStringData> 
+internal class hkbAssetBundleStringDataData : HavokData<hkbAssetBundleStringData>
 {
-    public hkbAssetBundleStringDataData(HavokType type, hkbAssetBundleStringData instance) : base(type, instance) {}
+    public hkbAssetBundleStringDataData(HavokType type, hkbAssetBundleStringData instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,27 +16,27 @@ internal class hkbAssetBundleStringDataData : HavokData<hkbAssetBundleStringData
         {
             case "m_bundleName":
             case "bundleName":
-            {
-                if (instance.m_bundleName is null)
                 {
-                    return true;
+                    if (instance.m_bundleName is null)
+                    {
+                        return true;
+                    }
+                    if (instance.m_bundleName is TGet castValue)
+                    {
+                        value = castValue;
+                        return true;
+                    }
+                    return false;
                 }
-                if (instance.m_bundleName is TGet castValue)
+            case "m_assetNames":
+            case "assetNames":
                 {
+                    if (instance.m_assetNames is not TGet castValue) return false;
                     value = castValue;
                     return true;
                 }
-                return false;
-            }
-            case "m_assetNames":
-            case "assetNames":
-            {
-                if (instance.m_assetNames is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -46,28 +46,28 @@ internal class hkbAssetBundleStringDataData : HavokData<hkbAssetBundleStringData
         {
             case "m_bundleName":
             case "bundleName":
-            {
-                if (value is null)
                 {
-                    instance.m_bundleName = default;
-                    return true;
+                    if (value is null)
+                    {
+                        instance.m_bundleName = default;
+                        return true;
+                    }
+                    if (value is string castValue)
+                    {
+                        instance.m_bundleName = castValue;
+                        return true;
+                    }
+                    return false;
                 }
-                if (value is string castValue)
-                {
-                    instance.m_bundleName = castValue;
-                    return true;
-                }
-                return false;
-            }
             case "m_assetNames":
             case "assetNames":
-            {
-                if (value is not List<string?> castValue) return false;
-                instance.m_assetNames = castValue;
-                return true;
-            }
+                {
+                    if (value is not List<string?> castValue) return false;
+                    instance.m_assetNames = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

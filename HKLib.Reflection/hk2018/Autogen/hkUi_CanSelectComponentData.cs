@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018.hk;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkUi_CanSelectComponentData : HavokData<Ui_CanSelectComponent> 
+internal class hkUi_CanSelectComponentData : HavokData<Ui_CanSelectComponent>
 {
-    public hkUi_CanSelectComponentData(HavokType type, Ui_CanSelectComponent instance) : base(type, instance) {}
+    public hkUi_CanSelectComponentData(HavokType type, Ui_CanSelectComponent instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,20 +16,20 @@ internal class hkUi_CanSelectComponentData : HavokData<Ui_CanSelectComponent>
         {
             case "m_canSelectComponentFunc":
             case "canSelectComponentFunc":
-            {
-                if (instance.m_canSelectComponentFunc is null)
                 {
-                    return true;
+                    if (instance.m_canSelectComponentFunc is null)
+                    {
+                        return true;
+                    }
+                    if (instance.m_canSelectComponentFunc is TGet castValue)
+                    {
+                        value = castValue;
+                        return true;
+                    }
+                    return false;
                 }
-                if (instance.m_canSelectComponentFunc is TGet castValue)
-                {
-                    value = castValue;
-                    return true;
-                }
-                return false;
-            }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -39,21 +39,21 @@ internal class hkUi_CanSelectComponentData : HavokData<Ui_CanSelectComponent>
         {
             case "m_canSelectComponentFunc":
             case "canSelectComponentFunc":
-            {
-                if (value is null)
                 {
-                    instance.m_canSelectComponentFunc = default;
-                    return true;
+                    if (value is null)
+                    {
+                        instance.m_canSelectComponentFunc = default;
+                        return true;
+                    }
+                    if (value is object castValue)
+                    {
+                        instance.m_canSelectComponentFunc = castValue;
+                        return true;
+                    }
+                    return false;
                 }
-                if (value is object castValue)
-                {
-                    instance.m_canSelectComponentFunc = castValue;
-                    return true;
-                }
-                return false;
-            }
             default:
-            return false;
+                return false;
         }
     }
 

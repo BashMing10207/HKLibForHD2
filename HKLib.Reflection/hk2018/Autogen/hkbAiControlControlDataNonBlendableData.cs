@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkbAiControlControlDataNonBlendableData : HavokData<hkbAiControlControlDataNonBlendable> 
+internal class hkbAiControlControlDataNonBlendableData : HavokData<hkbAiControlControlDataNonBlendable>
 {
-    public hkbAiControlControlDataNonBlendableData(HavokType type, hkbAiControlControlDataNonBlendable instance) : base(type, instance) {}
+    public hkbAiControlControlDataNonBlendableData(HavokType type, hkbAiControlControlDataNonBlendable instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,13 +16,13 @@ internal class hkbAiControlControlDataNonBlendableData : HavokData<hkbAiControlC
         {
             case "m_canControl":
             case "canControl":
-            {
-                if (instance.m_canControl is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_canControl is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -32,13 +32,13 @@ internal class hkbAiControlControlDataNonBlendableData : HavokData<hkbAiControlC
         {
             case "m_canControl":
             case "canControl":
-            {
-                if (value is not bool castValue) return false;
-                instance.m_canControl = castValue;
-                return true;
-            }
+                {
+                    if (value is not bool castValue) return false;
+                    instance.m_canControl = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

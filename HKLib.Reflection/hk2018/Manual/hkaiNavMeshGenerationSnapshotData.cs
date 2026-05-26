@@ -1,8 +1,8 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
 using HKLib.hk2018.hkaiNavMeshGeneration;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
@@ -11,7 +11,8 @@ namespace HKLib.Reflection.hk2018;
 internal class hkaiNavMeshGeneration_SnapshotData : HavokData<Snapshot>
 {
     public hkaiNavMeshGeneration_SnapshotData(HavokType type, Snapshot instance) :
-        base(type, instance) { }
+        base(type, instance)
+    { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -20,34 +21,34 @@ internal class hkaiNavMeshGeneration_SnapshotData : HavokData<Snapshot>
         {
             case "m_propertyBag":
             case "propertyBag":
-            {
-                if (instance.m_propertyBag is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
-            case "m_geometrySource":
-            case "geometrySource":
-            {
-                if (instance.m_geometrySource is null)
                 {
-                    return true;
-                }
-
-                if (instance.m_geometrySource is TGet castValue)
-                {
+                    if (instance.m_propertyBag is not TGet castValue) return false;
                     value = castValue;
                     return true;
                 }
+            case "m_geometrySource":
+            case "geometrySource":
+                {
+                    if (instance.m_geometrySource is null)
+                    {
+                        return true;
+                    }
 
-                return false;
-            }
+                    if (instance.m_geometrySource is TGet castValue)
+                    {
+                        value = castValue;
+                        return true;
+                    }
+
+                    return false;
+                }
             case "m_settings":
             case "settings":
-            {
-                if (instance.m_settings is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_settings is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
                 return false;
         }
@@ -59,35 +60,35 @@ internal class hkaiNavMeshGeneration_SnapshotData : HavokData<Snapshot>
         {
             case "m_propertyBag":
             case "propertyBag":
-            {
-                if (value is not hkPropertyBag castValue) return false;
-                instance.m_propertyBag = castValue;
-                return true;
-            }
+                {
+                    if (value is not hkPropertyBag castValue) return false;
+                    instance.m_propertyBag = castValue;
+                    return true;
+                }
             case "m_geometrySource":
             case "geometrySource":
-            {
-                if (value is null)
                 {
-                    instance.m_geometrySource = default;
-                    return true;
-                }
+                    if (value is null)
+                    {
+                        instance.m_geometrySource = default;
+                        return true;
+                    }
 
-                if (value is GeometrySource castValue)
-                {
-                    instance.m_geometrySource = castValue;
-                    return true;
-                }
+                    if (value is GeometrySource castValue)
+                    {
+                        instance.m_geometrySource = castValue;
+                        return true;
+                    }
 
-                return false;
-            }
+                    return false;
+                }
             case "m_settings":
             case "settings":
-            {
-                if (value is not Settings castValue) return false;
-                instance.m_settings = castValue;
-                return true;
-            }
+                {
+                    if (value is not Settings castValue) return false;
+                    instance.m_settings = castValue;
+                    return true;
+                }
             default:
                 return false;
         }
@@ -97,7 +98,8 @@ internal class hkaiNavMeshGeneration_SnapshotData : HavokData<Snapshot>
 internal class hkaiNavMeshGenerationSnapshotData : HavokData<hkaiNavMeshGenerationSnapshot>
 {
     public hkaiNavMeshGenerationSnapshotData(HavokType type, hkaiNavMeshGenerationSnapshot instance) :
-        base(type, instance) { }
+        base(type, instance)
+    { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -106,18 +108,18 @@ internal class hkaiNavMeshGenerationSnapshotData : HavokData<hkaiNavMeshGenerati
         {
             case "m_geometry":
             case "geometry":
-            {
-                if (instance.m_geometry is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_geometry is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_settings":
             case "settings":
-            {
-                if (instance.m_settings is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_settings is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
                 return false;
         }
@@ -129,18 +131,18 @@ internal class hkaiNavMeshGenerationSnapshotData : HavokData<hkaiNavMeshGenerati
         {
             case "m_geometry":
             case "geometry":
-            {
-                if (value is not hkGeometry castValue) return false;
-                instance.m_geometry = castValue;
-                return true;
-            }
+                {
+                    if (value is not hkGeometry castValue) return false;
+                    instance.m_geometry = castValue;
+                    return true;
+                }
             case "m_settings":
             case "settings":
-            {
-                if (value is not hkaiNavMeshGenerationUtilsSettings castValue) return false;
-                instance.m_settings = castValue;
-                return true;
-            }
+                {
+                    if (value is not hkaiNavMeshGenerationUtilsSettings castValue) return false;
+                    instance.m_settings = castValue;
+                    return true;
+                }
             default:
                 return false;
         }

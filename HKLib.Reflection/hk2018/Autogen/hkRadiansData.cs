@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkRadiansData : HavokData<hkRadians> 
+internal class hkRadiansData : HavokData<hkRadians>
 {
-    public hkRadiansData(HavokType type, hkRadians instance) : base(type, instance) {}
+    public hkRadiansData(HavokType type, hkRadians instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,13 +16,13 @@ internal class hkRadiansData : HavokData<hkRadians>
         {
             case "m_radians":
             case "radians":
-            {
-                if (instance.m_radians is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_radians is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -32,13 +32,13 @@ internal class hkRadiansData : HavokData<hkRadians>
         {
             case "m_radians":
             case "radians":
-            {
-                if (value is not float castValue) return false;
-                instance.m_radians = castValue;
-                return true;
-            }
+                {
+                    if (value is not float castValue) return false;
+                    instance.m_radians = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

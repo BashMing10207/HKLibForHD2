@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hclVdbVCPData : HavokData<hclVdbVCP> 
+internal class hclVdbVCPData : HavokData<hclVdbVCP>
 {
-    public hclVdbVCPData(HavokType type, hclVdbVCP instance) : base(type, instance) {}
+    public hclVdbVCPData(HavokType type, hclVdbVCP instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,13 +16,13 @@ internal class hclVdbVCPData : HavokData<hclVdbVCP>
         {
             case "m_particleId":
             case "particleId":
-            {
-                if (instance.m_particleId is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_particleId is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -32,13 +32,13 @@ internal class hclVdbVCPData : HavokData<hclVdbVCP>
         {
             case "m_particleId":
             case "particleId":
-            {
-                if (value is not ushort castValue) return false;
-                instance.m_particleId = castValue;
-                return true;
-            }
+                {
+                    if (value is not ushort castValue) return false;
+                    instance.m_particleId = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkFreeListArrayHknpShapeInstanceData : HavokData<hkFreeListArrayHknpShapeInstance> 
+internal class hkFreeListArrayHknpShapeInstanceData : HavokData<hkFreeListArrayHknpShapeInstance>
 {
-    public hkFreeListArrayHknpShapeInstanceData(HavokType type, hkFreeListArrayHknpShapeInstance instance) : base(type, instance) {}
+    public hkFreeListArrayHknpShapeInstanceData(HavokType type, hkFreeListArrayHknpShapeInstance instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,20 +16,20 @@ internal class hkFreeListArrayHknpShapeInstanceData : HavokData<hkFreeListArrayH
         {
             case "m_elements":
             case "elements":
-            {
-                if (instance.m_elements is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_elements is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_firstFree":
             case "firstFree":
-            {
-                if (instance.m_firstFree is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_firstFree is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -39,20 +39,20 @@ internal class hkFreeListArrayHknpShapeInstanceData : HavokData<hkFreeListArrayH
         {
             case "m_elements":
             case "elements":
-            {
-                if (value is not List<hkFreeListArrayElementHknpShapeInstance> castValue) return false;
-                instance.m_elements = castValue;
-                return true;
-            }
+                {
+                    if (value is not List<hkFreeListArrayElementHknpShapeInstance> castValue) return false;
+                    instance.m_elements = castValue;
+                    return true;
+                }
             case "m_firstFree":
             case "firstFree":
-            {
-                if (value is not int castValue) return false;
-                instance.m_firstFree = castValue;
-                return true;
-            }
+                {
+                    if (value is not int castValue) return false;
+                    instance.m_firstFree = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

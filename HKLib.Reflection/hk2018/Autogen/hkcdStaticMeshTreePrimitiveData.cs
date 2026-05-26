@@ -1,14 +1,14 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018.hkcdStaticMeshTree;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkcdStaticMeshTreePrimitiveData : HavokData<Primitive> 
+internal class hkcdStaticMeshTreePrimitiveData : HavokData<Primitive>
 {
     private static readonly System.Reflection.FieldInfo _indicesInfo = typeof(Primitive).GetField("m_indices")!;
-    public hkcdStaticMeshTreePrimitiveData(HavokType type, Primitive instance) : base(type, instance) {}
+    public hkcdStaticMeshTreePrimitiveData(HavokType type, Primitive instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -17,13 +17,13 @@ internal class hkcdStaticMeshTreePrimitiveData : HavokData<Primitive>
         {
             case "m_indices":
             case "indices":
-            {
-                if (instance.m_indices is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_indices is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -33,20 +33,20 @@ internal class hkcdStaticMeshTreePrimitiveData : HavokData<Primitive>
         {
             case "m_indices":
             case "indices":
-            {
-                if (value is not byte[] castValue || castValue.Length != 4) return false;
-                try
                 {
-                    _indicesInfo.SetValue(instance, value);
-                    return true;
+                    if (value is not byte[] castValue || castValue.Length != 4) return false;
+                    try
+                    {
+                        _indicesInfo.SetValue(instance, value);
+                        return true;
+                    }
+                    catch
+                    {
+                        return false;
+                    }
                 }
-                catch
-                {
-                    return false;
-                }
-            }
             default:
-            return false;
+                return false;
         }
     }
 

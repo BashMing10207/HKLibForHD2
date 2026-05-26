@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkaiEdgePathFollowingCornerInfoData : HavokData<hkaiEdgePath.FollowingCornerInfo> 
+internal class hkaiEdgePathFollowingCornerInfoData : HavokData<hkaiEdgePath.FollowingCornerInfo>
 {
-    public hkaiEdgePathFollowingCornerInfoData(HavokType type, hkaiEdgePath.FollowingCornerInfo instance) : base(type, instance) {}
+    public hkaiEdgePathFollowingCornerInfoData(HavokType type, hkaiEdgePath.FollowingCornerInfo instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,13 +16,13 @@ internal class hkaiEdgePathFollowingCornerInfoData : HavokData<hkaiEdgePath.Foll
         {
             case "m_data":
             case "data":
-            {
-                if (instance.m_data is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_data is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -32,13 +32,13 @@ internal class hkaiEdgePathFollowingCornerInfoData : HavokData<hkaiEdgePath.Foll
         {
             case "m_data":
             case "data":
-            {
-                if (value is not ushort castValue) return false;
-                instance.m_data = castValue;
-                return true;
-            }
+                {
+                    if (value is not ushort castValue) return false;
+                    instance.m_data = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

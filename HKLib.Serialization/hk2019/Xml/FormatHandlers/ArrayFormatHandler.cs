@@ -1,7 +1,7 @@
-﻿using System.Numerics;
-using System.Xml.Linq;
 using HKLib.Reflection.hk2018;
 using HKLib.ValueTypes;
+using System.Numerics;
+using System.Xml.Linq;
 
 namespace HKLib.Serialization.hk2019.Xml.FormatHandlers;
 

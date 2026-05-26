@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkSetIntFloatPairData : HavokData<hkSetIntFloatPair> 
+internal class hkSetIntFloatPairData : HavokData<hkSetIntFloatPair>
 {
-    public hkSetIntFloatPairData(HavokType type, hkSetIntFloatPair instance) : base(type, instance) {}
+    public hkSetIntFloatPairData(HavokType type, hkSetIntFloatPair instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,20 +16,20 @@ internal class hkSetIntFloatPairData : HavokData<hkSetIntFloatPair>
         {
             case "m_elem":
             case "elem":
-            {
-                if (instance.m_elem is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_elem is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_numElems":
             case "numElems":
-            {
-                if (instance.m_numElems is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_numElems is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -39,20 +39,20 @@ internal class hkSetIntFloatPairData : HavokData<hkSetIntFloatPair>
         {
             case "m_elem":
             case "elem":
-            {
-                if (value is not List<hkIntRealPair> castValue) return false;
-                instance.m_elem = castValue;
-                return true;
-            }
+                {
+                    if (value is not List<hkIntRealPair> castValue) return false;
+                    instance.m_elem = castValue;
+                    return true;
+                }
             case "m_numElems":
             case "numElems":
-            {
-                if (value is not int castValue) return false;
-                instance.m_numElems = castValue;
-                return true;
-            }
+                {
+                    if (value is not int castValue) return false;
+                    instance.m_numElems = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

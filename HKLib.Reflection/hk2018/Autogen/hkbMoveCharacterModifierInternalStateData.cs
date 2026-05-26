@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkbMoveCharacterModifierInternalStateData : HavokData<hkbMoveCharacterModifierInternalState> 
+internal class hkbMoveCharacterModifierInternalStateData : HavokData<hkbMoveCharacterModifierInternalState>
 {
-    public hkbMoveCharacterModifierInternalStateData(HavokType type, hkbMoveCharacterModifierInternalState instance) : base(type, instance) {}
+    public hkbMoveCharacterModifierInternalStateData(HavokType type, hkbMoveCharacterModifierInternalState instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,20 +16,20 @@ internal class hkbMoveCharacterModifierInternalStateData : HavokData<hkbMoveChar
         {
             case "m_propertyBag":
             case "propertyBag":
-            {
-                if (instance.m_propertyBag is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_propertyBag is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_timeSinceLastModify":
             case "timeSinceLastModify":
-            {
-                if (instance.m_timeSinceLastModify is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_timeSinceLastModify is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -39,20 +39,20 @@ internal class hkbMoveCharacterModifierInternalStateData : HavokData<hkbMoveChar
         {
             case "m_propertyBag":
             case "propertyBag":
-            {
-                if (value is not hkPropertyBag castValue) return false;
-                instance.m_propertyBag = castValue;
-                return true;
-            }
+                {
+                    if (value is not hkPropertyBag castValue) return false;
+                    instance.m_propertyBag = castValue;
+                    return true;
+                }
             case "m_timeSinceLastModify":
             case "timeSinceLastModify":
-            {
-                if (value is not float castValue) return false;
-                instance.m_timeSinceLastModify = castValue;
-                return true;
-            }
+                {
+                    if (value is not float castValue) return false;
+                    instance.m_timeSinceLastModify = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

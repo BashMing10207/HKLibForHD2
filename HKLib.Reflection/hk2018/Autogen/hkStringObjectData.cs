@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkStringObjectData : HavokData<hkStringObject> 
+internal class hkStringObjectData : HavokData<hkStringObject>
 {
-    public hkStringObjectData(HavokType type, hkStringObject instance) : base(type, instance) {}
+    public hkStringObjectData(HavokType type, hkStringObject instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,27 +16,27 @@ internal class hkStringObjectData : HavokData<hkStringObject>
         {
             case "m_propertyBag":
             case "propertyBag":
-            {
-                if (instance.m_propertyBag is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
-            case "m_string":
-            case "string":
-            {
-                if (instance.m_string is null)
                 {
-                    return true;
-                }
-                if (instance.m_string is TGet castValue)
-                {
+                    if (instance.m_propertyBag is not TGet castValue) return false;
                     value = castValue;
                     return true;
                 }
-                return false;
-            }
+            case "m_string":
+            case "string":
+                {
+                    if (instance.m_string is null)
+                    {
+                        return true;
+                    }
+                    if (instance.m_string is TGet castValue)
+                    {
+                        value = castValue;
+                        return true;
+                    }
+                    return false;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -46,28 +46,28 @@ internal class hkStringObjectData : HavokData<hkStringObject>
         {
             case "m_propertyBag":
             case "propertyBag":
-            {
-                if (value is not hkPropertyBag castValue) return false;
-                instance.m_propertyBag = castValue;
-                return true;
-            }
+                {
+                    if (value is not hkPropertyBag castValue) return false;
+                    instance.m_propertyBag = castValue;
+                    return true;
+                }
             case "m_string":
             case "string":
-            {
-                if (value is null)
                 {
-                    instance.m_string = default;
-                    return true;
+                    if (value is null)
+                    {
+                        instance.m_string = default;
+                        return true;
+                    }
+                    if (value is string castValue)
+                    {
+                        instance.m_string = castValue;
+                        return true;
+                    }
+                    return false;
                 }
-                if (value is string castValue)
-                {
-                    instance.m_string = castValue;
-                    return true;
-                }
-                return false;
-            }
             default:
-            return false;
+                return false;
         }
     }
 

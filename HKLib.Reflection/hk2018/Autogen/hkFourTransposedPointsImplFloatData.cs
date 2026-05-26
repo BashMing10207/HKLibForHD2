@@ -1,14 +1,14 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkFourTransposedPointsImplFloatData : HavokData<hkFourTransposedPointsImplFloat> 
+internal class hkFourTransposedPointsImplFloatData : HavokData<hkFourTransposedPointsImplFloat>
 {
     private static readonly System.Reflection.FieldInfo _verticesInfo = typeof(hkFourTransposedPointsImplFloat).GetField("m_vertices")!;
-    public hkFourTransposedPointsImplFloatData(HavokType type, hkFourTransposedPointsImplFloat instance) : base(type, instance) {}
+    public hkFourTransposedPointsImplFloatData(HavokType type, hkFourTransposedPointsImplFloat instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -17,13 +17,13 @@ internal class hkFourTransposedPointsImplFloatData : HavokData<hkFourTransposedP
         {
             case "m_vertices":
             case "vertices":
-            {
-                if (instance.m_vertices is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_vertices is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -33,20 +33,20 @@ internal class hkFourTransposedPointsImplFloatData : HavokData<hkFourTransposedP
         {
             case "m_vertices":
             case "vertices":
-            {
-                if (value is not Vector4[] castValue || castValue.Length != 3) return false;
-                try
                 {
-                    _verticesInfo.SetValue(instance, value);
-                    return true;
+                    if (value is not Vector4[] castValue || castValue.Length != 3) return false;
+                    try
+                    {
+                        _verticesInfo.SetValue(instance, value);
+                        return true;
+                    }
+                    catch
+                    {
+                        return false;
+                    }
                 }
-                catch
-                {
-                    return false;
-                }
-            }
             default:
-            return false;
+                return false;
         }
     }
 

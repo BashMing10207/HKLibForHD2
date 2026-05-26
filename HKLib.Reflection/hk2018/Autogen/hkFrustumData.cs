@@ -1,14 +1,14 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkFrustumData : HavokData<hkFrustum> 
+internal class hkFrustumData : HavokData<hkFrustum>
 {
     private static readonly System.Reflection.FieldInfo _planesInfo = typeof(hkFrustum).GetField("m_planes")!;
-    public hkFrustumData(HavokType type, hkFrustum instance) : base(type, instance) {}
+    public hkFrustumData(HavokType type, hkFrustum instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -17,13 +17,13 @@ internal class hkFrustumData : HavokData<hkFrustum>
         {
             case "m_planes":
             case "planes":
-            {
-                if (instance.m_planes is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_planes is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -33,20 +33,20 @@ internal class hkFrustumData : HavokData<hkFrustum>
         {
             case "m_planes":
             case "planes":
-            {
-                if (value is not hkPlane[] castValue || castValue.Length != 6) return false;
-                try
                 {
-                    _planesInfo.SetValue(instance, value);
-                    return true;
+                    if (value is not hkPlane[] castValue || castValue.Length != 6) return false;
+                    try
+                    {
+                        _planesInfo.SetValue(instance, value);
+                        return true;
+                    }
+                    catch
+                    {
+                        return false;
+                    }
                 }
-                catch
-                {
-                    return false;
-                }
-            }
             default:
-            return false;
+                return false;
         }
     }
 

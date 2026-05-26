@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018.hke;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkeSerializeCallbackData : HavokData<SerializeCallback> 
+internal class hkeSerializeCallbackData : HavokData<SerializeCallback>
 {
-    public hkeSerializeCallbackData(HavokType type, SerializeCallback instance) : base(type, instance) {}
+    public hkeSerializeCallbackData(HavokType type, SerializeCallback instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,20 +16,20 @@ internal class hkeSerializeCallbackData : HavokData<SerializeCallback>
         {
             case "m_cb":
             case "cb":
-            {
-                if (instance.m_cb is null)
                 {
-                    return true;
+                    if (instance.m_cb is null)
+                    {
+                        return true;
+                    }
+                    if (instance.m_cb is TGet castValue)
+                    {
+                        value = castValue;
+                        return true;
+                    }
+                    return false;
                 }
-                if (instance.m_cb is TGet castValue)
-                {
-                    value = castValue;
-                    return true;
-                }
-                return false;
-            }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -39,21 +39,21 @@ internal class hkeSerializeCallbackData : HavokData<SerializeCallback>
         {
             case "m_cb":
             case "cb":
-            {
-                if (value is null)
                 {
-                    instance.m_cb = default;
-                    return true;
+                    if (value is null)
+                    {
+                        instance.m_cb = default;
+                        return true;
+                    }
+                    if (value is object castValue)
+                    {
+                        instance.m_cb = castValue;
+                        return true;
+                    }
+                    return false;
                 }
-                if (value is object castValue)
-                {
-                    instance.m_cb = castValue;
-                    return true;
-                }
-                return false;
-            }
             default:
-            return false;
+                return false;
         }
     }
 

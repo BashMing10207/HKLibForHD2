@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018.hkRemoteUi;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkRemoteUi_MinData : HavokData<_Min> 
+internal class hkRemoteUi_MinData : HavokData<_Min>
 {
-    public hkRemoteUi_MinData(HavokType type, _Min instance) : base(type, instance) {}
+    public hkRemoteUi_MinData(HavokType type, _Min instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,13 +16,13 @@ internal class hkRemoteUi_MinData : HavokData<_Min>
         {
             case "m_value":
             case "value":
-            {
-                if (instance.m_value is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_value is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -32,13 +32,13 @@ internal class hkRemoteUi_MinData : HavokData<_Min>
         {
             case "m_value":
             case "value":
-            {
-                if (value is not double castValue) return false;
-                instance.m_value = castValue;
-                return true;
-            }
+                {
+                    if (value is not double castValue) return false;
+                    instance.m_value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

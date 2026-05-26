@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018.hk;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkBackupData : HavokData<Backup> 
+internal class hkBackupData : HavokData<Backup>
 {
-    public hkBackupData(HavokType type, Backup instance) : base(type, instance) {}
+    public hkBackupData(HavokType type, Backup instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,20 +16,20 @@ internal class hkBackupData : HavokData<Backup>
         {
             case "m_fn":
             case "fn":
-            {
-                if (instance.m_fn is null)
                 {
-                    return true;
+                    if (instance.m_fn is null)
+                    {
+                        return true;
+                    }
+                    if (instance.m_fn is TGet castValue)
+                    {
+                        value = castValue;
+                        return true;
+                    }
+                    return false;
                 }
-                if (instance.m_fn is TGet castValue)
-                {
-                    value = castValue;
-                    return true;
-                }
-                return false;
-            }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -39,21 +39,21 @@ internal class hkBackupData : HavokData<Backup>
         {
             case "m_fn":
             case "fn":
-            {
-                if (value is null)
                 {
-                    instance.m_fn = default;
-                    return true;
+                    if (value is null)
+                    {
+                        instance.m_fn = default;
+                        return true;
+                    }
+                    if (value is object castValue)
+                    {
+                        instance.m_fn = castValue;
+                        return true;
+                    }
+                    return false;
                 }
-                if (value is object castValue)
-                {
-                    instance.m_fn = castValue;
-                    return true;
-                }
-                return false;
-            }
             default:
-            return false;
+                return false;
         }
     }
 

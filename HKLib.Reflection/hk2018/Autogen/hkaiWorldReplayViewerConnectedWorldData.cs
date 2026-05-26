@@ -1,14 +1,14 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
 using HKLib.hk2018.hkaiWorldReplayViewer;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkaiWorldReplayViewerConnectedWorldData : HavokData<ConnectedWorld> 
+internal class hkaiWorldReplayViewerConnectedWorldData : HavokData<ConnectedWorld>
 {
-    public hkaiWorldReplayViewerConnectedWorldData(HavokType type, ConnectedWorld instance) : base(type, instance) {}
+    public hkaiWorldReplayViewerConnectedWorldData(HavokType type, ConnectedWorld instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -17,34 +17,34 @@ internal class hkaiWorldReplayViewerConnectedWorldData : HavokData<ConnectedWorl
         {
             case "m_world":
             case "world":
-            {
-                if (instance.m_world is null)
                 {
-                    return true;
+                    if (instance.m_world is null)
+                    {
+                        return true;
+                    }
+                    if (instance.m_world is TGet castValue)
+                    {
+                        value = castValue;
+                        return true;
+                    }
+                    return false;
                 }
-                if (instance.m_world is TGet castValue)
+            case "m_navigators":
+            case "navigators":
                 {
+                    if (instance.m_navigators is not TGet castValue) return false;
                     value = castValue;
                     return true;
                 }
-                return false;
-            }
-            case "m_navigators":
-            case "navigators":
-            {
-                if (instance.m_navigators is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
             case "m_volumeNavigators":
             case "volumeNavigators":
-            {
-                if (instance.m_volumeNavigators is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_volumeNavigators is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -54,35 +54,35 @@ internal class hkaiWorldReplayViewerConnectedWorldData : HavokData<ConnectedWorl
         {
             case "m_world":
             case "world":
-            {
-                if (value is null)
                 {
-                    instance.m_world = default;
-                    return true;
+                    if (value is null)
+                    {
+                        instance.m_world = default;
+                        return true;
+                    }
+                    if (value is hkaiWorld castValue)
+                    {
+                        instance.m_world = castValue;
+                        return true;
+                    }
+                    return false;
                 }
-                if (value is hkaiWorld castValue)
-                {
-                    instance.m_world = castValue;
-                    return true;
-                }
-                return false;
-            }
             case "m_navigators":
             case "navigators":
-            {
-                if (value is not List<hkaiNavigator?> castValue) return false;
-                instance.m_navigators = castValue;
-                return true;
-            }
+                {
+                    if (value is not List<hkaiNavigator?> castValue) return false;
+                    instance.m_navigators = castValue;
+                    return true;
+                }
             case "m_volumeNavigators":
             case "volumeNavigators":
-            {
-                if (value is not List<hkaiVolumeNavigator?> castValue) return false;
-                instance.m_volumeNavigators = castValue;
-                return true;
-            }
+                {
+                    if (value is not List<hkaiVolumeNavigator?> castValue) return false;
+                    instance.m_volumeNavigators = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

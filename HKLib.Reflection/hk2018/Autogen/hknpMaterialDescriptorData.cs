@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hknpMaterialDescriptorData : HavokData<hknpMaterialDescriptor> 
+internal class hknpMaterialDescriptorData : HavokData<hknpMaterialDescriptor>
 {
-    public hknpMaterialDescriptorData(HavokType type, hknpMaterialDescriptor instance) : base(type, instance) {}
+    public hknpMaterialDescriptorData(HavokType type, hknpMaterialDescriptor instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,41 +16,41 @@ internal class hknpMaterialDescriptorData : HavokData<hknpMaterialDescriptor>
         {
             case "m_name":
             case "name":
-            {
-                if (instance.m_name is null)
                 {
-                    return true;
+                    if (instance.m_name is null)
+                    {
+                        return true;
+                    }
+                    if (instance.m_name is TGet castValue)
+                    {
+                        value = castValue;
+                        return true;
+                    }
+                    return false;
                 }
-                if (instance.m_name is TGet castValue)
-                {
-                    value = castValue;
-                    return true;
-                }
-                return false;
-            }
             case "m_material":
             case "material":
-            {
-                if (instance.m_material is null)
                 {
-                    return true;
+                    if (instance.m_material is null)
+                    {
+                        return true;
+                    }
+                    if (instance.m_material is TGet castValue)
+                    {
+                        value = castValue;
+                        return true;
+                    }
+                    return false;
                 }
-                if (instance.m_material is TGet castValue)
+            case "m_materialId":
+            case "materialId":
                 {
+                    if (instance.m_materialId is not TGet castValue) return false;
                     value = castValue;
                     return true;
                 }
-                return false;
-            }
-            case "m_materialId":
-            case "materialId":
-            {
-                if (instance.m_materialId is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -60,43 +60,43 @@ internal class hknpMaterialDescriptorData : HavokData<hknpMaterialDescriptor>
         {
             case "m_name":
             case "name":
-            {
-                if (value is null)
                 {
-                    instance.m_name = default;
-                    return true;
+                    if (value is null)
+                    {
+                        instance.m_name = default;
+                        return true;
+                    }
+                    if (value is string castValue)
+                    {
+                        instance.m_name = castValue;
+                        return true;
+                    }
+                    return false;
                 }
-                if (value is string castValue)
-                {
-                    instance.m_name = castValue;
-                    return true;
-                }
-                return false;
-            }
             case "m_material":
             case "material":
-            {
-                if (value is null)
                 {
-                    instance.m_material = default;
-                    return true;
+                    if (value is null)
+                    {
+                        instance.m_material = default;
+                        return true;
+                    }
+                    if (value is hknpRefMaterial castValue)
+                    {
+                        instance.m_material = castValue;
+                        return true;
+                    }
+                    return false;
                 }
-                if (value is hknpRefMaterial castValue)
-                {
-                    instance.m_material = castValue;
-                    return true;
-                }
-                return false;
-            }
             case "m_materialId":
             case "materialId":
-            {
-                if (value is not ushort castValue) return false;
-                instance.m_materialId = castValue;
-                return true;
-            }
+                {
+                    if (value is not ushort castValue) return false;
+                    instance.m_materialId = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
-using HKLib.hk2018;
+﻿using System.Reflection;
 using IHavokObject = HKLib.hk2018.IHavokObject;
 
 namespace HKLib.Reflection.hk2018;

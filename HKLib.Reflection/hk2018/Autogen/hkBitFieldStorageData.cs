@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkBitFieldStorageData<Storage> : HavokData<hkBitFieldStorage<Storage>> 
+internal class hkBitFieldStorageData<Storage> : HavokData<hkBitFieldStorage<Storage>>
 {
-    public hkBitFieldStorageData(HavokType type, hkBitFieldStorage<Storage> instance) : base(type, instance) {}
+    public hkBitFieldStorageData(HavokType type, hkBitFieldStorage<Storage> instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,27 +16,27 @@ internal class hkBitFieldStorageData<Storage> : HavokData<hkBitFieldStorage<Stor
         {
             case "m_words":
             case "words":
-            {
-                if (instance.m_words is null)
                 {
-                    return true;
+                    if (instance.m_words is null)
+                    {
+                        return true;
+                    }
+                    if (instance.m_words is TGet castValue)
+                    {
+                        value = castValue;
+                        return true;
+                    }
+                    return false;
                 }
-                if (instance.m_words is TGet castValue)
+            case "m_numBits":
+            case "numBits":
                 {
+                    if (instance.m_numBits is not TGet castValue) return false;
                     value = castValue;
                     return true;
                 }
-                return false;
-            }
-            case "m_numBits":
-            case "numBits":
-            {
-                if (instance.m_numBits is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -46,28 +46,28 @@ internal class hkBitFieldStorageData<Storage> : HavokData<hkBitFieldStorage<Stor
         {
             case "m_words":
             case "words":
-            {
-                if (value is null)
                 {
-                    instance.m_words = default;
-                    return true;
+                    if (value is null)
+                    {
+                        instance.m_words = default;
+                        return true;
+                    }
+                    if (value is Storage castValue)
+                    {
+                        instance.m_words = castValue;
+                        return true;
+                    }
+                    return false;
                 }
-                if (value is Storage castValue)
-                {
-                    instance.m_words = castValue;
-                    return true;
-                }
-                return false;
-            }
             case "m_numBits":
             case "numBits":
-            {
-                if (value is not int castValue) return false;
-                instance.m_numBits = castValue;
-                return true;
-            }
+                {
+                    if (value is not int castValue) return false;
+                    instance.m_numBits = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

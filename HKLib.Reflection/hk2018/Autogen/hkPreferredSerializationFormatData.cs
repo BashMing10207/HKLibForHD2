@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018.hk;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkPreferredSerializationFormatData : HavokData<PreferredSerializationFormat> 
+internal class hkPreferredSerializationFormatData : HavokData<PreferredSerializationFormat>
 {
-    public hkPreferredSerializationFormatData(HavokType type, PreferredSerializationFormat instance) : base(type, instance) {}
+    public hkPreferredSerializationFormatData(HavokType type, PreferredSerializationFormat instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,21 +16,21 @@ internal class hkPreferredSerializationFormatData : HavokData<PreferredSerializa
         {
             case "m_value":
             case "value":
-            {
-                if (instance.m_value is TGet castValue)
                 {
-                    value = castValue;
-                    return true;
+                    if (instance.m_value is TGet castValue)
+                    {
+                        value = castValue;
+                        return true;
+                    }
+                    if ((uint)instance.m_value is TGet uintValue)
+                    {
+                        value = uintValue;
+                        return true;
+                    }
+                    return false;
                 }
-                if ((uint)instance.m_value is TGet uintValue)
-                {
-                    value = uintValue;
-                    return true;
-                }
-                return false;
-            }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -40,21 +40,21 @@ internal class hkPreferredSerializationFormatData : HavokData<PreferredSerializa
         {
             case "m_value":
             case "value":
-            {
-                if (value is PreferredSerializationFormat.Format castValue)
                 {
-                    instance.m_value = castValue;
-                    return true;
+                    if (value is PreferredSerializationFormat.Format castValue)
+                    {
+                        instance.m_value = castValue;
+                        return true;
+                    }
+                    if (value is uint uintValue)
+                    {
+                        instance.m_value = (PreferredSerializationFormat.Format)uintValue;
+                        return true;
+                    }
+                    return false;
                 }
-                if (value is uint uintValue)
-                {
-                    instance.m_value = (PreferredSerializationFormat.Format)uintValue;
-                    return true;
-                }
-                return false;
-            }
             default:
-            return false;
+                return false;
         }
     }
 

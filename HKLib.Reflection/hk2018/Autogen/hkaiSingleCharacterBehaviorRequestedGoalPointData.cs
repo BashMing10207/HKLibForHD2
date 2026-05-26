@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkaiSingleCharacterBehaviorRequestedGoalPointData : HavokData<hkaiSingleCharacterBehavior.RequestedGoalPoint> 
+internal class hkaiSingleCharacterBehaviorRequestedGoalPointData : HavokData<hkaiSingleCharacterBehavior.RequestedGoalPoint>
 {
-    public hkaiSingleCharacterBehaviorRequestedGoalPointData(HavokType type, hkaiSingleCharacterBehavior.RequestedGoalPoint instance) : base(type, instance) {}
+    public hkaiSingleCharacterBehaviorRequestedGoalPointData(HavokType type, hkaiSingleCharacterBehavior.RequestedGoalPoint instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,20 +16,20 @@ internal class hkaiSingleCharacterBehaviorRequestedGoalPointData : HavokData<hka
         {
             case "m_position":
             case "position":
-            {
-                if (instance.m_position is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_position is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_sectionId":
             case "sectionId":
-            {
-                if (instance.m_sectionId is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_sectionId is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -39,20 +39,20 @@ internal class hkaiSingleCharacterBehaviorRequestedGoalPointData : HavokData<hka
         {
             case "m_position":
             case "position":
-            {
-                if (value is not Vector4 castValue) return false;
-                instance.m_position = castValue;
-                return true;
-            }
+                {
+                    if (value is not Vector4 castValue) return false;
+                    instance.m_position = castValue;
+                    return true;
+                }
             case "m_sectionId":
             case "sectionId":
-            {
-                if (value is not int castValue) return false;
-                instance.m_sectionId = castValue;
-                return true;
-            }
+                {
+                    if (value is not int castValue) return false;
+                    instance.m_sectionId = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

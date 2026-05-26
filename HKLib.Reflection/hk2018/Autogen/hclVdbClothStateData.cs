@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hclVdbClothStateData : HavokData<hclVdbClothState> 
+internal class hclVdbClothStateData : HavokData<hclVdbClothState>
 {
-    public hclVdbClothStateData(HavokType type, hclVdbClothState instance) : base(type, instance) {}
+    public hclVdbClothStateData(HavokType type, hclVdbClothState instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,27 +16,27 @@ internal class hclVdbClothStateData : HavokData<hclVdbClothState>
         {
             case "m_name":
             case "name":
-            {
-                if (instance.m_name is null)
                 {
-                    return true;
+                    if (instance.m_name is null)
+                    {
+                        return true;
+                    }
+                    if (instance.m_name is TGet castValue)
+                    {
+                        value = castValue;
+                        return true;
+                    }
+                    return false;
                 }
-                if (instance.m_name is TGet castValue)
+            case "m_stateId":
+            case "stateId":
                 {
+                    if (instance.m_stateId is not TGet castValue) return false;
                     value = castValue;
                     return true;
                 }
-                return false;
-            }
-            case "m_stateId":
-            case "stateId":
-            {
-                if (instance.m_stateId is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -46,28 +46,28 @@ internal class hclVdbClothStateData : HavokData<hclVdbClothState>
         {
             case "m_name":
             case "name":
-            {
-                if (value is null)
                 {
-                    instance.m_name = default;
-                    return true;
+                    if (value is null)
+                    {
+                        instance.m_name = default;
+                        return true;
+                    }
+                    if (value is string castValue)
+                    {
+                        instance.m_name = castValue;
+                        return true;
+                    }
+                    return false;
                 }
-                if (value is string castValue)
-                {
-                    instance.m_name = castValue;
-                    return true;
-                }
-                return false;
-            }
             case "m_stateId":
             case "stateId":
-            {
-                if (value is not uint castValue) return false;
-                instance.m_stateId = castValue;
-                return true;
-            }
+                {
+                    if (value is not uint castValue) return false;
+                    instance.m_stateId = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

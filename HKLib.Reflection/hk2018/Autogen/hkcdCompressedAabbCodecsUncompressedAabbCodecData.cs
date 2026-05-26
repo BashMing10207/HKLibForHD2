@@ -1,14 +1,14 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
 using HKLib.hk2018.hkcdCompressedAabbCodecs;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkcdCompressedAabbCodecsUncompressedAabbCodecData : HavokData<UncompressedAabbCodec> 
+internal class hkcdCompressedAabbCodecsUncompressedAabbCodecData : HavokData<UncompressedAabbCodec>
 {
-    public hkcdCompressedAabbCodecsUncompressedAabbCodecData(HavokType type, UncompressedAabbCodec instance) : base(type, instance) {}
+    public hkcdCompressedAabbCodecsUncompressedAabbCodecData(HavokType type, UncompressedAabbCodec instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -17,13 +17,13 @@ internal class hkcdCompressedAabbCodecsUncompressedAabbCodecData : HavokData<Unc
         {
             case "m_aabb":
             case "aabb":
-            {
-                if (instance.m_aabb is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_aabb is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -33,13 +33,13 @@ internal class hkcdCompressedAabbCodecsUncompressedAabbCodecData : HavokData<Unc
         {
             case "m_aabb":
             case "aabb":
-            {
-                if (value is not hkAabb castValue) return false;
-                instance.m_aabb = castValue;
-                return true;
-            }
+                {
+                    if (value is not hkAabb castValue) return false;
+                    instance.m_aabb = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018.hkSerialize.Detail;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkSerializeDetailIdFromPointerData : HavokData<IdFromPointer> 
+internal class hkSerializeDetailIdFromPointerData : HavokData<IdFromPointer>
 {
-    public hkSerializeDetailIdFromPointerData(HavokType type, IdFromPointer instance) : base(type, instance) {}
+    public hkSerializeDetailIdFromPointerData(HavokType type, IdFromPointer instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,13 +16,13 @@ internal class hkSerializeDetailIdFromPointerData : HavokData<IdFromPointer>
         {
             case "m_id":
             case "id":
-            {
-                if (instance.m_id is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_id is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -32,13 +32,13 @@ internal class hkSerializeDetailIdFromPointerData : HavokData<IdFromPointer>
         {
             case "m_id":
             case "id":
-            {
-                if (value is not uint castValue) return false;
-                instance.m_id = castValue;
-                return true;
-            }
+                {
+                    if (value is not uint castValue) return false;
+                    instance.m_id = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

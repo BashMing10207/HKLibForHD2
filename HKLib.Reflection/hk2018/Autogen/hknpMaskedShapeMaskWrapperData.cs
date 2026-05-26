@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hknpMaskedShapeMaskWrapperData : HavokData<hknpMaskedShape.MaskWrapper> 
+internal class hknpMaskedShapeMaskWrapperData : HavokData<hknpMaskedShape.MaskWrapper>
 {
-    public hknpMaskedShapeMaskWrapperData(HavokType type, hknpMaskedShape.MaskWrapper instance) : base(type, instance) {}
+    public hknpMaskedShapeMaskWrapperData(HavokType type, hknpMaskedShape.MaskWrapper instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -15,7 +15,7 @@ internal class hknpMaskedShapeMaskWrapperData : HavokData<hknpMaskedShape.MaskWr
         switch (fieldName)
         {
             default:
-            return false;
+                return false;
         }
     }
 
@@ -24,7 +24,7 @@ internal class hknpMaskedShapeMaskWrapperData : HavokData<hknpMaskedShape.MaskWr
         switch (fieldName)
         {
             default:
-            return false;
+                return false;
         }
     }
 

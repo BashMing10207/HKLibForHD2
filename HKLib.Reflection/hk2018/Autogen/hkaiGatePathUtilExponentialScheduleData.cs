@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018.hkaiGatePathUtil;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkaiGatePathUtilExponentialScheduleData : HavokData<ExponentialSchedule> 
+internal class hkaiGatePathUtilExponentialScheduleData : HavokData<ExponentialSchedule>
 {
-    public hkaiGatePathUtilExponentialScheduleData(HavokType type, ExponentialSchedule instance) : base(type, instance) {}
+    public hkaiGatePathUtilExponentialScheduleData(HavokType type, ExponentialSchedule instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,13 +16,13 @@ internal class hkaiGatePathUtilExponentialScheduleData : HavokData<ExponentialSc
         {
             case "m_round":
             case "round":
-            {
-                if (instance.m_round is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_round is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -32,13 +32,13 @@ internal class hkaiGatePathUtilExponentialScheduleData : HavokData<ExponentialSc
         {
             case "m_round":
             case "round":
-            {
-                if (value is not int castValue) return false;
-                instance.m_round = castValue;
-                return true;
-            }
+                {
+                    if (value is not int castValue) return false;
+                    instance.m_round = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkbTransformVectorModifierInternalStateData : HavokData<hkbTransformVectorModifierInternalState> 
+internal class hkbTransformVectorModifierInternalStateData : HavokData<hkbTransformVectorModifierInternalState>
 {
-    public hkbTransformVectorModifierInternalStateData(HavokType type, hkbTransformVectorModifierInternalState instance) : base(type, instance) {}
+    public hkbTransformVectorModifierInternalStateData(HavokType type, hkbTransformVectorModifierInternalState instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,20 +16,20 @@ internal class hkbTransformVectorModifierInternalStateData : HavokData<hkbTransf
         {
             case "m_propertyBag":
             case "propertyBag":
-            {
-                if (instance.m_propertyBag is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_propertyBag is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_vectorOut":
             case "vectorOut":
-            {
-                if (instance.m_vectorOut is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_vectorOut is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -39,20 +39,20 @@ internal class hkbTransformVectorModifierInternalStateData : HavokData<hkbTransf
         {
             case "m_propertyBag":
             case "propertyBag":
-            {
-                if (value is not hkPropertyBag castValue) return false;
-                instance.m_propertyBag = castValue;
-                return true;
-            }
+                {
+                    if (value is not hkPropertyBag castValue) return false;
+                    instance.m_propertyBag = castValue;
+                    return true;
+                }
             case "m_vectorOut":
             case "vectorOut":
-            {
-                if (value is not Vector4 castValue) return false;
-                instance.m_vectorOut = castValue;
-                return true;
-            }
+                {
+                    if (value is not Vector4 castValue) return false;
+                    instance.m_vectorOut = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

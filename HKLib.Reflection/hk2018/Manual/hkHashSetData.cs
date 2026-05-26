@@ -1,7 +1,7 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
@@ -16,11 +16,11 @@ internal class hkHashSetData<KEY> : HavokData<hkHashSet<KEY>>
         {
             case "m_items":
             case "items":
-            {
-                if (instance.m_items is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_items is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
                 return false;
         }
@@ -32,11 +32,11 @@ internal class hkHashSetData<KEY> : HavokData<hkHashSet<KEY>>
         {
             case "m_items":
             case "items":
-            {
-                if (value is not List<KEY> castValue) return false;
-                instance.m_items = castValue;
-                return true;
-            }
+                {
+                    if (value is not List<KEY> castValue) return false;
+                    instance.m_items = castValue;
+                    return true;
+                }
             default:
                 return false;
         }

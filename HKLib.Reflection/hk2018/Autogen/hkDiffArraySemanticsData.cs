@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018.hk;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkDiffArraySemanticsData : HavokData<DiffArraySemantics> 
+internal class hkDiffArraySemanticsData : HavokData<DiffArraySemantics>
 {
-    public hkDiffArraySemanticsData(HavokType type, DiffArraySemantics instance) : base(type, instance) {}
+    public hkDiffArraySemanticsData(HavokType type, DiffArraySemantics instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -15,7 +15,7 @@ internal class hkDiffArraySemanticsData : HavokData<DiffArraySemantics>
         switch (fieldName)
         {
             default:
-            return false;
+                return false;
         }
     }
 
@@ -24,7 +24,7 @@ internal class hkDiffArraySemanticsData : HavokData<DiffArraySemantics>
         switch (fieldName)
         {
             default:
-            return false;
+                return false;
         }
     }
 

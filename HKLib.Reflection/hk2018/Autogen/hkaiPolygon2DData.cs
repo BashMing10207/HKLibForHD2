@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkaiPolygon2DData : HavokData<hkaiPolygon2D> 
+internal class hkaiPolygon2DData : HavokData<hkaiPolygon2D>
 {
-    public hkaiPolygon2DData(HavokType type, hkaiPolygon2D instance) : base(type, instance) {}
+    public hkaiPolygon2DData(HavokType type, hkaiPolygon2D instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,13 +16,13 @@ internal class hkaiPolygon2DData : HavokData<hkaiPolygon2D>
         {
             case "m_vertices":
             case "vertices":
-            {
-                if (instance.m_vertices is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_vertices is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -32,13 +32,13 @@ internal class hkaiPolygon2DData : HavokData<hkaiPolygon2D>
         {
             case "m_vertices":
             case "vertices":
-            {
-                if (value is not List<hkVector2> castValue) return false;
-                instance.m_vertices = castValue;
-                return true;
-            }
+                {
+                    if (value is not List<hkVector2> castValue) return false;
+                    instance.m_vertices = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

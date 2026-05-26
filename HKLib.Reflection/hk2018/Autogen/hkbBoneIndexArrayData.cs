@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkbBoneIndexArrayData : HavokData<hkbBoneIndexArray> 
+internal class hkbBoneIndexArrayData : HavokData<hkbBoneIndexArray>
 {
-    public hkbBoneIndexArrayData(HavokType type, hkbBoneIndexArray instance) : base(type, instance) {}
+    public hkbBoneIndexArrayData(HavokType type, hkbBoneIndexArray instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,34 +16,34 @@ internal class hkbBoneIndexArrayData : HavokData<hkbBoneIndexArray>
         {
             case "m_propertyBag":
             case "propertyBag":
-            {
-                if (instance.m_propertyBag is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
-            case "m_variableBindingSet":
-            case "variableBindingSet":
-            {
-                if (instance.m_variableBindingSet is null)
                 {
-                    return true;
-                }
-                if (instance.m_variableBindingSet is TGet castValue)
-                {
+                    if (instance.m_propertyBag is not TGet castValue) return false;
                     value = castValue;
                     return true;
                 }
-                return false;
-            }
+            case "m_variableBindingSet":
+            case "variableBindingSet":
+                {
+                    if (instance.m_variableBindingSet is null)
+                    {
+                        return true;
+                    }
+                    if (instance.m_variableBindingSet is TGet castValue)
+                    {
+                        value = castValue;
+                        return true;
+                    }
+                    return false;
+                }
             case "m_boneIndices":
             case "boneIndices":
-            {
-                if (instance.m_boneIndices is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_boneIndices is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -53,35 +53,35 @@ internal class hkbBoneIndexArrayData : HavokData<hkbBoneIndexArray>
         {
             case "m_propertyBag":
             case "propertyBag":
-            {
-                if (value is not hkPropertyBag castValue) return false;
-                instance.m_propertyBag = castValue;
-                return true;
-            }
+                {
+                    if (value is not hkPropertyBag castValue) return false;
+                    instance.m_propertyBag = castValue;
+                    return true;
+                }
             case "m_variableBindingSet":
             case "variableBindingSet":
-            {
-                if (value is null)
                 {
-                    instance.m_variableBindingSet = default;
-                    return true;
+                    if (value is null)
+                    {
+                        instance.m_variableBindingSet = default;
+                        return true;
+                    }
+                    if (value is hkbVariableBindingSet castValue)
+                    {
+                        instance.m_variableBindingSet = castValue;
+                        return true;
+                    }
+                    return false;
                 }
-                if (value is hkbVariableBindingSet castValue)
-                {
-                    instance.m_variableBindingSet = castValue;
-                    return true;
-                }
-                return false;
-            }
             case "m_boneIndices":
             case "boneIndices":
-            {
-                if (value is not List<short> castValue) return false;
-                instance.m_boneIndices = castValue;
-                return true;
-            }
+                {
+                    if (value is not List<short> castValue) return false;
+                    instance.m_boneIndices = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

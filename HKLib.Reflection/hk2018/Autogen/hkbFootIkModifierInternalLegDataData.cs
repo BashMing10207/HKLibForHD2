@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkbFootIkModifierInternalLegDataData : HavokData<hkbFootIkModifier.InternalLegData> 
+internal class hkbFootIkModifierInternalLegDataData : HavokData<hkbFootIkModifier.InternalLegData>
 {
-    public hkbFootIkModifierInternalLegDataData(HavokType type, hkbFootIkModifier.InternalLegData instance) : base(type, instance) {}
+    public hkbFootIkModifierInternalLegDataData(HavokType type, hkbFootIkModifier.InternalLegData instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,13 +16,13 @@ internal class hkbFootIkModifierInternalLegDataData : HavokData<hkbFootIkModifie
         {
             case "m_groundPosition":
             case "groundPosition":
-            {
-                if (instance.m_groundPosition is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_groundPosition is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -32,13 +32,13 @@ internal class hkbFootIkModifierInternalLegDataData : HavokData<hkbFootIkModifie
         {
             case "m_groundPosition":
             case "groundPosition":
-            {
-                if (value is not Vector4 castValue) return false;
-                instance.m_groundPosition = castValue;
-                return true;
-            }
+                {
+                    if (value is not Vector4 castValue) return false;
+                    instance.m_groundPosition = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

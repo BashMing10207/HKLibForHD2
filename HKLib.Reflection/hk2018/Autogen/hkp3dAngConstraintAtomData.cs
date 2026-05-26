@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkp3dAngConstraintAtomData : HavokData<hkp3dAngConstraintAtom> 
+internal class hkp3dAngConstraintAtomData : HavokData<hkp3dAngConstraintAtom>
 {
-    public hkp3dAngConstraintAtomData(HavokType type, hkp3dAngConstraintAtom instance) : base(type, instance) {}
+    public hkp3dAngConstraintAtomData(HavokType type, hkp3dAngConstraintAtom instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,21 +16,21 @@ internal class hkp3dAngConstraintAtomData : HavokData<hkp3dAngConstraintAtom>
         {
             case "m_type":
             case "type":
-            {
-                if (instance.m_type is TGet castValue)
                 {
-                    value = castValue;
-                    return true;
+                    if (instance.m_type is TGet castValue)
+                    {
+                        value = castValue;
+                        return true;
+                    }
+                    if ((ushort)instance.m_type is TGet ushortValue)
+                    {
+                        value = ushortValue;
+                        return true;
+                    }
+                    return false;
                 }
-                if ((ushort)instance.m_type is TGet ushortValue)
-                {
-                    value = ushortValue;
-                    return true;
-                }
-                return false;
-            }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -40,21 +40,21 @@ internal class hkp3dAngConstraintAtomData : HavokData<hkp3dAngConstraintAtom>
         {
             case "m_type":
             case "type":
-            {
-                if (value is hkpConstraintAtom.AtomType castValue)
                 {
-                    instance.m_type = castValue;
-                    return true;
+                    if (value is hkpConstraintAtom.AtomType castValue)
+                    {
+                        instance.m_type = castValue;
+                        return true;
+                    }
+                    if (value is ushort ushortValue)
+                    {
+                        instance.m_type = (hkpConstraintAtom.AtomType)ushortValue;
+                        return true;
+                    }
+                    return false;
                 }
-                if (value is ushort ushortValue)
-                {
-                    instance.m_type = (hkpConstraintAtom.AtomType)ushortValue;
-                    return true;
-                }
-                return false;
-            }
             default:
-            return false;
+                return false;
         }
     }
 

@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkbRadialSelectorGeneratorData : HavokData<hkbRadialSelectorGenerator> 
+internal class hkbRadialSelectorGeneratorData : HavokData<hkbRadialSelectorGenerator>
 {
-    public hkbRadialSelectorGeneratorData(HavokType type, hkbRadialSelectorGenerator instance) : base(type, instance) {}
+    public hkbRadialSelectorGeneratorData(HavokType type, hkbRadialSelectorGenerator instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,69 +16,69 @@ internal class hkbRadialSelectorGeneratorData : HavokData<hkbRadialSelectorGener
         {
             case "m_propertyBag":
             case "propertyBag":
-            {
-                if (instance.m_propertyBag is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_propertyBag is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_variableBindingSet":
             case "variableBindingSet":
-            {
-                if (instance.m_variableBindingSet is null)
                 {
-                    return true;
+                    if (instance.m_variableBindingSet is null)
+                    {
+                        return true;
+                    }
+                    if (instance.m_variableBindingSet is TGet castValue)
+                    {
+                        value = castValue;
+                        return true;
+                    }
+                    return false;
                 }
-                if (instance.m_variableBindingSet is TGet castValue)
-                {
-                    value = castValue;
-                    return true;
-                }
-                return false;
-            }
             case "m_userData":
             case "userData":
-            {
-                if (instance.m_userData is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
-            case "m_name":
-            case "name":
-            {
-                if (instance.m_name is null)
                 {
-                    return true;
-                }
-                if (instance.m_name is TGet castValue)
-                {
+                    if (instance.m_userData is not TGet castValue) return false;
                     value = castValue;
                     return true;
                 }
-                return false;
-            }
+            case "m_name":
+            case "name":
+                {
+                    if (instance.m_name is null)
+                    {
+                        return true;
+                    }
+                    if (instance.m_name is TGet castValue)
+                    {
+                        value = castValue;
+                        return true;
+                    }
+                    return false;
+                }
             case "m_generatorPairs":
             case "generatorPairs":
-            {
-                if (instance.m_generatorPairs is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_generatorPairs is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_angle":
             case "angle":
-            {
-                if (instance.m_angle is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_angle is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_radius":
             case "radius":
-            {
-                if (instance.m_radius is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_radius is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -88,71 +88,71 @@ internal class hkbRadialSelectorGeneratorData : HavokData<hkbRadialSelectorGener
         {
             case "m_propertyBag":
             case "propertyBag":
-            {
-                if (value is not hkPropertyBag castValue) return false;
-                instance.m_propertyBag = castValue;
-                return true;
-            }
+                {
+                    if (value is not hkPropertyBag castValue) return false;
+                    instance.m_propertyBag = castValue;
+                    return true;
+                }
             case "m_variableBindingSet":
             case "variableBindingSet":
-            {
-                if (value is null)
                 {
-                    instance.m_variableBindingSet = default;
-                    return true;
+                    if (value is null)
+                    {
+                        instance.m_variableBindingSet = default;
+                        return true;
+                    }
+                    if (value is hkbVariableBindingSet castValue)
+                    {
+                        instance.m_variableBindingSet = castValue;
+                        return true;
+                    }
+                    return false;
                 }
-                if (value is hkbVariableBindingSet castValue)
-                {
-                    instance.m_variableBindingSet = castValue;
-                    return true;
-                }
-                return false;
-            }
             case "m_userData":
             case "userData":
-            {
-                if (value is not ulong castValue) return false;
-                instance.m_userData = castValue;
-                return true;
-            }
+                {
+                    if (value is not ulong castValue) return false;
+                    instance.m_userData = castValue;
+                    return true;
+                }
             case "m_name":
             case "name":
-            {
-                if (value is null)
                 {
-                    instance.m_name = default;
-                    return true;
+                    if (value is null)
+                    {
+                        instance.m_name = default;
+                        return true;
+                    }
+                    if (value is string castValue)
+                    {
+                        instance.m_name = castValue;
+                        return true;
+                    }
+                    return false;
                 }
-                if (value is string castValue)
-                {
-                    instance.m_name = castValue;
-                    return true;
-                }
-                return false;
-            }
             case "m_generatorPairs":
             case "generatorPairs":
-            {
-                if (value is not List<hkbRadialSelectorGenerator.GeneratorPair> castValue) return false;
-                instance.m_generatorPairs = castValue;
-                return true;
-            }
+                {
+                    if (value is not List<hkbRadialSelectorGenerator.GeneratorPair> castValue) return false;
+                    instance.m_generatorPairs = castValue;
+                    return true;
+                }
             case "m_angle":
             case "angle":
-            {
-                if (value is not float castValue) return false;
-                instance.m_angle = castValue;
-                return true;
-            }
+                {
+                    if (value is not float castValue) return false;
+                    instance.m_angle = castValue;
+                    return true;
+                }
             case "m_radius":
             case "radius":
-            {
-                if (value is not float castValue) return false;
-                instance.m_radius = castValue;
-                return true;
-            }
+                {
+                    if (value is not float castValue) return false;
+                    instance.m_radius = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

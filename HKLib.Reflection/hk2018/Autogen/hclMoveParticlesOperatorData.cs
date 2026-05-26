@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hclMoveParticlesOperatorData : HavokData<hclMoveParticlesOperator> 
+internal class hclMoveParticlesOperatorData : HavokData<hclMoveParticlesOperator>
 {
-    public hclMoveParticlesOperatorData(HavokType type, hclMoveParticlesOperator instance) : base(type, instance) {}
+    public hclMoveParticlesOperatorData(HavokType type, hclMoveParticlesOperator instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,69 +16,69 @@ internal class hclMoveParticlesOperatorData : HavokData<hclMoveParticlesOperator
         {
             case "m_propertyBag":
             case "propertyBag":
-            {
-                if (instance.m_propertyBag is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
-            case "m_name":
-            case "name":
-            {
-                if (instance.m_name is null)
                 {
-                    return true;
-                }
-                if (instance.m_name is TGet castValue)
-                {
+                    if (instance.m_propertyBag is not TGet castValue) return false;
                     value = castValue;
                     return true;
                 }
-                return false;
-            }
+            case "m_name":
+            case "name":
+                {
+                    if (instance.m_name is null)
+                    {
+                        return true;
+                    }
+                    if (instance.m_name is TGet castValue)
+                    {
+                        value = castValue;
+                        return true;
+                    }
+                    return false;
+                }
             case "m_operatorID":
             case "operatorID":
-            {
-                if (instance.m_operatorID is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_operatorID is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_usedBuffers":
             case "usedBuffers":
-            {
-                if (instance.m_usedBuffers is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_usedBuffers is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_usedTransformSets":
             case "usedTransformSets":
-            {
-                if (instance.m_usedTransformSets is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_usedTransformSets is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_vertexParticlePairs":
             case "vertexParticlePairs":
-            {
-                if (instance.m_vertexParticlePairs is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_vertexParticlePairs is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_simClothIndex":
             case "simClothIndex":
-            {
-                if (instance.m_simClothIndex is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_simClothIndex is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_refBufferIdx":
             case "refBufferIdx":
-            {
-                if (instance.m_refBufferIdx is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_refBufferIdx is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -88,70 +88,70 @@ internal class hclMoveParticlesOperatorData : HavokData<hclMoveParticlesOperator
         {
             case "m_propertyBag":
             case "propertyBag":
-            {
-                if (value is not hkPropertyBag castValue) return false;
-                instance.m_propertyBag = castValue;
-                return true;
-            }
+                {
+                    if (value is not hkPropertyBag castValue) return false;
+                    instance.m_propertyBag = castValue;
+                    return true;
+                }
             case "m_name":
             case "name":
-            {
-                if (value is null)
                 {
-                    instance.m_name = default;
-                    return true;
+                    if (value is null)
+                    {
+                        instance.m_name = default;
+                        return true;
+                    }
+                    if (value is string castValue)
+                    {
+                        instance.m_name = castValue;
+                        return true;
+                    }
+                    return false;
                 }
-                if (value is string castValue)
-                {
-                    instance.m_name = castValue;
-                    return true;
-                }
-                return false;
-            }
             case "m_operatorID":
             case "operatorID":
-            {
-                if (value is not uint castValue) return false;
-                instance.m_operatorID = castValue;
-                return true;
-            }
+                {
+                    if (value is not uint castValue) return false;
+                    instance.m_operatorID = castValue;
+                    return true;
+                }
             case "m_usedBuffers":
             case "usedBuffers":
-            {
-                if (value is not List<hclClothState.BufferAccess> castValue) return false;
-                instance.m_usedBuffers = castValue;
-                return true;
-            }
+                {
+                    if (value is not List<hclClothState.BufferAccess> castValue) return false;
+                    instance.m_usedBuffers = castValue;
+                    return true;
+                }
             case "m_usedTransformSets":
             case "usedTransformSets":
-            {
-                if (value is not List<hclClothState.TransformSetAccess> castValue) return false;
-                instance.m_usedTransformSets = castValue;
-                return true;
-            }
+                {
+                    if (value is not List<hclClothState.TransformSetAccess> castValue) return false;
+                    instance.m_usedTransformSets = castValue;
+                    return true;
+                }
             case "m_vertexParticlePairs":
             case "vertexParticlePairs":
-            {
-                if (value is not List<hclMoveParticlesOperator.VertexParticlePair> castValue) return false;
-                instance.m_vertexParticlePairs = castValue;
-                return true;
-            }
+                {
+                    if (value is not List<hclMoveParticlesOperator.VertexParticlePair> castValue) return false;
+                    instance.m_vertexParticlePairs = castValue;
+                    return true;
+                }
             case "m_simClothIndex":
             case "simClothIndex":
-            {
-                if (value is not uint castValue) return false;
-                instance.m_simClothIndex = castValue;
-                return true;
-            }
+                {
+                    if (value is not uint castValue) return false;
+                    instance.m_simClothIndex = castValue;
+                    return true;
+                }
             case "m_refBufferIdx":
             case "refBufferIdx":
-            {
-                if (value is not uint castValue) return false;
-                instance.m_refBufferIdx = castValue;
-                return true;
-            }
+                {
+                    if (value is not uint castValue) return false;
+                    instance.m_refBufferIdx = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

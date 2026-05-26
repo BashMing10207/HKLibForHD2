@@ -1,14 +1,14 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
 using HKLib.hk2018.hkaiWorldReplayViewer;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkaiWorldReplayViewerSilhouetteGeneratorsOverrideRecordData : HavokData<SilhouetteGeneratorsOverrideRecord> 
+internal class hkaiWorldReplayViewerSilhouetteGeneratorsOverrideRecordData : HavokData<SilhouetteGeneratorsOverrideRecord>
 {
-    public hkaiWorldReplayViewerSilhouetteGeneratorsOverrideRecordData(HavokType type, SilhouetteGeneratorsOverrideRecord instance) : base(type, instance) {}
+    public hkaiWorldReplayViewerSilhouetteGeneratorsOverrideRecordData(HavokType type, SilhouetteGeneratorsOverrideRecord instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -17,13 +17,13 @@ internal class hkaiWorldReplayViewerSilhouetteGeneratorsOverrideRecordData : Hav
         {
             case "m_generatorTransforms":
             case "generatorTransforms":
-            {
-                if (instance.m_generatorTransforms is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_generatorTransforms is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -33,13 +33,13 @@ internal class hkaiWorldReplayViewerSilhouetteGeneratorsOverrideRecordData : Hav
         {
             case "m_generatorTransforms":
             case "generatorTransforms":
-            {
-                if (value is not List<hkQTransform> castValue) return false;
-                instance.m_generatorTransforms = castValue;
-                return true;
-            }
+                {
+                    if (value is not List<hkQTransform> castValue) return false;
+                    instance.m_generatorTransforms = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

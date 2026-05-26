@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkResultData : HavokData<hkResult> 
+internal class hkResultData : HavokData<hkResult>
 {
-    public hkResultData(HavokType type, hkResult instance) : base(type, instance) {}
+    public hkResultData(HavokType type, hkResult instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,13 +16,13 @@ internal class hkResultData : HavokData<hkResult>
         {
             case "m_code":
             case "code":
-            {
-                if (instance.m_code is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_code is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -32,13 +32,13 @@ internal class hkResultData : HavokData<hkResult>
         {
             case "m_code":
             case "code":
-            {
-                if (value is not int castValue) return false;
-                instance.m_code = castValue;
-                return true;
-            }
+                {
+                    if (value is not int castValue) return false;
+                    instance.m_code = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 

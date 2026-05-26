@@ -1,360 +1,290 @@
-﻿﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Numerics;
-using System.Text.RegularExpressions;
+using HKLib.hk2018;
+using HKLib.Reflection.hk2018;
+using HKLib.Serialization.hk2019.Xml.FormatHandlers;
 using System.Xml.Linq;
-using HKLib.Reflection;
-using HKLib.Reflection.Dynamic;
 
-namespace HKLib.Serialization.hk2019.Xml
+namespace HKLib.Serialization.hk2019.Xml;
+
+public class HavokXmlSerializer : HavokSerializer
 {
-    public class HavokXmlSerializer : IXmlSerializer
+    public HavokXmlSerializer() : this(HavokTypeRegistry.Instance) { }
+    public HavokXmlSerializer(HavokTypeRegistry typeRegistry) : base(typeRegistry) { }
+
+    public override void LoadCompendium(Stream stream) { }
+
+    public override void LoadCompendium(HavokCompendium compendium) { }
+
+    public override HavokCompendium ReadCompendium(Stream stream)
     {
-        private readonly DynamicTypeRegistry _registry;
-        private readonly Dictionary<IHavokObject, string> _objectIds = new();
-        private int _nextId;
+        throw new NotImplementedException();
+    }
 
-        public HavokXmlSerializer(DynamicTypeRegistry registry)
+    public override void Write(HavokCompendium compendium, Stream stream)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override IEnumerable<IHavokObject> ReadAllObjects(Stream stream)
+    {
+        XElement tagfile;
+        try
         {
-            _registry = registry;
+            tagfile = XElement.Load(stream);
+        }
+        catch (Exception e)
+        {
+            throw new InvalidDataException("The given stream does not contain valid xml data.", e);
         }
 
-        public object Read(string path)
+        if ((int?)tagfile.Attribute("version") is not 3)
         {
-            XDocument doc = XDocument.Load(path);
-            XElement? dataSection = doc.Root?.Element("hksection");
-            if (dataSection is null) throw new InvalidDataException("hksection not found in XML.");
-
-            var objects = new Dictionary<string, DynamicHavokObject>();
-            var objectElements = new Dictionary<string, XElement>();
-
-            // Pass 1: Create all objects
-            foreach (XElement objectElement in dataSection.Elements("hkobject"))
-            {
-                string? name = objectElement.Attribute("name")?.Value;
-                string? className = objectElement.Attribute("class")?.Value;
-                if (name is null || className is null) continue;
-
-                DynamicHavokType? type = _registry.GetType(className);
-                if (type is null) throw new KeyNotFoundException($"Type '{className}' not found in registry.");
-
-                var havokObject = new DynamicHavokObject(type);
-                objects.Add(name, havokObject);
-                objectElements.Add(name, objectElement);
-            }
-
-            // Pass 2: Populate fields
-            foreach (var (id, havokObject) in objects)
-            {
-                XElement objectElement = objectElements[id];
-                PopulateFields(havokObject, objectElement, objects);
-            }
-
-            string? rootId = dataSection.Elements("hkobject").FirstOrDefault()?.Attribute("name")?.Value;
-            if (rootId is null || !objects.TryGetValue(rootId, out DynamicHavokObject? rootObject))
-            {
-                throw new InvalidDataException("Root object not found in XML.");
-            }
-
-            return rootObject;
+            throw new InvalidDataException("Invalid version, this serializer only supports xml tagfile version 3");
         }
 
-        private void PopulateFields(DynamicHavokObject havokObject, XElement element,
-            IReadOnlyDictionary<string, DynamicHavokObject> objects)
+        Dictionary<string, (XElement Type, HavokTypeBuilder Builder)> typeElements = new();
+        List<XElement> objectElements = new();
+        foreach (XElement element in tagfile.Elements())
         {
-            var fields = havokObject.Type.GetAllFields();
-            var fieldDict = fields.ToDictionary(f => f.Name);
-
-            foreach (XElement paramElement in element.Elements("hkparam"))
+            switch (element.Name.ToString())
             {
-                string? fieldName = paramElement.Attribute("name")?.Value;
-                if (fieldName is null) continue;
-
-                if (fieldDict.TryGetValue(fieldName, out DynamicHavokField? field))
-                {
-                    havokObject.Fields[fieldName] = ParseFieldValue(paramElement, field, objects);
-                }
-                else
-                {
-                    System.Diagnostics.Debug.WriteLine(
-                        $"Warning: Field '{fieldName}' not found in type '{havokObject.Type.Name}'.");
-                }
-            }
-        }
-
-        public void Write(object root, string path, byte[]? prependData = null)
-        {
-            if (root is not IHavokObject havokObject)
-            {
-                throw new ArgumentException("Root object must be an IHavokObject.", nameof(root));
-            }
-
-            _objectIds.Clear();
-            _nextId = 1;
-
-            // First pass: find all objects and assign IDs
-            AssignObjectIds(havokObject);
-
-            XDocument doc = new();
-            XElement packfile = new("hkpackfile",
-                new XAttribute("classversion", "11"),
-                new XAttribute("contentsversion", "hk_2019.1.0-r1"));
-            doc.Add(packfile);
-
-            XElement dataSection = new("hksection", new XAttribute("name", "__data__"));
-            packfile.Add(dataSection);
-
-            // Second pass: serialize objects, ordered by their ID for readability
-            foreach (var (obj, id) in _objectIds.OrderBy(kvp => int.Parse(kvp.Value[1..])))
-            {
-                dataSection.Add(SerializeObject(obj, id));
-            }
-
-            if (prependData != null)
-            {
-                doc.Root?.Add(new XComment($" PREPEND_DATA:{Convert.ToBase64String(prependData)} "));
-            }
-
-            doc.Save(path);
-        }
-
-        private void AssignObjectIds(IHavokObject? obj)
-        {
-            if (obj is null || _objectIds.ContainsKey(obj))
-            {
-                return;
-            }
-
-            _objectIds.Add(obj, $"#{_nextId++}");
-
-            if (obj is not DynamicHavokObject dho) return;
-
-            // Recursively find all referenced objects
-            foreach (object? fieldValue in dho.Fields.Values)
-            {
-                if (fieldValue is IHavokObject childObj)
-                {
-                    AssignObjectIds(childObj);
-                }
-                else if (fieldValue is object[] array)
-                {
-                    foreach (object? item in array)
+                case "type":
                     {
-                        if (item is IHavokObject arrayObj)
+                        string id = element.Attribute("id")!.Value;
+                        typeElements.Add(id, (element, new HavokTypeBuilder()));
+                        break;
+                    }
+                case "object":
+                    {
+                        objectElements.Add(element);
+                        break;
+                    }
+            }
+        }
+
+        Dictionary<string, HavokType> types = ReadTypes(typeElements);
+
+        List<ObjectItem> objectItems = ReadObjects(objectElements, types);
+
+        XmlDeserializeContext context = new(objectItems.ToDictionary(x => x.Id!), types);
+
+        return objectItems.Select(x => x.Object ?? x.ReadObject(context)).Where(x => x is IHavokObject)
+            .Cast<IHavokObject>().ToList();
+    }
+
+    private Dictionary<string, HavokType> ReadTypes(
+        Dictionary<string, (XElement Type, HavokTypeBuilder Builder)> typeElements)
+    {
+        foreach ((string id, (XElement type, HavokTypeBuilder builder)) in typeElements)
+        {
+            string name = type.Element("name")?.Attribute("value")?.Value ??
+                          throw new InvalidDataException($"Type with id \"{id}\" has no name.");
+            builder.WithName(name);
+
+            if (type.Element("parameters") is not { } parameters) continue;
+            foreach (XElement param in parameters.Elements())
+            {
+                switch (param.Name.ToString())
+                {
+                    case "typeparam":
+                        string paramTypeId = param.Attribute("id")?.Value ??
+                                             throw new InvalidDataException(
+                                                 $"Encountered typeparam with missing id in type with id \"{id}\"");
+                        if (!typeElements.TryGetValue(paramTypeId,
+                                out (XElement Type, HavokTypeBuilder Builder) paramType))
                         {
-                            AssignObjectIds(arrayObj);
+                            throw new InvalidDataException(
+                                $"Encountered reference to missing type with id \"{paramTypeId}\"");
                         }
-                    }
+
+                        builder.WithTemplateParameter(string.Empty, paramType.Builder);
+                        break;
+                    case "valueparam":
+                        if ((uint?)param.Attribute("value") is not { } value)
+                        {
+                            throw new InvalidDataException(
+                                $"Encountered valueparam with missing value in type with id \"{id}\"");
+                        }
+
+                        builder.WithTemplateParameter(string.Empty, (int)value);
+                        break;
+                    default:
+                        throw new InvalidDataException(
+                            $"Encountered unexpected parameter of type \"{param.Name}\" in type with id \"{id}\"");
                 }
             }
         }
 
-        private XElement SerializeObject(IHavokObject obj, string id)
+        Dictionary<string, HavokType> types = new();
+        foreach ((string id, (_, HavokTypeBuilder builder)) in typeElements)
         {
-            if (obj is not DynamicHavokObject dho)
+            HavokType type = builder.Build();
+            if (TypeRegistry.GetType(type.Identity) is not { } registryType)
             {
-                throw new NotSupportedException("Can only serialize DynamicHavokObject.");
+                throw new InvalidDataException(
+                    $"No matching type found in the type registry for type with identity \"{type.Identity}\"");
             }
 
-            XElement objectElement = new("hkobject",
-                new XAttribute("name", id),
-                new XAttribute("class", dho.Type.Name),
-                new XAttribute("signature", $"0x{dho.GetHashCode():x8}"));
-
-            foreach (var field in dho.Type.GetAllFields())
-            {
-                if (dho.Fields.TryGetValue(field.Name, out object? fieldValue))
-                {
-                    objectElement.Add(SerializeField(field, fieldValue));
-                }
-            }
-
-            return objectElement;
+            types.Add(id, registryType);
         }
 
-        private XElement SerializeField(DynamicHavokField field, object? value)
+        return types;
+    }
+
+    private static List<ObjectItem> ReadObjects(List<XElement> objectElements, Dictionary<string, HavokType> types)
+    {
+        List<ObjectItem> objectItems = new();
+        foreach (XElement objectElement in objectElements)
         {
-            XElement paramElement = new("hkparam", new XAttribute("name", field.Name));
+            string objectId = objectElement.Attribute("id")!.Value;
+            string typeId = objectElement.Attribute("typeid")?.Value ??
+                            throw new InvalidDataException($"Object with id \"{objectId}\" has no typeid.");
 
-            if (value is null)
+            if (!types.TryGetValue(typeId, out HavokType? type))
             {
-                paramElement.Value = "null";
-                return paramElement;
+                throw new InvalidDataException($"Encountered reference to missing type with id \"{typeId}\"");
             }
 
-            switch (value)
-            {
-                case IHavokObject havokObject:
-                    paramElement.Value = _objectIds.TryGetValue(havokObject, out string? id) ? id : "null";
-                    break;
-                case object[] array:
-                    paramElement.Add(new XAttribute("numelements", array.Length));
-                    if (array.Length > 0 && array.FirstOrDefault(x => x != null) is IHavokObject)
-                    {
-                        paramElement.Value = string.Join(" ",
-                            array.Select(o => o is null ? "null" : _objectIds[(IHavokObject)o]));
-                    }
-                    else
-                    {
-                        paramElement.Value = $"({string.Join(" ", array.Select(FormatPrimitive))})";
-                    }
-
-                    break;
-                default:
-                    paramElement.Value = FormatPrimitive(value);
-                    break;
-            }
-
-            return paramElement;
+            ObjectItem item = new(type, objectElement, objectId);
+            objectItems.Add(item);
         }
 
-        private object? ParseFieldValue(XElement paramElement, DynamicHavokField field,
-            IReadOnlyDictionary<string, DynamicHavokObject> objects)
+        return objectItems;
+    }
+
+    public override void Write(IHavokObject havokObject, Stream stream)
+    {
+        XmlSerializeContext context = new(TypeRegistry);
+        HavokType type = FormatHandler.GetActualType(havokObject, TypeRegistry);
+        context.Enqueue(type, havokObject);
+
+        XElement rootElement = new("hktagfile", new XAttribute("version", 3));
+        while (context.ObjectQueue.Count > 0)
         {
-            string valueStr = paramElement.Value.Trim();
-            if (valueStr == "null") return null;
-
-            if (field.Type.Kind == HavokType.TypeKind.Pointer || field.Type.Name == "hkcstring" ||
-                field.Type.Name == "hkStringPtr")
+            while (context.TypeQueue.Count > 0)
             {
-                if (valueStr.StartsWith("#"))
-                {
-                    return objects.TryGetValue(valueStr, out var obj)
-                        ? obj
-                        : throw new InvalidDataException($"Object reference '{valueStr}' not found.");
-                }
-
-                // It's a string for hkStringPtr
-                return valueStr;
+                WriteType(rootElement, context.TypeQueue.Dequeue(), context);
             }
 
-            if (paramElement.Attribute("numelements") is { } numElementsAttr)
+            ObjectItem item = context.ObjectQueue.Dequeue();
+            item.WriteObject(rootElement, context);
+        }
+
+        rootElement.Save(stream);
+        stream.Close();
+    }
+
+    private static void WriteType(XElement rootElement, HavokType type, XmlSerializeContext context)
+    {
+        string id = context.GetTypeId(type);
+        XElement typeElement = new("type", new XAttribute("id", id),
+            new XElement("name", new XAttribute("value", type.Name)));
+        rootElement.Add(typeElement);
+
+        if (type.Parent is { } parentType)
+        {
+            typeElement.Add(new XElement("parent", new XAttribute("id", context.GetTypeId(parentType))));
+            typeElement.Add(new XComment($" {FormatHandler.GetXmlName(parentType)} "));
+        }
+
+        HavokType.Optional optionals = type.Optionals;
+        if (optionals.HasFlag(HavokType.Optional.Format))
+        {
+            typeElement.Add(new XElement("format", new XAttribute("value", type.Format)));
+            typeElement.Add(new XComment($" {type.Kind.ToString().ToLower()} "));
+        }
+
+        if (optionals.HasFlag(HavokType.Optional.SubType))
+        {
+            string subTypeId;
+            string subTypeName;
+            if (type.SubType is { } subType)
             {
-                int numElements = int.Parse(numElementsAttr.Value);
-                if (numElements == 0) return Array.CreateInstance(typeof(object), 0);
+                subTypeId = context.GetTypeId(subType);
+                subTypeName = FormatHandler.GetXmlName(subType);
+            }
+            else
+            {
+                subTypeId = "type0";
+                subTypeName = "null";
+            }
 
-                DynamicHavokType? elementType = field.Type.SubType ?? field.Type.TemplateParameters.FirstOrDefault()?.Type;
-                if (elementType is null)
+            typeElement.Add(new XElement("subtype", new XAttribute("id", subTypeId)));
+            typeElement.Add(new XComment($" {subTypeName} "));
+        }
+
+        if (optionals.HasFlag(HavokType.Optional.Version))
+        {
+            typeElement.Add(new XElement("version", new XAttribute("value", type.Version)));
+        }
+
+        if (type.TemplateParameters.Count > 0)
+        {
+            XElement parameters = new("parameters", new XAttribute("count", type.TemplateParameters.Count));
+            foreach (HavokType.TemplateParameter parameter in type.TemplateParameters)
+            {
+                if (parameter.Type is { } typeParam)
                 {
-                    var tParam = field.Type.TemplateParameters.FirstOrDefault(p => p.Name == "T" && p.Kind == "Type");
-                    elementType = tParam?.Type;
+                    parameters.Add(new XElement("typeparam", new XAttribute("id", context.GetTypeId(typeParam))));
+                    parameters.Add(new XComment($" {FormatHandler.GetXmlName(typeParam)} "));
                 }
-
-                if (elementType is null)
-                    throw new InvalidDataException($"Could not determine element type for array field '{field.Name}'.");
-
-                if (elementType.Kind == HavokType.TypeKind.Pointer)
+                else if (parameter.Value is { } valueParam)
                 {
-                    string[] refs = valueStr.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                    var objArray = new IHavokObject?[numElements];
-                    for (int i = 0; i < numElements; i++)
-                    {
-                        if (refs[i] == "null") objArray[i] = null;
-                        else if (objects.TryGetValue(refs[i], out var obj)) objArray[i] = obj;
-                        else throw new InvalidDataException($"Object reference '{refs[i]}' not found in pointer array.");
-                    }
-
-                    return objArray;
+                    parameters.Add(new XElement("valueparam", new XAttribute("value", valueParam)));
                 }
                 else
                 {
-                    valueStr = valueStr.Trim('(', ')').Trim();
-                    string[] values = valueStr.Split(new[] { ' ', '\t', '\n', '\r' },
-                        StringSplitOptions.RemoveEmptyEntries);
-                    var array = new object?[numElements];
-                    for (int i = 0; i < numElements; i++)
-                    {
-                        array[i] = ParsePrimitive(values[i], elementType);
-                    }
-
-                    return array;
+                    throw new InvalidDataException(
+                        $"Invalid template parameter in type with identity \"{type.Identity}\".");
                 }
             }
 
-            // C-style array or tuple
-            if (valueStr.StartsWith("("))
+            typeElement.Add(parameters);
+        }
+
+        if (optionals.HasFlag(HavokType.Optional.Flags))
+        {
+            typeElement.Add(new XElement("flags", new XAttribute("value", (uint)type.Flags)));
+        }
+
+        if (optionals.HasFlag(HavokType.Optional.Members))
+        {
+            XElement fieldsElement = new("fields", "");
+
+            int fieldCount = 0;
+            int startIndex = type.Parent is not null ? type.Parent.Properties.Count : 0;
+            for (int i = startIndex; i < type.Properties.Count; i++)
             {
-                valueStr = valueStr.Trim('(', ')');
-                string[] values = valueStr.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                HavokType.Member property = type.Properties[i] ??
+                                            throw new InvalidDataException("Unable to serialize null property");
+                if (property.NonSerializable) continue;
 
-                var nParam = field.Type.TemplateParameters.FirstOrDefault(p => p.Name == "N" && p.Kind == "Value");
-                if (nParam != null && int.TryParse(nParam.Value, out int arraySize))
-                {
-                    var tParam = field.Type.TemplateParameters.FirstOrDefault(p => p.Name == "T" && p.Kind == "Type");
-                    DynamicHavokType? elementType = tParam?.Type ?? _registry.GetType(field.Type.Name.Split('[')[0])!;
-                    var cStyleArray = new object?[arraySize];
-                    for (int i = 0; i < arraySize; i++)
-                    {
-                        cStyleArray[i] = ParsePrimitive(values[i], elementType);
-                    }
+                // flags are serialized as 32 even though they are 16 at runtime for properties
+                XElement propertyElement = new("field", new XAttribute("name", property.Name),
+                    new XAttribute("typeid", context.GetTypeId(property.Type)),
+                    new XAttribute("flags", 32));
 
-                    return cStyleArray;
-                }
-
-                return ParseTuple(values, field.Type);
+                fieldsElement.Add(propertyElement);
+                fieldsElement.Add(new XComment($" {FormatHandler.GetXmlName(property.Type)} "));
+                fieldCount++;
             }
 
-            return ParsePrimitive(valueStr, field.Type);
-        }
-
-        private object ParsePrimitive(string value, DynamicHavokType type)
-        {
-            return type.Kind switch
+            startIndex = type.Parent is not null ? type.Parent.Fields.Count : 0;
+            for (int i = startIndex; i < type.Fields.Count; i++)
             {
-                HavokType.TypeKind.Bool => bool.Parse(value),
-                HavokType.TypeKind.Char or HavokType.TypeKind.Int8 => sbyte.Parse(value, CultureInfo.InvariantCulture),
-                HavokType.TypeKind.UInt8 => byte.Parse(value, CultureInfo.InvariantCulture),
-                HavokType.TypeKind.Int16 => short.Parse(value, CultureInfo.InvariantCulture),
-                HavokType.TypeKind.UInt16 => ushort.Parse(value, CultureInfo.InvariantCulture),
-                HavokType.TypeKind.Int32 or HavokType.TypeKind.Enum or HavokType.TypeKind.Flags => int.Parse(value,
-                    CultureInfo.InvariantCulture),
-                HavokType.TypeKind.UInt32 => uint.Parse(value, CultureInfo.InvariantCulture),
-                HavokType.TypeKind.Int64 => long.Parse(value, CultureInfo.InvariantCulture),
-                HavokType.TypeKind.UInt64 => ulong.Parse(value, CultureInfo.InvariantCulture),
-                HavokType.TypeKind.Half or HavokType.TypeKind.Real or HavokType.TypeKind.Float => float.Parse(value,
-                    CultureInfo.InvariantCulture),
-                HavokType.TypeKind.Double => double.Parse(value, CultureInfo.InvariantCulture),
-                HavokType.TypeKind.CString or HavokType.TypeKind.String => value,
-                _ => throw new NotImplementedException(
-                    $"Parsing for primitive type kind '{type.Kind}' ('{type.Name}') is not implemented.")
-            };
-        }
+                HavokType.Member field = type.Fields[i];
+                if (field.NonSerializable) continue;
 
-        private object ParseTuple(string[] values, DynamicHavokType type)
-        {
-            return type.Name switch
-            {
-                "hkVector4" => new Vector4(
-                    float.Parse(values[0], CultureInfo.InvariantCulture),
-                    float.Parse(values[1], CultureInfo.InvariantCulture),
-                    float.Parse(values[2], CultureInfo.InvariantCulture),
-                    float.Parse(values[3], CultureInfo.InvariantCulture)),
-                "hkQuaternion" => new Quaternion(
-                    float.Parse(values[0], CultureInfo.InvariantCulture),
-                    float.Parse(values[1], CultureInfo.InvariantCulture),
-                    float.Parse(values[2], CultureInfo.InvariantCulture),
-                    float.Parse(values[3], CultureInfo.InvariantCulture)),
-                _ => throw new NotImplementedException($"Parsing for tuple type '{type.Name}' is not implemented.")
-            };
-        }
+                XElement fieldElement = new("field", new XAttribute("name", field.Name),
+                    new XAttribute("typeid", context.GetTypeId(field.Type)),
+                    new XAttribute("flags", (uint)field.Flags));
+                fieldsElement.Add(fieldElement);
+                fieldsElement.Add(new XComment($" {FormatHandler.GetXmlName(field.Type)} "));
+                fieldCount++;
+            }
 
-        private static string FormatPrimitive(object? value)
-        {
-            return value switch
-            {
-                null => "null",
-                bool b => b ? "true" : "false",
-                float f => f.ToString("G9", CultureInfo.InvariantCulture),
-                double d => d.ToString("G17", CultureInfo.InvariantCulture),
-                Vector3 v3 => $"({v3.X:G9} {v3.Y:G9} {v3.Z:G9})",
-                Vector4 v4 => $"({v4.X:G9} {v4.Y:G9} {v4.Z:G9} {v4.W:G9})",
-                Quaternion q => $"({q.X:G9} {q.Y:G9} {q.Z:G9} {q.W:G9})",
-                IFormattable formattable => formattable.ToString(null, CultureInfo.InvariantCulture),
-                _ => value.ToString() ?? string.Empty
-            };
+            fieldsElement.Add(new XAttribute("count", fieldCount));
+
+            typeElement.Add(fieldsElement);
         }
     }
 }

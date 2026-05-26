@@ -1,13 +1,13 @@
 // Automatically Generated
 
-using System.Diagnostics.CodeAnalysis;
 using HKLib.hk2018;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HKLib.Reflection.hk2018;
 
-internal class hkxSparselyAnimatedStringData : HavokData<hkxSparselyAnimatedString> 
+internal class hkxSparselyAnimatedStringData : HavokData<hkxSparselyAnimatedString>
 {
-    public hkxSparselyAnimatedStringData(HavokType type, hkxSparselyAnimatedString instance) : base(type, instance) {}
+    public hkxSparselyAnimatedStringData(HavokType type, hkxSparselyAnimatedString instance) : base(type, instance) { }
 
     public override bool TryGetField<TGet>(string fieldName, [MaybeNull] out TGet value)
     {
@@ -16,27 +16,27 @@ internal class hkxSparselyAnimatedStringData : HavokData<hkxSparselyAnimatedStri
         {
             case "m_propertyBag":
             case "propertyBag":
-            {
-                if (instance.m_propertyBag is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_propertyBag is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_strings":
             case "strings":
-            {
-                if (instance.m_strings is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_strings is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             case "m_times":
             case "times":
-            {
-                if (instance.m_times is not TGet castValue) return false;
-                value = castValue;
-                return true;
-            }
+                {
+                    if (instance.m_times is not TGet castValue) return false;
+                    value = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
@@ -46,27 +46,27 @@ internal class hkxSparselyAnimatedStringData : HavokData<hkxSparselyAnimatedStri
         {
             case "m_propertyBag":
             case "propertyBag":
-            {
-                if (value is not hkPropertyBag castValue) return false;
-                instance.m_propertyBag = castValue;
-                return true;
-            }
+                {
+                    if (value is not hkPropertyBag castValue) return false;
+                    instance.m_propertyBag = castValue;
+                    return true;
+                }
             case "m_strings":
             case "strings":
-            {
-                if (value is not List<string?> castValue) return false;
-                instance.m_strings = castValue;
-                return true;
-            }
+                {
+                    if (value is not List<string?> castValue) return false;
+                    instance.m_strings = castValue;
+                    return true;
+                }
             case "m_times":
             case "times":
-            {
-                if (value is not List<float> castValue) return false;
-                instance.m_times = castValue;
-                return true;
-            }
+                {
+                    if (value is not List<float> castValue) return false;
+                    instance.m_times = castValue;
+                    return true;
+                }
             default:
-            return false;
+                return false;
         }
     }
 
