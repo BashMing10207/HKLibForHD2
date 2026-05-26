@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using HKLib.hk2018;
 
 namespace HKLib.Modding;

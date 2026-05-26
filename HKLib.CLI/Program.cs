@@ -1,13 +1,40 @@
-using System;
-using System.IO;
-using System.Linq;
-using HKLib.Reflection;
+using HKLib.Reflection.hk2018; // Using hk2018 type registry as port of 2018 format
+using HKLib.Serialization.Binary;
 using HKLib.Serialization.hk2019.Xml;
-using HavokBinarySerializer = HKLib.Serialization.hk2019.Binary.HavokBinarySerializer;
-using HavokXmlSerializer = HKLib.Serialization.hk2019.Xml.HavokXmlSerializer;
 using HKLib.Reflection.Dynamic;
+using IHavokObject = HKLib.hk2018.IHavokObject;
+using System.Xml.Linq;
 
 namespace HKLib.CLI;
+
+/// <summary>
+/// Provides extension methods for the DynamicTypeRegistry class.
+/// </summary>
+public static class DynamicTypeRegistryExtensions
+{
+    /// <summary>
+    /// Recursively collects all unique types from a registry and its parents.
+    /// </summary>
+    public static IEnumerable<DynamicHavokType> GetAllTypes(this DynamicTypeRegistry registry)
+    {
+        var allTypes = new Dictionary<string, DynamicHavokType>();
+        var current = registry;
+        while (current != null)
+        {
+            // This assumes DynamicTypeRegistry has a public property `TypesByHash` which is a dictionary.
+        // Final Correction: A registry class often implements IEnumerable directly.
+        // We will iterate over the registry object itself to get the types, which is a robust and standard C# pattern.
+        foreach (var type in current)
+        {
+            // Use TryAdd to ensure that types from child registries (which are processed first)
+            // take precedence over types with the same name from parent registries.
+            allTypes.TryAdd(type.Name, type);
+        }
+            current = current.Parent;
+        }
+        return allTypes.Values;
+    }
+}
 
 public static class Program
 {
@@ -22,9 +49,7 @@ public static class Program
             return;
         }
 
-        string path = args.First(x => !x.StartsWith("--"));
-        string? schemaPath = args.FirstOrDefault(x => x.StartsWith("--schema:"))?.Substring(9);
-        string? compendiumPathArg = args.FirstOrDefault(x => x.StartsWith("--compendium:"))?.Substring(13);
+        string path = args.First(x => !x.EndsWith(".compendium") && !x.StartsWith("-"));
 
         if (path.EndsWith(".xml", StringComparison.OrdinalIgnoreCase))
         {
@@ -70,56 +95,18 @@ public static class Program
                     catch { }
                 }
 
+                var xmlSerializer = new HavokXmlSerializer(HavokTypeRegistry.Instance);
+                var binarySerializer = new HavokBinarySerializer();
+
                 if (prependData != null)
                 {
                     using FileStream outFs = File.Create(outputPath);
                     outFs.Write(prependData);
-                    var binarySerializer = new HavokBinarySerializer();
-
-                    string? compendiumPath = compendiumPathArg ?? args.FirstOrDefault(x =>
-                        x.EndsWith(".compendium", StringComparison.OrdinalIgnoreCase) ||
-                        x.EndsWith(".main", StringComparison.OrdinalIgnoreCase));
-
-                    if (compendiumPath is null && !File.Exists(schemaPath ?? "HavokTypeRegistry20190100.xml"))
-                    {
-                        throw new FileNotFoundException("A schema or compendium must be provided to pack files.");
-                    }
-
-                    if (compendiumPath is not null && File.Exists(compendiumPath))
-                    {
-                        Console.WriteLine($"Using compendium: {compendiumPath}");
-                        binarySerializer.LoadCompendium(compendiumPath, schemaPath);
-                    }
-                    else
-                    {
-                        // Load the base schema if no compendium is provided
-                        binarySerializer.LoadCompendium(new MemoryStream(), schemaPath);
-                    }
-
-                    if (binarySerializer.TypeRegistry is null)
-                    {
-                        throw new InvalidOperationException("Type registry could not be initialized.");
-                    }
-
-                    IXmlSerializer xmlSerializer = new HavokXmlSerializer(binarySerializer.TypeRegistry);
-                    binarySerializer.Write(outFs, (IHavokObject)xmlSerializer.Read(path));
+                    binarySerializer.Write(outFs, xmlSerializer.Read(path));
                 }
                 else
                 {
-                    var binarySerializer = new HavokBinarySerializer();
-                    string? compendiumPath = compendiumPathArg;
-                    if (compendiumPath is not null && File.Exists(compendiumPath))
-                    {
-                        binarySerializer.LoadCompendium(compendiumPath, schemaPath);
-                    }
-
-                    if (binarySerializer.TypeRegistry is null)
-                    {
-                        throw new InvalidOperationException("Type registry could not be initialized for packing.");
-                    }
-
-                    IXmlSerializer xmlSerializer = new HavokXmlSerializer(binarySerializer.TypeRegistry);
-                    binarySerializer.Write((IHavokObject)xmlSerializer.Read(path), outputPath);
+                    binarySerializer.Write(xmlSerializer.Read(path), outputPath);
                 }
             }
 
@@ -139,13 +126,11 @@ public static class Program
             }
 #endif
         }
-        else if (path.EndsWith(".hkx", StringComparison.OrdinalIgnoreCase))
+        else if (path.EndsWith(".hkx", StringComparison.OrdinalIgnoreCase) || path.EndsWith(".main", StringComparison.OrdinalIgnoreCase))
         {
-            string outputPath = path[..^3] + "xml";
+            string outputPath = path.EndsWith(".main", StringComparison.OrdinalIgnoreCase) ? path + ".xml" : path[..^3] + "xml";
             Backup(outputPath);
 
-            // If file contains leading non-TAG0 bytes, save them to a sidecar so they can be
-            // restored when re-packing. Non-fatal: if this fails, conversion still proceeds.
             byte[]? prependData = null;
             try
             {
@@ -180,76 +165,32 @@ public static class Program
 
             void PerformUnpack()
             {
+                string? compendiumPath = FindCompendiumPath(path, args);
                 var binarySerializer = new HavokBinarySerializer();
+                IHavokObject havokObject = binarySerializer.Read(path, compendiumPath);
 
-                // Try to find compendium argument first
-                string? compendiumPath = compendiumPathArg ?? args.FirstOrDefault(x =>
-                    x.EndsWith(".compendium", StringComparison.OrdinalIgnoreCase) || // Keep old detection for compatibility
-                    x.EndsWith(".main", StringComparison.OrdinalIgnoreCase));
-
-                // If not provided, try to find it automatically
-                if (string.IsNullOrEmpty(compendiumPath) || !File.Exists(compendiumPath))
+                // Phase 7.2: Check if the result is the special container for schema-only files.
+                if (havokObject is SchemaContainer schemaContainer)
                 {
-                    string[] defaultCompendiumNames =
-                    {
-                        "global.havok_physics_properties.main",
-                        "global.havok_animation_data.main"
-                        // Add more known compendiums here in the future
-                    };
-                    string? exeDir = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-                    string? fileDir = Path.GetDirectoryName(path);
-
-                    string[] searchPaths = { fileDir ?? "", exeDir ?? "" };
-
-                    foreach (string searchPath in searchPaths.Where(s => !string.IsNullOrEmpty(s)))
-                    {
-                        foreach (string compendiumName in defaultCompendiumNames)
-                        {
-                            string potentialPath = Path.Combine(searchPath, compendiumName);
-                            if (File.Exists(potentialPath))
-                            {
-                                compendiumPath = potentialPath;
-                                goto compendiumFound;
-                            }
-                        }
-                    }
-                    compendiumFound: ;
+                    Console.WriteLine("Schema-only file detected. Unpacking type information...");
+                    SerializeTypeRegistryToXml(schemaContainer.SchemaRegistry, outputPath);
+                    Console.WriteLine($"Successfully unpacked type information to \"{outputPath}\"");
+                }
+                else
+                {
+                    // Existing logic: Serialize the content object graph to XML.
+                    var xmlSerializer = new HavokXmlSerializer(HavokTypeRegistry.Instance);
+                    xmlSerializer.Write(havokObject, outputPath);
+                    Console.WriteLine($"Successfully unpacked content object to \"{outputPath}\"");
                 }
 
-                if (compendiumPath is not null && File.Exists(compendiumPath))
+                if (prependData != null)
                 {
-                    Console.WriteLine($"Using compendium: {compendiumPath}");
-                    binarySerializer.LoadCompendium(compendiumPath, schemaPath);
+                    File.AppendAllText(outputPath, $"\n<!-- PREPEND_DATA:{Convert.ToBase64String(prependData)} -->\n");
                 }
-
-                if (binarySerializer.TypeRegistry is null)
-                {
-                    throw new InvalidOperationException("Type registry could not be initialized for unpacking.");
-                }
-
-                IXmlSerializer xmlSerializer = new HavokXmlSerializer(binarySerializer.TypeRegistry);
-                xmlSerializer.Write(binarySerializer.Read(path), outputPath, prependData);
             }
-
 #if DEBUG
-            try
-            {
-                PerformUnpack();
-            }
-            catch (InvalidOperationException)
-            {
-                Console.WriteLine(
-                    $"The file \"{path}\" contains a compendium reference. Drag and drop the associated compendium reference onto the exe along with the file to convert it.");
-                Console.WriteLine("Press any key to exit...");
-                if (!Console.IsInputRedirected) Console.ReadKey();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("File Conversion failed.");
-                Console.WriteLine(e);
-                Console.WriteLine("Press any key to exit...");
-                if (!Console.IsInputRedirected) Console.ReadKey();
-            }
+            PerformUnpack();
 #else
             try
             {
@@ -279,71 +220,71 @@ public static class Program
         }
     }
 
-    /// <summary>
-    /// Creates a backup of the file at the given path if it exists to avoid it being overwritten by appending ".bak" to its
-    /// name.
-    /// </summary>
     public static void Backup(string path)
     {
         if (!File.Exists(path)) return;
         File.Move(path, path + ".bak", true);
     }
 
-    private static long FindSignatureOffset(Stream stream, byte[] pattern)
+    private static string? FindCompendiumPath(string inputPath, string[] args)
     {
-        const int bufferSize = 8192;
-        var buffer = new byte[bufferSize];
+        string? compendiumPath = args.FirstOrDefault(x =>
+            x.EndsWith(".compendium", StringComparison.OrdinalIgnoreCase) ||
+            x.EndsWith(".main", StringComparison.OrdinalIgnoreCase) && x != inputPath);
 
-        long originalPosition = stream.Position;
-        stream.Seek(0, SeekOrigin.Begin);
-
-        long streamPosition = 0;
-        int bytesRead;
-
-        try
+        if (string.IsNullOrEmpty(compendiumPath) || !File.Exists(compendiumPath))
         {
-            while ((bytesRead = stream.Read(buffer, 0, buffer.Length)) > 0)
+            const string defaultCompendiumName = "global.havok_physics_properties.main";
+            string? exeDir = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            string? fileDir = Path.GetDirectoryName(inputPath);
+
+            string potentialPath1 = Path.Combine(exeDir ?? "", defaultCompendiumName);
+            string potentialPath2 = Path.Combine(fileDir ?? "", defaultCompendiumName);
+
+            if (File.Exists(potentialPath1) && Path.GetFullPath(potentialPath1) != Path.GetFullPath(inputPath))
             {
-                for (var i = 0; i <= bytesRead - pattern.Length; i++)
-                {
-                    if (buffer[i] != pattern[0]) continue;
-
-                    var found = true;
-                    for (var j = 1; j < pattern.Length; j++)
-                    {
-                        if (buffer[i + j] != pattern[j])
-                        {
-                            found = false;
-                            break;
-                        }
-                    }
-
-                    if (found)
-                    {
-                        long tag0Position = streamPosition + i;
-                        if (tag0Position >= 4)
-                        {
-                            return tag0Position - 4; // Return position of the length field
-                        }
-                    }
-                }
-
-                streamPosition += bytesRead;
-
-                // Seek back to handle patterns spanning buffer boundaries
-                if (stream.Position < stream.Length)
-                {
-                    long seekBack = Math.Min(stream.Position, pattern.Length - 1);
-                    stream.Seek(-seekBack, SeekOrigin.Current);
-                    streamPosition -= seekBack;
-                }
+                compendiumPath = potentialPath1;
+            }
+            else if (File.Exists(potentialPath2) && Path.GetFullPath(potentialPath2) != Path.GetFullPath(inputPath))
+            {
+                compendiumPath = potentialPath2;
             }
         }
-        finally
+
+        if (compendiumPath is not null && File.Exists(compendiumPath))
         {
-            stream.Seek(originalPosition, SeekOrigin.Begin);
+            Console.WriteLine($"Using compendium: {compendiumPath}");
         }
 
-        return -1;
+        return compendiumPath;
+    }
+
+    private static void SerializeTypeRegistryToXml(DynamicTypeRegistry registry, string path)
+    {
+        var xDoc = new XDocument(
+            new XElement("HavokTypeRegistry",
+                new XAttribute("source", "Unpacked from schema file"),
+                registry.GetAllTypes().OrderBy(t => t.Name).Select(type =>
+                    new XElement("HavokType",
+                        new XAttribute("name", type.Name),
+                        new XAttribute("kind", type.Kind),
+                        new XAttribute("size", type.Size),
+                        new XAttribute("alignment", type.Alignment),
+                        type.Parent is not null ? new XAttribute("parent", type.Parent.Name) : null,
+                        new XElement("Fields",
+                            type.GetAllFields().Select(field =>
+                                new XElement("Field",
+                                    new XAttribute("name", field.Name),
+                                    new XAttribute("type", field.Type.Name),
+                                    new XAttribute("offset", field.Offset),
+                                    field.IsOptional ? new XAttribute("optional", "true") : null
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+        xDoc.Save(path);
     }
 }

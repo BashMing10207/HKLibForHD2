@@ -1,0 +1,843 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<hktagfile version="3">
+  <type id="type1">
+    <name value="hkaSkeleton" />
+    <parent id="type2" />
+    <!-- hkReferencedObject -->
+    <format value="7" />
+    <!-- record -->
+    <version value="6" />
+  </type>
+  <type id="type2">
+    <name value="hkReferencedObject" />
+    <parent id="type11" />
+    <!-- hkBaseObject -->
+    <format value="7" />
+    <!-- record -->
+    <version value="4" />
+  </type>
+  <type id="type3">
+    <name value="hkStringPtr" />
+    <format value="131" />
+    <!-- string -->
+  </type>
+  <type id="type4">
+    <name value="hkArray" />
+    <format value="8" />
+    <!-- array -->
+    <subtype id="type14" />
+    <!-- hkInt16 -->
+    <parameters count="2">
+      <typeparam id="type14" />
+      <!-- hkInt16 -->
+      <typeparam id="type15" />
+      <!-- hkContainerHeapAllocator -->
+    </parameters>
+  </type>
+  <type id="type5">
+    <name value="hkArray" />
+    <format value="8" />
+    <!-- array -->
+    <subtype id="type18" />
+    <!-- hkaBone -->
+    <parameters count="2">
+      <typeparam id="type18" />
+      <!-- hkaBone -->
+      <typeparam id="type15" />
+      <!-- hkContainerHeapAllocator -->
+    </parameters>
+  </type>
+  <type id="type6">
+    <name value="hkArray" />
+    <format value="8" />
+    <!-- array -->
+    <subtype id="type19" />
+    <!-- hkQsTransform -->
+    <parameters count="2">
+      <typeparam id="type19" />
+      <!-- hkQsTransform -->
+      <typeparam id="type15" />
+      <!-- hkContainerHeapAllocator -->
+    </parameters>
+  </type>
+  <type id="type7">
+    <name value="hkArray" />
+    <format value="8" />
+    <!-- array -->
+    <subtype id="type20" />
+    <!-- hkReal -->
+    <parameters count="2">
+      <typeparam id="type20" />
+      <!-- hkReal -->
+      <typeparam id="type15" />
+      <!-- hkContainerHeapAllocator -->
+    </parameters>
+  </type>
+  <type id="type8">
+    <name value="hkArray" />
+    <format value="8" />
+    <!-- array -->
+    <subtype id="type3" />
+    <!-- hkStringPtr -->
+    <parameters count="2">
+      <typeparam id="type3" />
+      <!-- hkStringPtr -->
+      <typeparam id="type15" />
+      <!-- hkContainerHeapAllocator -->
+    </parameters>
+  </type>
+  <type id="type9">
+    <name value="hkArray" />
+    <format value="8" />
+    <!-- array -->
+    <subtype id="type21" />
+    <!-- hkaSkeleton::LocalFrameOnBone -->
+    <parameters count="2">
+      <typeparam id="type21" />
+      <!-- hkaSkeleton::LocalFrameOnBone -->
+      <typeparam id="type15" />
+      <!-- hkContainerHeapAllocator -->
+    </parameters>
+  </type>
+  <type id="type10">
+    <name value="hkArray" />
+    <format value="8" />
+    <!-- array -->
+    <subtype id="type22" />
+    <!-- hkaSkeleton::Partition -->
+    <parameters count="2">
+      <typeparam id="type22" />
+      <!-- hkaSkeleton::Partition -->
+      <typeparam id="type15" />
+      <!-- hkContainerHeapAllocator -->
+    </parameters>
+  </type>
+  <type id="type11">
+    <name value="hkBaseObject" />
+    <format value="7" />
+    <!-- record -->
+  </type>
+  <type id="type12">
+    <name value="char" />
+    <format value="8196" />
+    <!-- int -->
+  </type>
+  <type id="type13">
+    <name value="char*" />
+    <format value="3" />
+    <!-- string -->
+  </type>
+  <type id="type14">
+    <name value="hkInt16" />
+    <parent id="type23" />
+    <!-- short -->
+  </type>
+  <type id="type15">
+    <name value="hkContainerHeapAllocator" />
+    <format value="7" />
+    <!-- record -->
+  </type>
+  <type id="type16">
+    <name value="T*" />
+    <format value="6" />
+    <!-- pointer -->
+    <subtype id="type24" />
+    <!-- void -->
+    <parameters count="1">
+      <typeparam id="type24" />
+      <!-- void -->
+    </parameters>
+  </type>
+  <type id="type17">
+    <name value="int" />
+    <format value="33284" />
+    <!-- int -->
+  </type>
+  <type id="type18">
+    <name value="hkaBone" />
+    <format value="7" />
+    <!-- record -->
+  </type>
+  <type id="type19">
+    <name value="hkQsTransform" />
+    <parent id="type26" />
+    <!-- hkQsTransformf -->
+  </type>
+  <type id="type20">
+    <name value="hkReal" />
+    <parent id="type27" />
+    <!-- float -->
+  </type>
+  <type id="type21">
+    <name value="hkaSkeleton::LocalFrameOnBone" />
+    <format value="7" />
+    <!-- record -->
+  </type>
+  <type id="type22">
+    <name value="hkaSkeleton::Partition" />
+    <format value="7" />
+    <!-- record -->
+    <version value="1" />
+  </type>
+  <type id="type23">
+    <name value="short" />
+    <format value="16900" />
+    <!-- int -->
+  </type>
+  <type id="type24">
+    <name value="void" />
+    <format value="0" />
+    <!-- void -->
+  </type>
+  <type id="type25">
+    <name value="hkBool" />
+    <format value="8194" />
+    <!-- bool -->
+  </type>
+  <type id="type26">
+    <name value="hkQsTransformf" />
+    <format value="7" />
+    <!-- record -->
+  </type>
+  <type id="type27">
+    <name value="float" />
+    <format value="1525253" />
+    <!-- float -->
+  </type>
+  <type id="type28">
+    <name value="hkRefPtr" />
+    <format value="6" />
+    <!-- pointer -->
+    <subtype id="type31" />
+    <!-- hkLocalFrame -->
+    <parameters count="1">
+      <typeparam id="type31" />
+      <!-- hkLocalFrame -->
+    </parameters>
+  </type>
+  <type id="type29">
+    <name value="hkVector4f" />
+    <format value="1064" />
+    <!-- array -->
+    <subtype id="type27" />
+    <!-- float -->
+  </type>
+  <type id="type30">
+    <name value="hkQuaternionf" />
+    <format value="1064" />
+    <!-- array -->
+    <subtype id="type27" />
+    <!-- float -->
+  </type>
+  <type id="type31">
+    <name value="hkLocalFrame" />
+    <parent id="type2" />
+    <!-- hkReferencedObject -->
+    <format value="7" />
+    <!-- record -->
+  </type>
+  <object id="object1" typeid="type1">
+    <!-- hkaSkeleton -->
+    <record>
+      <!-- hkaSkeleton -->
+      <field name="name">
+        <string value="skeleton" />
+      </field>
+      <field name="parentIndices">
+        <array count="14" elementtypeid="type14">
+          <!-- ArrayOf hkInt16 -->
+          <integer value="-1" />
+          <integer value="0" />
+          <integer value="1" />
+          <integer value="2" />
+          <integer value="3" />
+          <integer value="4" />
+          <integer value="1" />
+          <integer value="6" />
+          <integer value="7" />
+          <integer value="8" />
+          <integer value="1" />
+          <integer value="10" />
+          <integer value="11" />
+          <integer value="12" />
+        </array>
+      </field>
+      <field name="bones">
+        <array count="14" elementtypeid="type18">
+          <!-- ArrayOf hkaBone -->
+          <record>
+            <!-- hkaBone -->
+            <field name="name">
+              <string value="root" />
+            </field>
+            <field name="lockTranslation">
+              <bool value="true" />
+            </field>
+          </record>
+          <record>
+            <!-- hkaBone -->
+            <field name="name">
+              <string value="boss" />
+            </field>
+            <field name="lockTranslation">
+              <bool value="false" />
+            </field>
+          </record>
+          <record>
+            <!-- hkaBone -->
+            <field name="name">
+              <string value="b_leg1" />
+            </field>
+            <field name="lockTranslation">
+              <bool value="true" />
+            </field>
+          </record>
+          <record>
+            <!-- hkaBone -->
+            <field name="name">
+              <string value="b_leg2" />
+            </field>
+            <field name="lockTranslation">
+              <bool value="true" />
+            </field>
+          </record>
+          <record>
+            <!-- hkaBone -->
+            <field name="name">
+              <string value="b_leg3" />
+            </field>
+            <field name="lockTranslation">
+              <bool value="true" />
+            </field>
+          </record>
+          <record>
+            <!-- hkaBone -->
+            <field name="name">
+              <string value="b_leg4" />
+            </field>
+            <field name="lockTranslation">
+              <bool value="true" />
+            </field>
+          </record>
+          <record>
+            <!-- hkaBone -->
+            <field name="name">
+              <string value="l_leg1" />
+            </field>
+            <field name="lockTranslation">
+              <bool value="true" />
+            </field>
+          </record>
+          <record>
+            <!-- hkaBone -->
+            <field name="name">
+              <string value="l_leg2" />
+            </field>
+            <field name="lockTranslation">
+              <bool value="true" />
+            </field>
+          </record>
+          <record>
+            <!-- hkaBone -->
+            <field name="name">
+              <string value="l_leg3" />
+            </field>
+            <field name="lockTranslation">
+              <bool value="true" />
+            </field>
+          </record>
+          <record>
+            <!-- hkaBone -->
+            <field name="name">
+              <string value="l_leg4" />
+            </field>
+            <field name="lockTranslation">
+              <bool value="true" />
+            </field>
+          </record>
+          <record>
+            <!-- hkaBone -->
+            <field name="name">
+              <string value="r_leg1" />
+            </field>
+            <field name="lockTranslation">
+              <bool value="true" />
+            </field>
+          </record>
+          <record>
+            <!-- hkaBone -->
+            <field name="name">
+              <string value="r_leg2" />
+            </field>
+            <field name="lockTranslation">
+              <bool value="true" />
+            </field>
+          </record>
+          <record>
+            <!-- hkaBone -->
+            <field name="name">
+              <string value="r_leg3" />
+            </field>
+            <field name="lockTranslation">
+              <bool value="true" />
+            </field>
+          </record>
+          <record>
+            <!-- hkaBone -->
+            <field name="name">
+              <string value="r_leg4" />
+            </field>
+            <field name="lockTranslation">
+              <bool value="true" />
+            </field>
+          </record>
+        </array>
+      </field>
+      <field name="referencePose">
+        <array count="14" elementtypeid="type19">
+          <!-- ArrayOf hkQsTransform -->
+          <record>
+            <!-- hkQsTransform -->
+            <field name="translation">
+              <array count="4" elementtypeid="type27">
+                <!-- ArrayOf float -->
+                <real dec="0" hex="#0" />
+                <real dec="0" hex="#0" />
+                <real dec="0" hex="#0" />
+                <real dec="1" hex="#3ff0000000000000" />
+              </array>
+            </field>
+            <field name="rotation">
+              <array count="4" elementtypeid="type27">
+                <!-- ArrayOf float -->
+                <real dec="0" hex="#0" />
+                <real dec="0" hex="#0" />
+                <real dec="0" hex="#0" />
+                <real dec="1" hex="#3fefffffe0000000" />
+              </array>
+            </field>
+            <field name="scale">
+              <array count="4" elementtypeid="type27">
+                <!-- ArrayOf float -->
+                <real dec="1" hex="#3ff0000000000000" />
+                <real dec="1" hex="#3ff0000000000000" />
+                <real dec="1" hex="#3ff0000000000000" />
+                <real dec="1" hex="#3ff0000000000000" />
+              </array>
+            </field>
+          </record>
+          <record>
+            <!-- hkQsTransform -->
+            <field name="translation">
+              <array count="4" elementtypeid="type27">
+                <!-- ArrayOf float -->
+                <real dec="0" hex="#0" />
+                <real dec="-0.0795846" hex="#bfb45fa880000000" />
+                <real dec="9.5663" hex="#402321f1c0000000" />
+                <real dec="0" hex="#0" />
+              </array>
+            </field>
+            <field name="rotation">
+              <array count="4" elementtypeid="type27">
+                <!-- ArrayOf float -->
+                <real dec="0" hex="#0" />
+                <real dec="0" hex="#0" />
+                <real dec="0" hex="#0" />
+                <real dec="1" hex="#3ff0000000000000" />
+              </array>
+            </field>
+            <field name="scale">
+              <array count="4" elementtypeid="type27">
+                <!-- ArrayOf float -->
+                <real dec="1" hex="#3fefffffe0000000" />
+                <real dec="1" hex="#3fefffffe0000000" />
+                <real dec="1" hex="#3fefffffe0000000" />
+                <real dec="0" hex="#0" />
+              </array>
+            </field>
+          </record>
+          <record>
+            <!-- hkQsTransform -->
+            <field name="translation">
+              <array count="4" elementtypeid="type27">
+                <!-- ArrayOf float -->
+                <real dec="0" hex="#0" />
+                <real dec="-0.292225" hex="#bfd2b3d140000000" />
+                <real dec="-0.789352" hex="#bfe9426000000000" />
+                <real dec="0" hex="#0" />
+              </array>
+            </field>
+            <field name="rotation">
+              <array count="4" elementtypeid="type27">
+                <!-- ArrayOf float -->
+                <real dec="0.0695644" hex="#3fb1cef960000000" />
+                <real dec="0.0695644" hex="#3fb1cef960000000" />
+                <real dec="-0.703677" hex="#bfe68484e0000000" />
+                <real dec="0.703677" hex="#3fe68484c0000000" />
+              </array>
+            </field>
+            <field name="scale">
+              <array count="4" elementtypeid="type27">
+                <!-- ArrayOf float -->
+                <real dec="1" hex="#3ff0000000000000" />
+                <real dec="1" hex="#3ff0000000000000" />
+                <real dec="1" hex="#3ff0000000000000" />
+                <real dec="0" hex="#0" />
+              </array>
+            </field>
+          </record>
+          <record>
+            <!-- hkQsTransform -->
+            <field name="translation">
+              <array count="4" elementtypeid="type27">
+                <!-- ArrayOf float -->
+                <real dec="2.47563" hex="#4003ce1560000000" />
+                <real dec="7.15256e-07" hex="#3ea8000000000000" />
+                <real dec="0" hex="#0" />
+                <real dec="17.2144" hex="#403136e460000000" />
+              </array>
+            </field>
+            <field name="rotation">
+              <array count="4" elementtypeid="type27">
+                <!-- ArrayOf float -->
+                <real dec="-9.68576e-08" hex="#be7a000040000000" />
+                <real dec="0.483706" hex="#3fdef50aa0000000" />
+                <real dec="1.19209e-07" hex="#3e80000020000000" />
+                <real dec="0.87523" hex="#3fec01e340000000" />
+              </array>
+            </field>
+            <field name="scale">
+              <array count="4" elementtypeid="type27">
+                <!-- ArrayOf float -->
+                <real dec="1" hex="#3ff0000000000000" />
+                <real dec="1" hex="#3ff0000000000000" />
+                <real dec="1" hex="#3ff0000000000000" />
+                <real dec="0" hex="#0" />
+              </array>
+            </field>
+          </record>
+          <record>
+            <!-- hkQsTransform -->
+            <field name="translation">
+              <array count="4" elementtypeid="type27">
+                <!-- ArrayOf float -->
+                <real dec="3.16777" hex="#40095799e0000000" />
+                <real dec="9.53674e-07" hex="#3eb0000000000000" />
+                <real dec="9.53674e-07" hex="#3eb0000000000000" />
+                <real dec="12.4044" hex="#4028cf09c0000000" />
+              </array>
+            </field>
+            <field name="rotation">
+              <array count="4" elementtypeid="type27">
+                <!-- ArrayOf float -->
+                <real dec="-1.49012e-08" hex="#be50000040000000" />
+                <real dec="0.145033" hex="#3fc2907040000000" />
+                <real dec="0" hex="#0" />
+                <real dec="0.989427" hex="#3fefa96280000000" />
+              </array>
+            </field>
+            <field name="scale">
+              <array count="4" elementtypeid="type27">
+                <!-- ArrayOf float -->
+                <real dec="1" hex="#3fefffffc0000000" />
+                <real dec="1" hex="#3ff0000000000000" />
+                <real dec="1" hex="#3fefffffe0000000" />
+                <real dec="0" hex="#0" />
+              </array>
+            </field>
+          </record>
+          <record>
+            <!-- hkQsTransform -->
+            <field name="translation">
+              <array count="4" elementtypeid="type27">
+                <!-- ArrayOf float -->
+                <real dec="5.36635" hex="#40157725c0000000" />
+                <real dec="-4.18164e-07" hex="#be9c100000000000" />
+                <real dec="1.43051e-06" hex="#3eb8000000000000" />
+                <real dec="5.83023" hex="#4017522880000000" />
+              </array>
+            </field>
+            <field name="rotation">
+              <array count="4" elementtypeid="type27">
+                <!-- ArrayOf float -->
+                <real dec="-2.98023e-08" hex="#be60000040000000" />
+                <real dec="0" hex="#0" />
+                <real dec="2.98023e-08" hex="#3e60000040000000" />
+                <real dec="1" hex="#3ff0000000000000" />
+              </array>
+            </field>
+            <field name="scale">
+              <array count="4" elementtypeid="type27">
+                <!-- ArrayOf float -->
+                <real dec="1" hex="#3ff0000000000000" />
+                <real dec="1" hex="#3ff0000000000000" />
+                <real dec="1" hex="#3fefffffe0000000" />
+                <real dec="0" hex="#0" />
+              </array>
+            </field>
+          </record>
+          <record>
+            <!-- hkQsTransform -->
+            <field name="translation">
+              <array count="4" elementtypeid="type27">
+                <!-- ArrayOf float -->
+                <real dec="-0.538929" hex="#bfe13ee860000000" />
+                <real dec="-0.0029078" hex="#bf67d21800000000" />
+                <real dec="-0.427101" hex="#bfdb55a000000000" />
+                <real dec="0" hex="#0" />
+              </array>
+            </field>
+            <field name="rotation">
+              <array count="4" elementtypeid="type27">
+                <!-- ArrayOf float -->
+                <real dec="-0.00451588" hex="#bf727f3e40000000" />
+                <real dec="-0.00126724" hex="#bf54c33260000000" />
+                <real dec="0.962799" hex="#3feecf3ee0000000" />
+                <real dec="-0.27018" hex="#bfd14a9f00000000" />
+              </array>
+            </field>
+            <field name="scale">
+              <array count="4" elementtypeid="type27">
+                <!-- ArrayOf float -->
+                <real dec="1" hex="#3fefffffc0000000" />
+                <real dec="1" hex="#3fefffff80000000" />
+                <real dec="1" hex="#3ff0000000000000" />
+                <real dec="0" hex="#0" />
+              </array>
+            </field>
+          </record>
+          <record>
+            <!-- hkQsTransform -->
+            <field name="translation">
+              <array count="4" elementtypeid="type27">
+                <!-- ArrayOf float -->
+                <real dec="1.69489" hex="#3ffb1e4880000000" />
+                <real dec="2.08616e-07" hex="#3e8c000000000000" />
+                <real dec="0" hex="#0" />
+                <real dec="9.50806" hex="#4023042100000000" />
+              </array>
+            </field>
+            <field name="rotation">
+              <array count="4" elementtypeid="type27">
+                <!-- ArrayOf float -->
+                <real dec="0.370158" hex="#3fd7b0ac40000000" />
+                <real dec="0.532946" hex="#3fe10de580000000" />
+                <real dec="-0.428494" hex="#bfdb6c70c0000000" />
+                <real dec="0.628764" hex="#3fe41ed580000000" />
+              </array>
+            </field>
+            <field name="scale">
+              <array count="4" elementtypeid="type27">
+                <!-- ArrayOf float -->
+                <real dec="1" hex="#3fefffffc0000000" />
+                <real dec="1" hex="#3ff0000000000000" />
+                <real dec="1" hex="#3fefffff80000000" />
+                <real dec="0" hex="#0" />
+              </array>
+            </field>
+          </record>
+          <record>
+            <!-- hkQsTransform -->
+            <field name="translation">
+              <array count="4" elementtypeid="type27">
+                <!-- ArrayOf float -->
+                <real dec="3.70987" hex="#400dadcdc0000000" />
+                <real dec="0" hex="#0" />
+                <real dec="7.15256e-07" hex="#3ea8000000000000" />
+                <real dec="-13.4533" hex="#c02ae81480000000" />
+              </array>
+            </field>
+            <field name="rotation">
+              <array count="4" elementtypeid="type27">
+                <!-- ArrayOf float -->
+                <real dec="0.404677" hex="#3fd9e63a00000000" />
+                <real dec="-0.0783048" hex="#bfb40bc8c0000000" />
+                <real dec="-0.0996559" hex="#bfb9830bc0000000" />
+                <real dec="0.905634" hex="#3fecfaf4e0000000" />
+              </array>
+            </field>
+            <field name="scale">
+              <array count="4" elementtypeid="type27">
+                <!-- ArrayOf float -->
+                <real dec="1" hex="#3ff0000020000000" />
+                <real dec="1" hex="#3ff0000040000000" />
+                <real dec="1" hex="#3ff0000020000000" />
+                <real dec="0" hex="#0" />
+              </array>
+            </field>
+          </record>
+          <record>
+            <!-- hkQsTransform -->
+            <field name="translation">
+              <array count="4" elementtypeid="type27">
+                <!-- ArrayOf float -->
+                <real dec="5.76481" hex="#40170f2960000000" />
+                <real dec="-1.43051e-06" hex="#beb8000000000000" />
+                <real dec="1.3113e-06" hex="#3eb6000000000000" />
+                <real dec="-5.26042" hex="#c0150aaaa0000000" />
+              </array>
+            </field>
+            <field name="rotation">
+              <array count="4" elementtypeid="type27">
+                <!-- ArrayOf float -->
+                <real dec="4.47035e-08" hex="#3e68000060000000" />
+                <real dec="-1.49012e-08" hex="#be50000040000000" />
+                <real dec="-5.96047e-08" hex="#be70000040000000" />
+                <real dec="1" hex="#3fefffffe0000000" />
+              </array>
+            </field>
+            <field name="scale">
+              <array count="4" elementtypeid="type27">
+                <!-- ArrayOf float -->
+                <real dec="1" hex="#3ff0000000000000" />
+                <real dec="1" hex="#3ff0000000000000" />
+                <real dec="1" hex="#3ff0000000000000" />
+                <real dec="0" hex="#0" />
+              </array>
+            </field>
+          </record>
+          <record>
+            <!-- hkQsTransform -->
+            <field name="translation">
+              <array count="4" elementtypeid="type27">
+                <!-- ArrayOf float -->
+                <real dec="0.538929" hex="#3fe13ee840000000" />
+                <real dec="-0.00290777" hex="#bf67d20800000000" />
+                <real dec="-0.427097" hex="#bfdb559000000000" />
+                <real dec="0" hex="#0" />
+              </array>
+            </field>
+            <field name="rotation">
+              <array count="4" elementtypeid="type27">
+                <!-- ArrayOf float -->
+                <real dec="0.00126782" hex="#3f54c59bc0000000" />
+                <real dec="0.00451792" hex="#3f728162a0000000" />
+                <real dec="-0.27018" hex="#bfd14aa0a0000000" />
+                <real dec="0.962798" hex="#3feecf3ea0000000" />
+              </array>
+            </field>
+            <field name="scale">
+              <array count="4" elementtypeid="type27">
+                <!-- ArrayOf float -->
+                <real dec="1" hex="#3ff0000020000000" />
+                <real dec="1" hex="#3ff0000000000000" />
+                <real dec="1" hex="#3ff0000020000000" />
+                <real dec="0" hex="#0" />
+              </array>
+            </field>
+          </record>
+          <record>
+            <!-- hkQsTransform -->
+            <field name="translation">
+              <array count="4" elementtypeid="type27">
+                <!-- ArrayOf float -->
+                <real dec="1.69489" hex="#3ffb1e46a0000000" />
+                <real dec="1.19209e-07" hex="#3e80000000000000" />
+                <real dec="9.53674e-07" hex="#3eb0000000000000" />
+                <real dec="9.50414" hex="#4023021e80000000" />
+              </array>
+            </field>
+            <field name="rotation">
+              <array count="4" elementtypeid="type27">
+                <!-- ArrayOf float -->
+                <real dec="-0.37016" hex="#bfd7b0b540000000" />
+                <real dec="0.532944" hex="#3fe10de160000000" />
+                <real dec="0.428494" hex="#3fdb6c72c0000000" />
+                <real dec="0.628764" hex="#3fe41ed620000000" />
+              </array>
+            </field>
+            <field name="scale">
+              <array count="4" elementtypeid="type27">
+                <!-- ArrayOf float -->
+                <real dec="1" hex="#3fefffff60000000" />
+                <real dec="1" hex="#3ff0000000000000" />
+                <real dec="1" hex="#3fefffff80000000" />
+                <real dec="0" hex="#0" />
+              </array>
+            </field>
+          </record>
+          <record>
+            <!-- hkQsTransform -->
+            <field name="translation">
+              <array count="4" elementtypeid="type27">
+                <!-- ArrayOf float -->
+                <real dec="3.70986" hex="#400dadca40000000" />
+                <real dec="-3.57628e-07" hex="#be98000000000000" />
+                <real dec="0" hex="#0" />
+                <real dec="-2.68701" hex="#c0057f0100000000" />
+              </array>
+            </field>
+            <field name="rotation">
+              <array count="4" elementtypeid="type27">
+                <!-- ArrayOf float -->
+                <real dec="-0.404675" hex="#bfd9e633a0000000" />
+                <real dec="-0.078305" hex="#bfb40bcb40000000" />
+                <real dec="0.0996554" hex="#3fb98304c0000000" />
+                <real dec="0.905635" hex="#3fecfaf620000000" />
+              </array>
+            </field>
+            <field name="scale">
+              <array count="4" elementtypeid="type27">
+                <!-- ArrayOf float -->
+                <real dec="1" hex="#3ff0000060000000" />
+                <real dec="1" hex="#3ff0000020000000" />
+                <real dec="1" hex="#3ff0000040000000" />
+                <real dec="0" hex="#0" />
+              </array>
+            </field>
+          </record>
+          <record>
+            <!-- hkQsTransform -->
+            <field name="translation">
+              <array count="4" elementtypeid="type27">
+                <!-- ArrayOf float -->
+                <real dec="5.76481" hex="#40170f2a60000000" />
+                <real dec="4.76837e-07" hex="#3ea0000000000000" />
+                <real dec="1.66893e-06" hex="#3ebc000000000000" />
+                <real dec="0.535644" hex="#3fe123fe60000000" />
+              </array>
+            </field>
+            <field name="rotation">
+              <array count="4" elementtypeid="type27">
+                <!-- ArrayOf float -->
+                <real dec="2.98023e-08" hex="#3e60000020000000" />
+                <real dec="1.49012e-08" hex="#3e50000020000000" />
+                <real dec="2.98023e-08" hex="#3e60000020000000" />
+                <real dec="1" hex="#3ff0000000000000" />
+              </array>
+            </field>
+            <field name="scale">
+              <array count="4" elementtypeid="type27">
+                <!-- ArrayOf float -->
+                <real dec="1" hex="#3fefffffe0000000" />
+                <real dec="1" hex="#3fefffffe0000000" />
+                <real dec="1" hex="#3fefffffe0000000" />
+                <real dec="0" hex="#0" />
+              </array>
+            </field>
+          </record>
+        </array>
+      </field>
+      <field name="referenceFloats">
+        <array count="0" elementtypeid="type20">
+          <!-- ArrayOf hkReal -->
+        </array>
+      </field>
+      <field name="floatSlots">
+        <array count="0" elementtypeid="type3">
+          <!-- ArrayOf hkStringPtr -->
+        </array>
+      </field>
+      <field name="localFrames">
+        <array count="0" elementtypeid="type21">
+          <!-- ArrayOf hkaSkeleton::LocalFrameOnBone -->
+        </array>
+      </field>
+      <field name="partitions">
+        <array count="0" elementtypeid="type22">
+          <!-- ArrayOf hkaSkeleton::Partition -->
+        </array>
+      </field>
+    </record>
+  </object>
+</hktagfile>

@@ -1,19 +1,22 @@
 using System.Diagnostics;
 using System.Text;
 using System.Xml.Linq;
+using System.Collections;
 
 namespace HKLib.Reflection.Dynamic;
 
 /// <summary>
 /// Parses TST1 and FST1 sections from a Havok file to build an in-memory schema registry.
 /// </summary>
-public class DynamicTypeRegistry
+public class DynamicTypeRegistry : IEnumerable<DynamicHavokType>
 {
     private readonly DynamicTypeRegistry? _parent;
     private readonly Dictionary<string, DynamicHavokType> _types = new();
     private readonly Dictionary<ulong, DynamicHavokType> _typesByHash = new();
     private readonly List<string> _strings = new();
     private List<(DynamicHavokType Type, int ParentIndex, int FirstFieldIndex, int NumFields)>? _tempTypes;
+
+    public DynamicTypeRegistry? Parent => _parent;
 
     public DynamicTypeRegistry(string baseSchemaPath)
     {
@@ -77,6 +80,16 @@ public class DynamicTypeRegistry
             ulong hash = GetTypeHash(type); // This assumes parent registry has hash info if needed
             if (hash != 0) _typesByHash.TryAdd(hash, type);
         }
+    }
+
+    public IEnumerator<DynamicHavokType> GetEnumerator()
+    {
+        return _types.Values.GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
     }
 
     private static global::HKLib.Reflection.HavokType.TypeKind GetKindFromXmlTag(string? tagName, string typeName)

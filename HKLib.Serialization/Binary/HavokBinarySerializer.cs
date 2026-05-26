@@ -1,5 +1,6 @@
 using System.Collections;
 using System;
+using HKLib.hk2018;
 using System.Numerics;
 using HKLib.Reflection.Dynamic;
 using HKLib.Serialization.Util;
@@ -11,6 +12,20 @@ using HKLib.Reflection;
 using IHavokObject = HKLib.hk2018.IHavokObject;
 
 namespace HKLib.Serialization.Binary;
+
+/// <summary>
+/// A special container used to pass schema information from a schema-only file (where ContentsPosition is 0)
+/// to the caller. This is not a real Havok class but serves as a data transfer object.
+/// </summary>
+public class SchemaContainer : hkReferencedObject
+{
+    public DynamicTypeRegistry SchemaRegistry { get; }
+
+    public SchemaContainer(DynamicTypeRegistry registry)
+    {
+        SchemaRegistry = registry;
+    }
+}
 
 /// <summary>
 /// The main serializer for the Havok 2019 binary format. This serializer is for the hk2019 format.
@@ -148,8 +163,13 @@ public class HavokBinarySerializer : IHavokSerializer
 
             if (header.ContentsPosition <= 0)
             {
-                throw new InvalidDataException(
-                    $"Invalid root object offset in file header: 0x{header.ContentsPosition:X}. The file might be corrupt or an unsupported format.");
+                // The user's goal is to "unpack" schema-only files.
+                // Instead of throwing an error, we will return a dummy container object.
+                // The CLI can then be updated to inspect this object and serialize the type information
+                // stored in the property bag instead of a content object graph.
+                Debug.WriteLine("File has no root content object (ContentsPosition is 0). Treating as a schema-only file.");
+                // Return a special container with the type registry for the CLI to process.
+                return new SchemaContainer(registryToUse);
             }
 
             reader.Position = header.ContentsPosition;

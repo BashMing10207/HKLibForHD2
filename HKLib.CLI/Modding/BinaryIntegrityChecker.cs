@@ -1,4 +1,3 @@
-using System;
 using HKLib.hk2018;
 using HKLib.Serialization;
 
